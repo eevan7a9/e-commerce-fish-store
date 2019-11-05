@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-primary nav-wrapper">
-    <b-navbar toggleable="lg" type="dark" variant="primary" class="container text-uppercase w-100">
+  <div class="bg-success nav-wrapper">
+    <b-navbar toggleable="lg" type="dark" variant="success" class="container text-uppercase w-100">
       <b-navbar-brand href="#">FishStore</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>

@@ -1,84 +1,66 @@
 <template>
   <div class="home">
-    <!-- START THE FEATURETTES -->
-
-    <hr class="featurette-divider" />
-
-    <div class="row featurette">
-      <div class="col-md-7">
-        <h2 class="featurette-heading">
-          First featurette heading.
-          <span class="text-muted">It'll blow your mind.</span>
-        </h2>
-        <p
-          class="lead"
-        >Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-      <div class="col-md-5">
-        <img
-          class="featurette-image img-fluid mx-auto"
-          data-src="holder.js/500x500/auto"
-          alt="Generic placeholder image"
-        />
-      </div>
+    <!-- Cover Image Here -->
+    <ShowcaseImage />
+    <div class="container">
+      <!-- Featured Products Here -->
+      <FeaturedProducts />
+      <section class="start-shopping">
+        <router-link :to="{name:'catalog'}">
+          <h5 class="py-3 text-uppercase font-weight-bolder">Start Shopping</h5>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="54"
+            height="54"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-chevrons-right text-success"
+          >
+            <polyline points="13 17 18 12 13 7" />
+            <polyline points="6 17 11 12 6 7" />
+          </svg>
+        </router-link>
+      </section>
+      <!-- Featured Article Here -->
+      <FeaturedArticle />
+      <!-- Featured Carousel Here -->
+      <Carousel class="my-5" />
     </div>
-
-    <hr class="featurette-divider" />
-
-    <div class="row featurette">
-      <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading">
-          Oh yeah, it's that good.
-          <span class="text-muted">See for yourself.</span>
-        </h2>
-        <p
-          class="lead"
-        >Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-      <div class="col-md-5 order-md-1">
-        <img
-          class="featurette-image img-fluid mx-auto"
-          data-src="holder.js/500x500/auto"
-          alt="Generic placeholder image"
-        />
-      </div>
-    </div>
-
-    <hr class="featurette-divider" />
-
-    <div class="row featurette">
-      <div class="col-md-7">
-        <h2 class="featurette-heading">
-          And lastly, this one.
-          <span class="text-muted">Checkmate.</span>
-        </h2>
-        <p
-          class="lead"
-        >Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-      <div class="col-md-5">
-        <img
-          class="featurette-image img-fluid mx-auto"
-          data-src="holder.js/500x500/auto"
-          alt="Generic placeholder image"
-        />
-      </div>
-    </div>
-
-    <hr class="featurette-divider" />
-
-    <!-- /END THE FEATURETTES -->
-    <Carousel />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import ShowcaseImage from "../components/ShowcaseImage";
 import Carousel from "../components/Carousel";
+import FeaturedProducts from "../components/FeaturedProducts";
+import FeaturedArticle from "../components/FeaturedArticle";
 export default {
   name: "home",
   components: {
+    ShowcaseImage,
+    FeaturedProducts,
+    FeaturedArticle,
     Carousel
   }
 };
 </script>
+<style scoped>
+.start-shopping {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.start-shopping a {
+  width: 300px;
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: none;
+  color: #413f3f;
+  cursor: pointer;
+}
+</style>
