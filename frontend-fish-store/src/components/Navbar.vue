@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <b-navbar toggleable="lg" type="dark" variant="primary">
+  <div class="bg-primary nav-wrapper">
+    <b-navbar toggleable="lg" type="dark" variant="primary" class="container text-uppercase w-100">
       <b-navbar-brand href="#">FishStore</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -57,5 +57,17 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+.nav-wrapper {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.navbar {
+  width: 100%;
 }
 </style>
