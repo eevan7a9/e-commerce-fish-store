@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <Navbar />
+    <router-view class="container" />
   </div>
 </template>
-
+<script>
+import Navbar from "./components/Navbar";
+export default {
+  components: {
+    Navbar
+  }
+};
+</script>
 <style>
-@import url('./assets/css/custom.css');
+@import url("./assets/css/custom.css");
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
