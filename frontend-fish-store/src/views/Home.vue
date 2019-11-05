@@ -39,6 +39,7 @@ import ShowcaseImage from "../components/ShowcaseImage";
 import Carousel from "../components/Carousel";
 import FeaturedProducts from "../components/FeaturedProducts";
 import FeaturedArticle from "../components/FeaturedArticle";
+import { mapGetters } from "vuex";
 export default {
   name: "home",
   components: {
@@ -46,7 +47,8 @@ export default {
     FeaturedProducts,
     FeaturedArticle,
     Carousel
-  }
+  },
+  computed: mapGetters(["user"])
 };
 </script>
 <style scoped>
