@@ -1,5 +1,29 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.bg-custom-brown {
+  background: #d95b00;
+}
+.btn-custom-outline-brown {
+  border: 2px solid #d95b00;
+  border-radius: 10px;
+  color: #d95b00;
+  font-weight: 700;
+}
+.btn-custom-outline-brown:hover {
+  color: aliceblue;
+  background: #d95b00;
+  transition: 1s;
+}
+.text-inner-shadow-brown {
+  text-shadow: -1px 0 #d95b00, 0 1px #d95b00, 0.5px 0 #d95b00, 0 -1px #d95b00;
+}
+.text-inner-shadow-success {
+  text-shadow: -1px 0 #02af11, 0 1px #2abd3d, 0.5px 0 #afe765, 0 -1px #09af49;
+}
+.card-custom-border {
+  border: #d95b00 2px solid;
+  /* border-radius: 10px; */
+}
