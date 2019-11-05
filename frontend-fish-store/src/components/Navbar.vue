@@ -35,7 +35,6 @@
             <router-link to="/login" class="text-light font-weight-bolder">Login</router-link>
           </b-nav-item>
           <b-nav-item-dropdown right>
-            <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
               <span class="text-light font-weight-bolder">User</span>
             </template>
@@ -57,6 +56,7 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+  letter-spacing: 1px;
 }
 a:hover {
   text-decoration: none;
@@ -66,6 +66,9 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 1;
+}
+.nav-link {
+  padding: 0;
 }
 .navbar {
   width: 100%;
