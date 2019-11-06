@@ -39,7 +39,7 @@
               <span class="text-light font-weight-bolder">User</span>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item href="#" @click="out">Log out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -48,8 +48,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-  name: "Navbar"
+  name: "Navbar",
+  methods: {
+    ...mapActions(["logout"]),
+    out() {
+      this.logout().then(() => this.$router.push({ name: "login" }));
+    }
+  }
 };
 </script>
 
