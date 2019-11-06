@@ -6,7 +6,7 @@
         <input
           type="email"
           class="form-control"
-          v-model="email"
+          v-model="user.email"
           placeholder="Email"
           required="required"
         />
@@ -15,7 +15,7 @@
         <input
           type="password"
           class="form-control"
-          v-model="password"
+          v-model="user.password"
           placeholder="Password"
           required="required"
         />
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     submit() {
-      alert(`${this.email} ${this.password}`);
+      alert(`${this.user.email} ${this.user.password}`);
     }
   }
 };
