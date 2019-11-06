@@ -36,9 +36,7 @@
   </div>
 </template>
 <script>
-// @ is an alias to /src
-// import FeaturedArticle from "../components/FeaturedArticle";
-// import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 export default {
   name: "login",
   data() {
@@ -50,8 +48,9 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["loginUser"]),
     submit() {
-      alert(`${this.user.email} ${this.user.password}`);
+      this.loginUser(this.user).then(() => this.$router.push({ name: "home" }));
     }
   }
 };
