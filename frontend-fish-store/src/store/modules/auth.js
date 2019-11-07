@@ -50,9 +50,22 @@ const actions = {
             return error.response;
         }
     },
-    logout: async ({ commit }) => {
-        localStorage.removeItem("auth");
-        commit("clearUser");
+    logout: async ({ commit, state }) => {
+        axios.get('/logout', {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${state.myToken}`
+            }
+        })
+            .then(() => {
+                localStorage.removeItem("auth");
+                commit("clearUser");
+            })
+            .catch(err => {
+                // console.error(err.response);
+                alert("Something went wrong");
+            })
+
     }
 
 }
