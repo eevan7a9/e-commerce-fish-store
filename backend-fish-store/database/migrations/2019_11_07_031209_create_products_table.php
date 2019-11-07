@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->decimal('weight', 5, 2);
             $table->integer('units')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
