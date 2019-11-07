@@ -22,8 +22,8 @@ Route::prefix('v1')->group(function () { // domain/api/v1/
     Route::post('/register', 'Api\AuthController@register');
     Route::post('/login', 'Api\AuthController@login');
 
-    Route::post('product/{id}', 'ProductController@update')->name("product_update");
-    Route::resource('product', 'ProductController');
+    Route::post('product/{id}', 'Api\ProductController@update')->name("product_update");
+    Route::resource('product', 'Api\ProductController');
 
     Route::group(['middleware' => ['auth:api']], function () { // Authenticated Users Only
         Route::get('/user', 'Api\AuthController@userInfo');
