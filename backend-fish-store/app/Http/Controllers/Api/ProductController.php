@@ -65,11 +65,11 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->weight = $request->weight;
-        $product->units = $request->units;
+        $product->name = $request->name ? $request->name : $product->name;
+        $product->description = $request->description ? $request->description : $product->description;
+        $product->price = $request->price ? $request->price : $product->price;
+        $product->weight = $request->weight ? $request->weight : $product->weight;
+        $product->units = $request->units ? $request->units : $product->units;
         $product->update();
         return response()->json($product);
     }
