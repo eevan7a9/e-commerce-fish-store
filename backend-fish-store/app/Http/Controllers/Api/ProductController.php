@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::orderBy('created_at', 'desc')->get();
-        return response()->json(["products" => $products]);
+        return response()->json(["products" => $products], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -40,7 +40,7 @@ class ProductController extends Controller
         $product->units = $request->units > 0 ? $request->units : 1;
         $product->save();
 
-        return response()->json($product);
+        return response()->json($product, 201);
     }
 
     /**
@@ -52,7 +52,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
-        return response()->json($product);
+        return response()->json($product, 200);
     }
 
     /**
@@ -71,7 +71,7 @@ class ProductController extends Controller
         $product->weight = $request->weight ? $request->weight : $product->weight;
         $product->units = $request->units ? $request->units : $product->units;
         $product->update();
-        return response()->json($product);
+        return response()->json($product, 201);
     }
 
     /**
@@ -84,6 +84,6 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return response()->json($product);
+        return response()->json($product, 200);
     }
 }
