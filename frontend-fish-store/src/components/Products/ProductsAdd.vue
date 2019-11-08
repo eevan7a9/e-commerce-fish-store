@@ -69,7 +69,7 @@
             />
           </div>
         </div>
-        <div class="form-group mt-3">
+        <div class="form-group mt-3 w-50">
           <label for="exampleFormControlFile1">Upload Image</label>
           <input type="file" class="form-control-file" id="exampleFormControlFile1" />
         </div>
