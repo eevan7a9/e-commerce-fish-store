@@ -36,20 +36,39 @@ class OrderController extends Controller
             'quantity' => 'required|numeric',
             'address' => 'required',
         ]);
-        return response()->json($validated, 201);
+
+        $order = new Order();
+        $order->product_id = $request->product_id;
+        $order->user_id = $request->user_id;
+        $order->quantity = $request->quantity;
+        $order->address = $request->address;
+        $order->save();
+        return response()->json($order, 201);
     }
     /**
      *  Update Order base on 'id'
      */
     public function update(Request $request, $id)
     {
-        return response()->json("update");
+        $request->validate([
+            'quantity' => "numeric",
+            'is_delivered' => "boolean",
+        ]);
+        $order = Order::findOrFail($id);
+        $order->quantity = $request->quantity ? $request->quantity : $order->quantity;
+        $order->address = $request->address ? $request->address : $order->address;
+        $order->is_delivered = $request->is_delivered ? $request->is_delivered : $order->is_delivered;
+        $order->update();
+
+        return response()->json($order, 201);
     }
     /**
      *  Delete a Order base on 'id'
      */
     public function destroy($id)
     {
-        return response()->json(["delete" => $id], 200);
+        $order = Order::findOrFail($id);
+        $order->delete();
+        return response()->json(["message" => "Order deleted successfuly"], 200);
     }
 }
