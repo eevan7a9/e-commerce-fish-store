@@ -1,8 +1,5 @@
 <template>
   <div class="wrapper-table">
-    <div class="text-right my-2">
-      <button class="btn btn-outline-success">Add</button>
-    </div>
     <b-table sticky-header :fields="fields" :items="items" head-variant="light">
       <template v-slot:cell(name)="data">
         <!-- `data.value` is the value after formatted by the Formatter -->
