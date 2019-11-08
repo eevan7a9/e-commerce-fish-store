@@ -27,3 +27,6 @@
   border: #d95b00 2px solid;
   /* border-radius: 10px; */
 }
+.pointer {
+  cursor: pointer;
+}
