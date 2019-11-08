@@ -34,7 +34,7 @@ const routes = [
     children: [
       {
         path: '',
-        redirect:{name:'application.info'}
+        redirect: { name: 'application.info' }
       },
       {
         path: 'info',
@@ -45,6 +45,11 @@ const routes = [
         path: 'products',
         name: 'application.products',
         component: () => import("../components/Products/ProductsTable.vue")
+      },
+      {
+        path: 'products/add',
+        name: 'application.products.add',
+        component: () => import("../components/Products/ProductsAdd.vue")
       },
       {
         path: "orders",

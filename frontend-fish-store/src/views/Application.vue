@@ -28,7 +28,13 @@
             <b-list-group-item>
               <router-link :to="{name:'application.products'}" class="text-secondary">Data Table</router-link>
             </b-list-group-item>
-            <b-list-group-item class="text-secondary">Add Product</b-list-group-item>
+
+            <b-list-group-item class="text-secondary">
+              <router-link
+                :to="{name:'application.products.add'}"
+                class="text-secondary"
+              >Add Products</router-link>
+            </b-list-group-item>
           </b-list-group>
         </b-collapse>
         <!-- Products End -->
