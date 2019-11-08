@@ -1,7 +1,7 @@
 <template>
-  <div class="container wrapper">
+  <div class="container wrapper pt-5">
     <div class="sidebar pr-2">
-      <b-list-group class="mt-2">
+      <b-list-group>
         <b-list-group-item>
           <router-link
             :to="{name:'application.info'}"
@@ -37,7 +37,6 @@ export default {
 <style scoped>
 .wrapper {
   display: grid;
-  height: 100%;
   grid-template-columns: auto 1fr;
 }
 .sidebar {

@@ -72,7 +72,7 @@ a:hover {
   width: 100%;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 12;
 }
 .nav-link {
   padding: 0;

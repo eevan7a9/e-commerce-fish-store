@@ -34,7 +34,7 @@ html {
   color: #2c3e50;
 }
 .view {
-  height: 100%;
+  /* height: 100%; */
 }
 #nav a.router-link-exact-active {
   color: #42b983;
