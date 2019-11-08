@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view />
+    <router-view class="view" />
   </div>
 </template>
 <script>
@@ -14,10 +14,15 @@ export default {
 </script>
 <style>
 @import url("./assets/css/custom.css");
+body,
+html {
+  height: 100%;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
 
 #nav {
@@ -28,7 +33,9 @@ export default {
   font-weight: bold;
   color: #2c3e50;
 }
-
+.view {
+  height: 100%;
+}
 #nav a.router-link-exact-active {
   color: #42b983;
 }

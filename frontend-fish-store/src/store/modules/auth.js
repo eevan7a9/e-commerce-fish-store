@@ -63,7 +63,7 @@ const actions = {
             })
             .catch(err => {
                 // console.error(err.response);
-                alert("Something went wrong");
+                alert("Something went wrong", err);
             })
 
     }

@@ -27,6 +27,31 @@ const routes = [
     path: '/register',
     name: 'register',
     component: () => import("../views/Register.vue")
+  },
+  {
+    path: '/application',
+    component: () => import("../views/Application.vue"),
+    children: [
+      {
+        path: '',
+        redirect:{name:'application.info'}
+      },
+      {
+        path: 'info',
+        name: 'application.info',
+        component: () => import("../components/Application/ApplicationInfo.vue")
+      },
+      {
+        path: 'products',
+        name: 'application.products',
+        component: () => import("../components/Products/ProductsTable.vue")
+      },
+      {
+        path: "orders",
+        name: 'application.orders',
+        component: () => import("../components/Orders/OrdersTable.vue")
+      }
+    ]
   }
 ]
 
