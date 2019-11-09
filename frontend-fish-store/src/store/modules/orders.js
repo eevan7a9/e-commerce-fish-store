@@ -3,7 +3,7 @@ const state = {
         {
             id: 1,
             product_name: "koi first",
-            user_email: "user1",
+            user_email: "user1@gmail.com",
             quantity: 23,
             address: "somewhere I belong",
             is_delivered: 0,
@@ -13,7 +13,7 @@ const state = {
         {
             id: 2,
             product_name: "koi Second",
-            user_email: "user2",
+            user_email: "user2@gmail.com",
             quantity: 13,
             address: "somewhere I belong",
             is_delivered: 1,
@@ -23,7 +23,7 @@ const state = {
         {
             id: 3,
             product_name: "koi first",
-            user_email: "user2",
+            user_email: "user2@gmail.com",
             quantity: 10,
             address: "somewhere I belong",
             is_delivered: 0,

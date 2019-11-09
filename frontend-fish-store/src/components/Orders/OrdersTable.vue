@@ -10,7 +10,7 @@
         <!-- `data.value` is the value after formatted by the Formatter -->
         <!-- <button @click="view(data.item.id)" class="btn btn-outline-primary">Edit</button> -->
         <router-link
-          :to="{name:'application.products.edit', params:{edit_product:data.item}}"
+          :to="{name:'application.orders.details', params:{order:data.item}}"
           class="btn btn-outline-success"
         >View</router-link>
       </template>

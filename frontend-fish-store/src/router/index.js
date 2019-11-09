@@ -61,6 +61,12 @@ const routes = [
         path: "orders",
         name: 'application.orders',
         component: () => import("../components/Orders/OrdersTable.vue")
+      },
+      {
+        path: "orders/details",
+        name: 'application.orders.details',
+        component: () => import("../components/Orders/OrdersDetails.vue"),
+        props: true
       }
     ]
   }
