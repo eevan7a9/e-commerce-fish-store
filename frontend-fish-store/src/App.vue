@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view class="view" />
+    <transition name="fade" mode="out-in">
+      <router-view class="view" />
+    </transition>
   </div>
 </template>
 <script>
@@ -33,10 +35,14 @@ html {
   font-weight: bold;
   color: #2c3e50;
 }
-.view {
-  /* height: 100%; */
-}
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

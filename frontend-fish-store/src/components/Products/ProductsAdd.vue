@@ -11,6 +11,7 @@
             id="exampleInputName"
             placeholder="Enter Name"
           />
+          <p class="text-danger" v-if="error.name.status">{{ error.name.message }}</p>
         </div>
         <div class="form-group">
           <label for="exampleInputDescription">Description</label>
@@ -20,6 +21,7 @@
             v-model="product.description"
             placeholder="Description"
           ></textarea>
+          <p class="text-danger" v-if="error.description.status">{{ error.description.message }}</p>
         </div>
         <hr />
         <div class="form-inline">
@@ -29,8 +31,7 @@
               type="number"
               class="form-control"
               id="units"
-              min="0"
-              value="0"
+              min="1"
               v-model="product.units"
               placeholder="units"
             />
@@ -45,8 +46,7 @@
               type="number"
               class="form-control"
               id="weight"
-              min="0"
-              value="0"
+              min="0.01"
               v-model="product.weight"
               step=".01"
               placeholder="Weight"
@@ -61,8 +61,7 @@
               type="number"
               class="form-control"
               id="price"
-              min="0"
-              value="0"
+              min="0.01"
               step=".01"
               v-model="product.price"
               placeholder="Price"
@@ -82,6 +81,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "ProductsNew",
   data() {
@@ -89,17 +89,39 @@ export default {
       product: {
         name: "",
         description: "",
-        units: 0,
-        weight: 0,
-        price: 0
+        units: 1,
+        weight: 0.01,
+        price: 0.01
+      },
+      error: {
+        name: {
+          status: 0,
+          message: "Product's name is required | atleast 4 char long"
+        },
+        description: {
+          status: 0,
+          message: "Products's description is required"
+        }
       }
     };
   },
   methods: {
+    ...mapActions(["addProduct"]),
+    validate() {
+      this.error.name.status = this.product.name.trim().length < 4 ? 1 : 0;
+      this.error.description.status =
+        this.product.description.trim().length < 1 ? 1 : 0;
+    },
     submit() {
-      alert(
-        `${this.product.name} ${this.product.description} ${this.product.units} ${this.product.weight} ${this.product.price}`
-      );
+      this.validate();
+      if (this.error.name.status != 1 && this.error.description.status != 1) {
+        alert(
+          `${this.product.name} ${this.product.description} ${this.product.units} ${this.product.weight} ${this.product.price}`
+        );
+        this.addProduct(this.product).then(() =>
+          this.$router.push({ name: "application.products" })
+        );
+      }
     }
   }
 };

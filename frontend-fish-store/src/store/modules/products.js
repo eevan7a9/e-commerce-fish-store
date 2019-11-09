@@ -46,7 +46,8 @@ const getters = {
     products: state => state.products
 }
 const mutations = {
-    insertProduct: (state, new_product) => state.products.push(new_product)
+    insertProduct: (state, new_product) => state.products = [new_product, ...state.products],
+
 }
 const actions = {
     addProduct: async ({ commit }, product) => {
