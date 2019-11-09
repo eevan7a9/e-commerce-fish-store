@@ -117,7 +117,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addProduct"]),
+    ...mapActions(["addProduct", "editProduct"]),
     validate() {
       this.error.name.status = this.product.name.trim().length < 4 ? 1 : 0;
       this.error.description.status =
@@ -132,6 +132,9 @@ export default {
           );
           alert("added");
         } else {
+          this.editProduct(this.product).then(() =>
+            this.$router.push({ name: "application.products" })
+          );
           alert("edited");
         }
       }

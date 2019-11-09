@@ -47,11 +47,23 @@ const getters = {
 }
 const mutations = {
     insertProduct: (state, new_product) => state.products = [new_product, ...state.products],
-
+    updateProduct: (state, updated_product) => {
+        const found_product = state.products.find(product => product.id == updated_product.id);
+        if (found_product) {
+            found_product.name = updated_product.name;
+            found_product.description = updated_product.description;
+            found_product.weight = updated_product.weight;
+            found_product.units = updated_product.units;
+            found_product.price = updated_product.price;
+        }
+    }
 }
 const actions = {
     addProduct: async ({ commit }, product) => {
-        commit("insertProduct", product)
+        commit("insertProduct", product);
+    },
+    editProduct: async ({ commit }, product) => {
+        commit("updateProduct", product);
     }
 }
 
