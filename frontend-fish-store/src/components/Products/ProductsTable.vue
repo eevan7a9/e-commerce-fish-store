@@ -8,7 +8,11 @@
 
       <template v-slot:cell(Action)="data">
         <!-- `data.value` is the value after formatted by the Formatter -->
-        <button @click="view(data.item.id)" class="btn btn-outline-primary">Edit</button>
+        <!-- <button @click="view(data.item.id)" class="btn btn-outline-primary">Edit</button> -->
+        <router-link
+          :to="{name:'application.products.edit', params:{edit_product:data.item}}"
+          class="btn btn-outline-primary"
+        >Edit</router-link>
       </template>
     </b-table>
   </div>

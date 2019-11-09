@@ -31,7 +31,7 @@
               type="number"
               class="form-control"
               id="units"
-              min="1"
+              :min="min_unit"
               v-model="product.units"
               placeholder="units"
             />
@@ -73,7 +73,14 @@
           <input type="file" class="form-control-file" id="exampleFormControlFile1" />
         </div>
         <div class="w-100">
-          <button type="submit" class="btn btn-success float-right">Submit</button>
+          <button
+            type="submit"
+            class="btn float-right"
+            :class="{'btn-success': edit_product === undefined, 'btn-info': edit_product !== undefined}"
+          >
+            <span v-if="edit_product !== undefined">Edit</span>
+            <span v-if="edit_product === undefined">Add</span>
+          </button>
         </div>
       </form>
     </div>
@@ -84,8 +91,12 @@
 import { mapActions } from "vuex";
 export default {
   name: "ProductsNew",
+  props: {
+    edit_product: Object
+  },
   data() {
     return {
+      min_unit: 1,
       product: {
         name: "",
         description: "",
@@ -115,13 +126,31 @@ export default {
     submit() {
       this.validate();
       if (this.error.name.status != 1 && this.error.description.status != 1) {
-        alert(
-          `${this.product.name} ${this.product.description} ${this.product.units} ${this.product.weight} ${this.product.price}`
-        );
-        this.addProduct(this.product).then(() =>
-          this.$router.push({ name: "application.products" })
-        );
+        if (this.edit_product === undefined) {
+          this.addProduct(this.product).then(() =>
+            this.$router.push({ name: "application.products" })
+          );
+          alert("added");
+        } else {
+          alert("edited");
+        }
       }
+    }
+  },
+  watch: {
+    edit_product: function() {
+      this.product.name = "";
+      this.product.description = "";
+      this.product.units = 1;
+      this.product.weight = 0.1;
+      this.product.price = 0.1;
+    }
+  },
+  created() {
+    // We check if we are adding or editing
+    if (this.edit_product != undefined) {
+      this.product = { ...this.edit_product };
+      this.min_unit = 0;
     }
   }
 };

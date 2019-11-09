@@ -49,7 +49,13 @@ const routes = [
       {
         path: 'products/add',
         name: 'application.products.add',
-        component: () => import("../components/Products/ProductsAdd.vue")
+        component: () => import("../components/Products/ProductsAdd.vue"),
+      },
+      {
+        path: 'products/edit',
+        name: 'application.products.edit',
+        component: () => import("../components/Products/ProductsAdd.vue"),
+        props: true
       },
       {
         path: "orders",
