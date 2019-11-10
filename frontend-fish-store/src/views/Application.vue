@@ -5,31 +5,29 @@
         <!-- Application Section Starts -->
         <b-list-group-item
           v-b-toggle.collapse-3
-          class="pointer font-weight-bolder text-dark"
+          class="pointer font-weight-bolder text-light bg-success"
         >Application</b-list-group-item>
         <b-collapse visible id="collapse-3" class="pl-3 bg-success">
           <b-list-group>
-            <b-list-group-item>
-              <router-link :to="{name:'application.orders'}" class="text-secondary">
-                <router-link :to="{name:'application.info'}" class="text-secondary">App Status</router-link>
-              </router-link>
+            <b-list-group-item class="bg-light">
+              <router-link :to="{name:'application.info'}" class="text-secondary">App Status</router-link>
             </b-list-group-item>
-            <b-list-group-item class="text-secondary">Layout</b-list-group-item>
+            <b-list-group-item class="bg-light text-secondary">Layout</b-list-group-item>
           </b-list-group>
         </b-collapse>
         <!-- Application Ends -->
         <!-- Products Section Starts-->
         <b-list-group-item
           v-b-toggle.collapse-1
-          class="pointer font-weight-bolder text-dark"
+          class="pointer font-weight-bolder text-light bg-success"
         >Products</b-list-group-item>
         <b-collapse visible id="collapse-1" class="pl-3 bg-success">
           <b-list-group>
-            <b-list-group-item>
+            <b-list-group-item class="bg-light">
               <router-link :to="{name:'application.products'}" class="text-secondary">Data Table</router-link>
             </b-list-group-item>
 
-            <b-list-group-item class="text-secondary">
+            <b-list-group-item class="bg-light">
               <router-link
                 :to="{name:'application.products.add'}"
                 class="text-secondary"
@@ -39,13 +37,16 @@
         </b-collapse>
         <!-- Products End -->
         <!-- Orders Section Starts -->
-        <b-list-group-item v-b-toggle.collapse-2 class="pointer font-weight-bolder text-dark">Orders</b-list-group-item>
+        <b-list-group-item
+          v-b-toggle.collapse-2
+          class="pointer font-weight-bolder text-light bg-success"
+        >Orders</b-list-group-item>
         <b-collapse visible id="collapse-2" class="pl-3 bg-success">
           <b-list-group>
-            <b-list-group-item>
+            <b-list-group-item class="bg-light">
               <router-link :to="{name:'application.orders'}" class="text-secondary">Data Table</router-link>
             </b-list-group-item>
-            <b-list-group-item class="text-secondary">Add Order</b-list-group-item>
+            <b-list-group-item class="bg-light text-secondary">Add Order</b-list-group-item>
           </b-list-group>
         </b-collapse>
         <!-- Orders End -->
