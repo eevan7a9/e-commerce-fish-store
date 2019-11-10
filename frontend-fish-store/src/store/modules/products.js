@@ -71,11 +71,44 @@ const actions = {
                 alert(err);
             })
     },
-    addProduct: async ({ commit }, product) => {
-        commit("insertProduct", product);
+    addProduct: async ({ commit, rootState }, product) => {
+        return axios.post('/product',{
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            weight: product.weight,
+            units: product.units
+        },{
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.auth.myToken}`
+            }
+        }).then(res => {
+            commit("insertProduct", res.data);
+            return res;
+        }).catch(err => {
+            return err.response;
+        })
     },
-    editProduct: async ({ commit }, product) => {
-        commit("updateProduct", product);
+    editProduct: async ({ commit, rootState }, product) => {
+        return axios.post(`/product/${product.id}`,{
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            weight: product.weight,
+            units: product.units
+        },{
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.auth.myToken}`
+            }
+        }).then(res => {
+            commit("updateProduct", res.data);
+            return res
+        }).catch(err => {
+            // console.log(err.response);
+            return err;
+        });
     }
 }
 

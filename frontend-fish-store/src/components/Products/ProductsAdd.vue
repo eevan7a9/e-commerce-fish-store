@@ -127,15 +127,22 @@ export default {
       this.validate();
       if (this.error.name.status != 1 && this.error.description.status != 1) {
         if (this.edit_product === undefined) {
-          this.addProduct(this.product).then(() =>
-            this.$router.push({ name: "application.products" })
-          );
-          alert("added");
+          this.addProduct(this.product).then(res => {
+            if (res.status === 201) {
+              this.$router.push({ name: "application.products" });
+               alert("added");
+            }
+          });
         } else {
-          this.editProduct(this.product).then(() =>
-            this.$router.push({ name: "application.products" })
-          );
-          alert("edited");
+          this.product.id = this.edit_product.id;
+          this.editProduct(this.product).then(res => {
+            if (res.status === 201) {
+              this.$router.push({ name: "application.products" });
+              alert("Edit, success.");
+            }else{
+              alert("something went wrong. make sure the numeric value are not too big");
+            }
+          });
         }
       }
     }
