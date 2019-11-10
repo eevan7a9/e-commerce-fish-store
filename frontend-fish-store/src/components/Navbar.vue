@@ -28,15 +28,19 @@
             <b-dropdown-item href="#">RU</b-dropdown-item>
             <b-dropdown-item href="#">FA</b-dropdown-item>
           </b-nav-item-dropdown>-->
-          <b-nav-item class="text-light font-weight-bolder">
+          <b-nav-item class="text-light font-weight-bolder" v-if="!token">
             <router-link to="/register" class="text-light font-weight-bolder">Register</router-link>
           </b-nav-item>
-          <b-nav-item class="text-light font-weight-bolder">
+          <b-nav-item class="text-light font-weight-bolder" v-if="!token">
             <router-link to="/login" class="text-light font-weight-bolder">Login</router-link>
           </b-nav-item>
-          <b-nav-item-dropdown right>
+
+          <b-nav-item class="text-light font-weight-bolder" v-if="token">
+            <router-link to="/application" class="text-light font-weight-bolder">Application</router-link>
+          </b-nav-item>
+          <b-nav-item-dropdown right v-if="token">
             <template v-slot:button-content>
-              <span class="text-light font-weight-bolder">User</span>
+              <span class="text-light font-weight-bolder">{{ user.email }}</span>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item href="#" @click="out">Log out</b-dropdown-item>
@@ -48,14 +52,20 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Navbar",
+  computed: {
+    ...mapGetters(["token", "user"])
+  },
   methods: {
     ...mapActions(["logout"]),
     out() {
       this.logout().then(() => this.$router.push({ name: "login" }));
     }
+  },
+  created() {
+    console.log(this.token);
   }
 };
 </script>
@@ -73,9 +83,6 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 12;
-}
-.nav-link {
-  padding: 0;
 }
 .navbar {
   width: 100%;
