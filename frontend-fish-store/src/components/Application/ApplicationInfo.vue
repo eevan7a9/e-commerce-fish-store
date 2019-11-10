@@ -52,7 +52,7 @@
           <h3 class="mt-3 font-weight-bold">7</h3>
         </b-card>
 
-        <b-card bg-variant="info" text-variant="white" header="Order" class="text-center">
+        <b-card bg-variant="danger" text-variant="white" header="Order" class="text-center">
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
