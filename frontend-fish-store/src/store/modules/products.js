@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const state = {
     products: [
         {
@@ -56,9 +58,19 @@ const mutations = {
             found_product.units = updated_product.units;
             found_product.price = updated_product.price;
         }
-    }
+    },
+    setProducts: (state, products) => state.products = products
 }
 const actions = {
+    getProducts: async ({ commit }) => {
+        axios.get('/product')
+            .then(res => {
+                commit("setProducts", res.data.products);
+            })
+            .catch(err => {
+                alert(err);
+            })
+    },
     addProduct: async ({ commit }, product) => {
         commit("insertProduct", product);
     },

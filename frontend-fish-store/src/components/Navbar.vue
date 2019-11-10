@@ -79,9 +79,6 @@ export default {
     out() {
       this.logout().then(() => this.$router.push({ name: "login" }));
     }
-  },
-  created() {
-    console.log(this.token);
   }
 };
 </script>
