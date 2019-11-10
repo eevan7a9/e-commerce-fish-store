@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="inner-wrapper bg-light">
-      <form @submit.prevent="submit">
+      <form @submit.prevent="submit" enctype="multipart/form-data">
         <div class="form-group">
           <label for="exampleInputName">Product name</label>
           <input
@@ -70,7 +70,7 @@
         </div>
         <div class="form-group mt-3 w-50">
           <label for="exampleFormControlFile1">Upload Image</label>
-          <input type="file" class="form-control-file" id="exampleFormControlFile1" />
+          <input type="file" class="form-control-file" id="exampleFormControlFile1" v-on:change="onImageChange" />
         </div>
         <div class="w-100">
           <button
@@ -102,7 +102,8 @@ export default {
         description: "",
         units: 1,
         weight: 0.01,
-        price: 0.01
+        price: 0.01,
+        image: ''
       },
       error: {
         name: {
@@ -118,6 +119,10 @@ export default {
   },
   methods: {
     ...mapActions(["addProduct", "editProduct"]),
+    onImageChange(e){
+      // console.log(e.target.files[0]);
+      this.product.image = e.target.files[0];
+    },
     validate() {
       this.error.name.status = this.product.name.trim().length < 4 ? 1 : 0;
       this.error.description.status =
@@ -126,7 +131,10 @@ export default {
     submit() {
       this.validate();
       if (this.error.name.status != 1 && this.error.description.status != 1) {
+        // After we check for error
+        // we check if it's for 'adding' or 'editing' a product
         if (this.edit_product === undefined) {
+          // if we're adding product we procceed here...
           this.addProduct(this.product).then(res => {
             if (res.status === 201) {
               this.$router.push({ name: "application.products" });
@@ -134,6 +142,7 @@ export default {
             }
           });
         } else {
+          // if were editing a product we procceed here...
           this.product.id = this.edit_product.id;
           this.editProduct(this.product).then(res => {
             if (res.status === 201) {

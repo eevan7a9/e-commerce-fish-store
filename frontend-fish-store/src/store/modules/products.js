@@ -72,21 +72,26 @@ const actions = {
             })
     },
     addProduct: async ({ commit, rootState }, product) => {
-        return axios.post('/product',{
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            weight: product.weight,
-            units: product.units
-        },{
+        let formData = new FormData();
+        formData.append('name', product.name);
+        formData.append('description', product.description);
+        formData.append('price', product.price);
+        formData.append('weight', product.weight);
+        formData.append('units', product.units);
+        formData.append('image', product.image);
+        
+        return axios.post('/product', formData,{
             headers: {
                 "Accept": "application/json",
-                "Authorization": `Bearer ${rootState.auth.myToken}`
+                'content-type': 'multipart/form-data',
+                "Authorization": `Bearer ${rootState.auth.myToken}`,
             }
         }).then(res => {
+            // console.log(res);
             commit("insertProduct", res.data);
             return res;
         }).catch(err => {
+            // console.log(err.response);
             return err.response;
         })
     },
