@@ -30,7 +30,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $product = $request->validate([
+        $request->validate([
             "name" => "required",
             "description" => "required",
             "price" => "required|numeric|between:0.00,99999.99",
@@ -42,8 +42,16 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->weight = $request->weight;
         $product->units = $request->units > 0 ? $request->units : 1;
+        // we check if there is an image file
+        if ($request->image) {
+            // we validate the image
+            request()->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            $product->image = time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->move(public_path('images'), $product->image);
+        }
         $product->save();
-
         return response()->json($product, 201);
     }
 
