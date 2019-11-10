@@ -20,18 +20,16 @@ const mutations = {
 }
 const actions = {
     loginUser: async ({ commit }, user) => {
-        try {
-            const result = await axios.post('/login', {
-                email: user.email,
-                password: user.password
-            });
-            commit('setUser', { user: result.data.user, token: result.data.access_token });
-            localStorage.setItem("auth", result.data.access_token);
-            return "Hello and welcome";
-        } catch (error) {
-            // console.log(error.response, "error");
-            return "Invalid Credentials";
-        }
+        return await axios.post('/login', {
+            email: user.email,
+            password: user.password
+        }).then((res) => {
+            commit('setUser', { user: res.data.user, token: res.data.access_token });
+            localStorage.setItem("auth", res.data.access_token);
+            return res;
+        }).catch((err) => {
+            return err.response;
+        });
     },
     registerBuyer: async ({ commit }, user) => {
         try {
@@ -50,21 +48,23 @@ const actions = {
             return error.response;
         }
     },
-    logout: async ({ commit, state }) => {
-        axios.get('/logout', {
+    logout:  async ({ commit, state }) => {
+        return await axios.get('/logout', {
             headers: {
                 "Accept": "application/json",
                 "Authorization": `Bearer ${state.myToken}`
             }
         })
-            .then(() => {
+            .then(res => {
                 localStorage.removeItem("auth");
                 commit("clearUser");
+                return res
             })
             .catch(err => {
                 // console.error(err.response);
                 alert("Something went wrong", err);
-            })
+                return err
+            });
     }
 
 }

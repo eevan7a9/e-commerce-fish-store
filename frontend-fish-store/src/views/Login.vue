@@ -50,7 +50,17 @@ export default {
   methods: {
     ...mapActions(["loginUser"]),
     submit() {
-      this.loginUser(this.user).then(() => this.$router.push({ name: "home" }));
+      this.loginUser(this.user).then((res) => {
+        if (res.status == 200) {
+          this.$router.push({ name: "home" });
+        }else if (res.status == 401) {
+          alert("Invalid Credentials");
+          this.user.email = "";
+          this.user.password = "";
+        }
+      }).catch(err => {
+        alert(err)
+      });
     }
   }
 };
