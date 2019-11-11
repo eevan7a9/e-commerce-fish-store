@@ -61,6 +61,11 @@
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item href="#" @click="out">Log out</b-dropdown-item>
           </b-nav-item-dropdown>
+          <!-- shopping--cart -->
+          <b-nav-item>
+            <Cart />
+          </b-nav-item>
+          <!-- shopping--Ends -->
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -69,8 +74,12 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Cart from "./Cart";
 export default {
   name: "Navbar",
+  components: {
+    Cart
+  },
   computed: {
     ...mapGetters(["token", "user"])
   },
@@ -103,8 +112,15 @@ a:hover {
 .navbar {
   width: 100%;
 }
-.application {
-  border-right: solid aliceblue 2px;
+.vertical {
+  width: 30px;
+  display: flex;
+  justify-content: center;
+}
+.vertical-line {
+  /* border-right: solid aliceblue 2px; */
+  color: aliceblue;
+  font-weight: 900;
 }
 svg {
   width: 26px;
