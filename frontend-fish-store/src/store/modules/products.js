@@ -78,8 +78,10 @@ const actions = {
         formData.append('price', product.price);
         formData.append('weight', product.weight);
         formData.append('units', product.units);
-        formData.append('image', product.image);
-        
+        if (product.image) {
+            formData.append('image', product.image);
+        }
+        console.log(product);
         return axios.post('/product', formData,{
             headers: {
                 "Accept": "application/json",
@@ -87,31 +89,37 @@ const actions = {
                 "Authorization": `Bearer ${rootState.auth.myToken}`,
             }
         }).then(res => {
-            // console.log(res);
+            console.log(res);
             commit("insertProduct", res.data);
             return res;
         }).catch(err => {
-            // console.log(err.response);
+            console.log(err.response);
             return err.response;
         })
     },
     editProduct: async ({ commit, rootState }, product) => {
-        return axios.post(`/product/${product.id}`,{
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            weight: product.weight,
-            units: product.units
-        },{
+        let formData = new FormData();
+        formData.append('name', product.name);
+        formData.append('description', product.description);
+        formData.append('price', product.price);
+        formData.append('weight', product.weight);
+        formData.append('units', product.units);
+        if (product.image) {
+            formData.append('image', product.image);
+        }
+        console.log(product);
+        return axios.post(`/product/${product.id}`, formData,{
             headers: {
                 "Accept": "application/json",
+                "content-type": "multipart/form-data",
                 "Authorization": `Bearer ${rootState.auth.myToken}`
             }
         }).then(res => {
+            console.log(res)
             commit("updateProduct", res.data);
             return res
         }).catch(err => {
-            // console.log(err.response);
+            console.log(err.response);
             return err;
         });
     }

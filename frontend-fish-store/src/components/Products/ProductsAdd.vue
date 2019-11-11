@@ -103,7 +103,7 @@ export default {
         units: 1,
         weight: 0.01,
         price: 0.01,
-        image: ''
+        image: null
       },
       error: {
         name: {
@@ -149,7 +149,7 @@ export default {
               this.$router.push({ name: "application.products" });
               alert("Edit, success.");
             }else{
-              alert("something went wrong. make sure the numeric value are not too big");
+              alert("something went wrong.");
             }
           });
         }
@@ -169,6 +169,7 @@ export default {
     // We check if we are adding or editing
     if (this.edit_product != undefined) {
       this.product = { ...this.edit_product };
+      this.product.image = null;
       this.min_unit = 0;
     }
   }

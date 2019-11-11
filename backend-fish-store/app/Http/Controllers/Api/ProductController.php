@@ -82,6 +82,20 @@ class ProductController extends Controller
         $product->price = $request->price ? $request->price : $product->price;
         $product->weight = $request->weight ? $request->weight : $product->weight;
         $product->units = $request->units ? $request->units : $product->units;
+        // we check if there is an image file
+        if ($request->image) {
+            // we validate the image
+            request()->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+            // If validation is correct we delete the old image
+            if(file_exists(public_path('images/'. $product->image))){
+                unlink(public_path('images/' . $product->image));
+            }
+            // we added the new image
+            $product->image = time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->move(public_path('images'), $product->image);
+        }
         $product->update();
         return response()->json($product, 201);
     }
