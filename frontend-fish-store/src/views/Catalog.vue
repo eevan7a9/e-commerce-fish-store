@@ -16,10 +16,11 @@
               <p class="card-text description">{{ product.description }}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button
+                  <!-- <button
                     type="button"
                     class="btn btn-sm btn-outline-success p-3"
-                  >${{ product.price }} | A piece</button>
+                  >${{ product.price }} | A piece</button>-->
+                  <ModalVerticalCenter :product="product" />
                 </div>
                 <p class="text-muted">lb {{ product.weight }}</p>
               </div>
@@ -33,8 +34,17 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import ModalVerticalCenter from "../components/ModalVerticalCenter";
 export default {
-  computed: mapGetters(["user", "token", "products"])
+  components: {
+    ModalVerticalCenter
+  },
+  computed: mapGetters(["user", "token", "products"]),
+  methods: {
+    showModal(modal_ref) {
+      this.$refs[`${modal_ref}`].show();
+    }
+  }
 };
 </script>
 <style scoped>
