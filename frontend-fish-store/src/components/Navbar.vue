@@ -62,9 +62,7 @@
             <b-dropdown-item href="#" @click="out">Log out</b-dropdown-item>
           </b-nav-item-dropdown>
           <!-- shopping--cart -->
-          <b-nav-item>
-            <Cart />
-          </b-nav-item>
+          <Cart />
           <!-- shopping--Ends -->
         </b-navbar-nav>
       </b-collapse>

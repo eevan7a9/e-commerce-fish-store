@@ -52,6 +52,8 @@ export default {
     productToCart(modal_ref) {
       const add_product = {
         id: this.product.id,
+        name: this.product.name,
+        price: this.product.price,
         quantity: 1
       };
       this.addToCart(add_product);

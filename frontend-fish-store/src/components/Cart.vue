@@ -1,32 +1,73 @@
 <template>
-  <span class="cart">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <circle cx="9" cy="21" r="1" />
-      <circle cx="20" cy="21" r="1" />
-      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-    </svg>
-    <span class="cart-number">
-      <transition name="bounce" mode="out-in">
-        <div :key="cart.length">{{ cart.length }}</div>
-      </transition>
-    </span>
-  </span>
+  <b-nav-item-dropdown no-caret>
+    <template v-slot:button-content>
+      <span class="cart">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+        <transition name="bounce" mode="out-in">
+          <span class="cart-number" :key="cart.length">
+            <div>{{ cart.length }}</div>
+          </span>
+        </transition>
+      </span>
+    </template>
+    <b-dropdown-item href="#">
+      <span class="font-weight-bold">Checkout</span>
+    </b-dropdown-item>
+    <b-dropdown-item href="#" @click="$bvModal.show('my-modal')">View Content</b-dropdown-item>
+
+    <!-- Modal starts -->
+    <b-modal id="my-modal" title="Shopping cart content" ok-only>
+      <div>
+        <b-table sticky-header :items="cart" :fields="fields" head-variant="light"></b-table>
+      </div>
+    </b-modal>
+    <!-- The modal ends-->
+  </b-nav-item-dropdown>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 export default {
   name: "Cart",
+  data() {
+    return {
+      fields: [
+        // {
+        //   key: "id",
+        //   label: "Id"
+        // },
+        {
+          key: "name",
+          label: "Name",
+          sortable: true
+        },
+        {
+          key: "quantity",
+          label: "Quantity",
+          sortable: true
+        },
+        {
+          key: "price",
+          label: "Price",
+          sortable: true
+        }
+      ]
+    };
+  },
   computed: mapGetters(["cart"])
 };
 </script>
