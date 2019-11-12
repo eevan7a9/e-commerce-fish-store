@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card-group deck>
-      <b-card header="Details View" header-tag="header">
+      <b-card>
         <div class="grouper">
           <div class="inner-group">
             <label>Product Name :</label>
@@ -44,8 +44,8 @@
             <p>0000-00-00</p>
           </div>
         </div>
-        <hr />
-        <router-link :to="{name:'application.orders'}" class="btn btn-secondary px-4">Go back</router-link>
+        <!-- <hr />
+        <router-link :to="{name:'application.orders'}" class="btn btn-secondary px-4">Go back</router-link>-->
       </b-card>
     </b-card-group>
   </div>

@@ -9,10 +9,12 @@
       <template v-slot:cell(Action)="data">
         <!-- `data.value` is the value after formatted by the Formatter -->
         <!-- <button @click="view(data.item.id)" class="btn btn-outline-primary">Edit</button> -->
-        <router-link
-          :to="{name:'application.orders.details', params:{order:data.item}}"
-          class="btn btn-outline-success"
-        >View</router-link>
+        <button @click="$bvModal.show(`${data.item.id}`)" class="btn btn-outline-success">View</button>
+        <!-- Modal starts -->
+        <b-modal :id="`${data.item.id}`" size="lg" title="Orders Made:" ok-only>
+          <OrdersDetails :order="data.item" />
+        </b-modal>
+        <!-- The modal ends-->
       </template>
     </b-table>
   </div>
@@ -20,8 +22,12 @@
 
 <script>
 import { mapGetters } from "vuex";
+import OrdersDetails from "./OrdersDetails";
 export default {
   name: "OrdersTable",
+  components: {
+    OrdersDetails
+  },
   data() {
     return {
       fields: [
@@ -43,11 +49,13 @@ export default {
         },
         {
           key: "is_delivered",
-          label: "Delivered"
+          label: "Delivered",
+          formatter: val => (val == 1 ? "Yes" : "Pending")
         },
         {
           key: "created_at",
-          label: "Ordered at"
+          label: "Ordered at",
+          sortable: true
         },
         {
           key: "Action",
@@ -67,5 +75,5 @@ export default {
 
 <style scoped>
 .b-table-sticky-header {
-  max-height: 500px;
+  max-height: 600px;
 }
