@@ -21,7 +21,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  name: "ProductsTable",
+  name: "OrdersTable",
   data() {
     return {
       fields: [
