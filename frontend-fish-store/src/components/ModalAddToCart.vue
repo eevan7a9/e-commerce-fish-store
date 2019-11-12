@@ -19,7 +19,7 @@
         <div class="row">
           <div class="info-container col-sm-4">
             <label>Weight</label>
-            <h5>{{ product.weight }}</h5>
+            <h5>lb {{ product.weight }}</h5>
           </div>
           <div class="info-container col-sm-4">
             <label>Available</label>
@@ -28,6 +28,27 @@
           <div class="info-container col-sm-4">
             <label>Price</label>
             <h5>${{ product.price }}</h5>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-sm-6">
+            <p>Quantity</p>
+            <b-input-group prepend="Item">
+              <b-form-input
+                type="number"
+                v-model="order.quantity"
+                min="1"
+                :max="product.units"
+                aria-label="Text input with checkbox"
+              ></b-form-input>
+            </b-input-group>
+          </div>
+          <div class="col-sm-6">
+            <p>Total Price</p>
+            <b-input-group prepend="$" append="Total">
+              <b-form-input readonly v-model="order.total_price"></b-form-input>
+            </b-input-group>
           </div>
         </div>
       </div>
@@ -44,6 +65,19 @@ export default {
   props: {
     product: Object
   },
+  data() {
+    return {
+      order: {
+        quantity: 1,
+        total_price: this.product.price
+      }
+    };
+  },
+  watch: {
+    "order.quantity": function(val) {
+      this.order.total_price = val * this.product.price;
+    }
+  },
   methods: {
     ...mapActions(["addToCart"]),
     showModal(modal_ref) {
@@ -53,8 +87,8 @@ export default {
       const add_product = {
         id: this.product.id,
         name: this.product.name,
-        price: this.product.price,
-        quantity: 1
+        price: this.order.total_price,
+        quantity: this.order.quantity
       };
       this.addToCart(add_product);
       this.$refs[`${modal_ref}`].hide();

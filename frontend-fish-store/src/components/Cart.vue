@@ -63,6 +63,7 @@ export default {
         {
           key: "price",
           label: "Price",
+          formatter: value => `$ ${value}`,
           sortable: true
         }
       ]
