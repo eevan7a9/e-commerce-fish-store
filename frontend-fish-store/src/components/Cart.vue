@@ -31,43 +31,19 @@
 
     <!-- Modal starts -->
     <b-modal id="my-modal" title="Shopping cart content" ok-only>
-      <div>
-        <b-table sticky-header :items="cart" :fields="fields" head-variant="light"></b-table>
-      </div>
+      <CartContentTable />
     </b-modal>
     <!-- The modal ends-->
   </b-nav-item-dropdown>
 </template>
 
 <script>
+import CartContentTable from "./CartContentTable";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Cart",
-  data() {
-    return {
-      fields: [
-        // {
-        //   key: "id",
-        //   label: "Id"
-        // },
-        {
-          key: "name",
-          label: "Name",
-          sortable: true
-        },
-        {
-          key: "quantity",
-          label: "Quantity",
-          sortable: true
-        },
-        {
-          key: "price",
-          label: "Price",
-          formatter: value => `$ ${value}`,
-          sortable: true
-        }
-      ]
-    };
+  components: {
+    CartContentTable
   },
   computed: mapGetters(["cart"]),
   methods: {
