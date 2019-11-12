@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Cart",
   data() {
@@ -69,7 +69,32 @@ export default {
       ]
     };
   },
-  computed: mapGetters(["cart"])
+  computed: mapGetters(["cart"]),
+  methods: {
+    ...mapActions(["deleteCartItem"])
+  },
+  created() {
+    const cart = JSON.parse(localStorage.getItem("cart_shopping"));
+    // represents how long the cart is stored
+    const cart_stored = localStorage.getItem("cart_stored");
+
+    if (cart != null && cart_stored == null) {
+      // we check if there is no cart_stored and clear/remove all items in cart
+      localStorage.removeItem("cart_shopping");
+      this.deleteCartItem();
+    } else if (cart && cart_stored) {
+      const current_time = new Date().getTime();
+      // we get the time difference
+      const time_diff = (current_time - cart_stored) / 1000;
+      if (7200 < time_diff) {
+        // if the the time the cart is stored excceeds 2hrs
+        // we clear the cart
+        localStorage.removeItem("cart_shopping");
+        localStorage.removeItem("cart_stored");
+        this.deleteCartItem();
+      }
+    }
+  }
 };
 </script>
 
