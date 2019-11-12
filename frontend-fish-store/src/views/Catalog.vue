@@ -20,7 +20,7 @@
                     type="button"
                     class="btn btn-sm btn-outline-success p-3"
                   >${{ product.price }} | A piece</button>-->
-                  <ModalVerticalCenter :product="product" />
+                  <ModalAddToCart :product="product" />
                 </div>
                 <p class="text-muted">lb {{ product.weight }}</p>
               </div>
@@ -34,10 +34,10 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import ModalVerticalCenter from "../components/ModalVerticalCenter";
+import ModalAddToCart from "../components/ModalAddToCart";
 export default {
   components: {
-    ModalVerticalCenter
+    ModalAddToCart
   },
   computed: mapGetters(["user", "token", "products"]),
   methods: {
