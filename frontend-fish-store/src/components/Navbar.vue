@@ -58,7 +58,7 @@
                 </svg>
               </span>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
+            <b-dropdown-item :to="{name:'profile'}">Profile</b-dropdown-item>
             <b-dropdown-item href="#" @click="out">Log out</b-dropdown-item>
           </b-nav-item-dropdown>
           <!-- shopping--cart -->
