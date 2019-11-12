@@ -16,14 +16,18 @@
       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
     </svg>
     <span class="cart-number">
-      <a>23</a>
+      <transition name="bounce" mode="out-in">
+        <div :key="cart.length">{{ cart.length }}</div>
+      </transition>
     </span>
   </span>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "Cart"
+  name: "Cart",
+  computed: mapGetters(["cart"])
 };
 </script>
 
@@ -34,10 +38,14 @@ svg {
 }
 .cart {
   color: aliceblue;
+  display: flex;
 }
 .cart .cart-number {
+  display: flex;
+  justify-content: center;
   margin-left: 4px;
-  width: 10px;
+  width: 25px;
+  height: 25px;
   background: aliceblue;
   color: green;
   font-weight: 900;
@@ -45,5 +53,22 @@ svg {
 }
 .cart-number a {
   padding: 4px;
+}
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

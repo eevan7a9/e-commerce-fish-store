@@ -32,22 +32,29 @@
         </div>
       </div>
       <hr />
-      <b-button class="mt-3" variant="success" block @click="addToCart(product.id)">Add to Cart</b-button>
+      <b-button class="mt-3" variant="success" block @click="productToCart(product.id)">Add to Cart</b-button>
     </b-modal>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
-  name: "ModalVerticalCenter",
+  name: "ModalAddToCart",
   props: {
     product: Object
   },
   methods: {
+    ...mapActions(["addToCart"]),
     showModal(modal_ref) {
       this.$refs[`${modal_ref}`].show();
     },
-    addToCart(modal_ref) {
+    productToCart(modal_ref) {
+      const add_product = {
+        id: this.product.id,
+        quantity: 1
+      };
+      this.addToCart(add_product);
       this.$refs[`${modal_ref}`].hide();
     }
     // hideModal(modal_ref) {
