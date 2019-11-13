@@ -24,7 +24,7 @@
         </transition>
       </span>
     </template>
-    <b-dropdown-item href="#">
+    <b-dropdown-item :to="{name:'checkout'}">
       <span class="font-weight-bold">Checkout</span>
     </b-dropdown-item>
     <b-dropdown-item href="#" @click="$bvModal.show('my-modal')">View Content</b-dropdown-item>
