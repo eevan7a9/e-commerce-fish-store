@@ -53,13 +53,27 @@
         </div>
       </div>
       <hr />
-      <b-button class="mt-3" variant="success" block @click="productToCart(product.id)">Add to Cart</b-button>
+      <div class="d-flex">
+        <b-button
+          class="mt-3 mx-1"
+          variant="danger"
+          block
+          @click="removeFromCart(product.id)"
+          v-if="in_cart"
+        >Remove from cart</b-button>
+        <b-button
+          class="mt-3 mx-1"
+          variant="success"
+          block
+          @click="productToCart(product.id)"
+        >Add to Cart</b-button>
+      </div>
     </b-modal>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ModalAddToCart",
   props: {
@@ -67,6 +81,7 @@ export default {
   },
   data() {
     return {
+      in_cart: false,
       order: {
         quantity: 1,
         total_price: this.product.price
@@ -78,12 +93,13 @@ export default {
       this.order.total_price = val * this.product.price;
     }
   },
+  computed: mapGetters(["cart"]),
   methods: {
-    ...mapActions(["addToCart"]),
+    ...mapActions(["addToCart", "deleteCartItem"]),
     showModal(modal_ref) {
       this.$refs[`${modal_ref}`].show();
     },
-    productToCart(modal_ref) {
+    productToCart(id) {
       const add_product = {
         id: this.product.id,
         name: this.product.name,
@@ -91,11 +107,27 @@ export default {
         quantity: this.order.quantity
       };
       this.addToCart(add_product);
-      this.$refs[`${modal_ref}`].hide();
+      this.$refs[`${id}`].hide();
+      this.in_cart = true;
+    },
+    removeFromCart(id) {
+      this.deleteCartItem(id).then(() => {
+        this.$refs[`${id}`].hide();
+        this.order.quantity = 1;
+        this.in_cart = false;
+      });
     }
-    // hideModal(modal_ref) {
-    //   this.$refs[`${modal_ref}`].hide();
-    // }
+  },
+  created() {
+    if (this.cart.length) {
+      const product_in_cart = this.cart.find(
+        item => item.id === this.product.id
+      );
+      if (product_in_cart) {
+        this.in_cart = true;
+        this.order.quantity = product_in_cart.quantity;
+      }
+    }
   }
 };
 </script>

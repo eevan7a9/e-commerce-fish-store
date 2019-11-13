@@ -6,6 +6,7 @@ const getters = {
 }
 const mutations = {
     insertToCart: (state, item) => {
+
         state.cart = [item, ...state.cart]
     },
     removeCartItem: (state, id) => {
@@ -17,15 +18,18 @@ const mutations = {
     }
 }
 const actions = {
-    addToCart: async ({ commit, state }, item) => {
+    addToCart: async ({ commit, state, dispatch }, item) => {
+        dispatch('deleteCartItem', item.id); // we remove the previous  item with the same 'Id' 
         const cart_storage = [item, ...state.cart];
         localStorage.setItem('cart_shopping', JSON.stringify(cart_storage)); // we stored cart on localstorage
         const stored_time = new Date().getTime(); // we create time cart was stored
         localStorage.setItem('cart_stored', stored_time);
         commit("insertToCart", item);
     },
-    deleteCartItem: async ({ commit }, id) => {
-        commit("removeCartItem", id)
+    deleteCartItem: async ({ commit, state }, id) => {
+        const cart_storage = state.cart.filter(item => item.id !== id);
+        localStorage.setItem('cart_shopping', JSON.stringify(cart_storage)); // we stored cart on localstorage
+        commit("removeCartItem", id);
     }
 }
 
