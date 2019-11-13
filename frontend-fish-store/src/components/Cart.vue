@@ -30,7 +30,7 @@
     <b-dropdown-item href="#" @click="$bvModal.show('my-modal')">View Content</b-dropdown-item>
 
     <!-- Modal starts -->
-    <b-modal id="my-modal" title="Shopping cart content" ok-only>
+    <b-modal id="my-modal" size="lg" title="Shopping cart content" ok-only>
       <CartContentTable />
     </b-modal>
     <!-- The modal ends-->

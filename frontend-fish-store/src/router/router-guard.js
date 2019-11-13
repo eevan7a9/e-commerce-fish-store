@@ -6,7 +6,7 @@ router.beforeEach((to, from, next) => {
         // this route requires auth, check if user_token exists
         if (!store.state.auth.myToken) {
             next({
-                path: '/',
+                path: '/login',
             })
         } else {
             next()
