@@ -35,6 +35,7 @@
           </div>
         </div>
         <h4>Order Form :</h4>
+        <PaymentForm />
         <template v-slot:footer>
           <em></em>
         </template>
@@ -45,11 +46,13 @@
 
 <script>
 import CartContentTable from "../components/CartContentTable";
+import PaymentForm from '../components/PaymentForm';
 import { mapGetters } from "vuex";
 export default {
   name: "checkout",
   components: {
-    CartContentTable
+    CartContentTable,
+    PaymentForm
   },
   data() {
     return {
