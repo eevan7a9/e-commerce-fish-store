@@ -34,8 +34,9 @@
             <small class="form-text text-muted">Total cost</small>
           </div>
         </div>
-        <h4>Order Form :</h4>
+        <!-- Payment Details -->
         <PaymentForm />
+        <!-- Payment Details ends -->
         <template v-slot:footer>
           <em></em>
         </template>
