@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex flex-column justify-content-center align-items-center pt-5">
+  <div class="container d-flex flex-column justify-content-center align-items-center pt-5 pb-5">
     <div class="w-100 col-md-9">
       <b-card header-tag="header" footer-tag="footer">
         <template v-slot:header>
@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       total_quantity: 0,
-      total_price: 300
+      total_price: 0
     };
   },
   computed: mapGetters(["cart"]),
@@ -75,8 +75,10 @@ export default {
     }
   },
   created() {
-    this.total_quantity = this.getTotalQuantity(this.cart);
-    this.total_price = "$" + this.getTotalPrice(this.cart);
+    if (this.cart.length > 0) {
+      this.total_quantity = this.getTotalQuantity(this.cart);
+      this.total_price = "$" + this.getTotalPrice(this.cart);
+    }
   }
 };
 </script>

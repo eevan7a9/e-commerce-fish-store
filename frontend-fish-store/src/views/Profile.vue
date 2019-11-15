@@ -4,9 +4,6 @@
       <div class="card-body justify-content-center">
         <h3>Cart Content :</h3>
         <CartContentTable />
-        <div class="w-100 empty d-flex justify-content-center p-5" v-if="cart.length === 0">
-          <h3>Empty :(</h3>
-        </div>
         <div class="d-flex justify-content-between">
           <div v-if="cart.length === 0">
             <router-link :to="{name:'catalog'}" class="text-success">
