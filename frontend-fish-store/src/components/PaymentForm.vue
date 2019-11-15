@@ -52,7 +52,12 @@
     let stripe = Stripe(`pk_test_7nkOweBBNAxRdKMS2449Desn00zmvCOyAJ`),
         // elements = stripe.elements(),
         card = undefined;
+
+    import axios from "axios";
     export default {
+        props:{
+            items: Array
+        },
         data() {
             return {
                 billing: {
@@ -76,6 +81,7 @@
         },
         methods: {
             purchase: function() {
+                const items = this.items;
                 let self = this;
                 const additional_data = {
                     name: this.billing.name,
@@ -92,7 +98,15 @@
                         self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
                         return;
                     }
-                    console.log(result);
+                    // console.log(result.token);
+                    axios.post('/checkout',{
+                        stripe: result,
+                        items: items
+                    }).then((res) => {
+                        console.log(res);
+                    }).catch(err => {
+                        console.log(err.response);
+                    })
                 });
             }
         }

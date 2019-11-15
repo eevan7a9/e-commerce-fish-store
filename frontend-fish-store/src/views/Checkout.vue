@@ -35,7 +35,7 @@
           </div>
         </div>
         <!-- Payment Details -->
-        <PaymentForm />
+        <PaymentForm :items="cart" />
         <!-- Payment Details ends -->
         <template v-slot:footer>
           <em></em>
