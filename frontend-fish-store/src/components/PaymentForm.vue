@@ -82,6 +82,7 @@
         methods: {
             purchase: function() {
                 const items = this.items;
+                const email = this.billing.email;
                 let self = this;
                 const additional_data = {
                     name: this.billing.name,
@@ -101,11 +102,12 @@
                     // console.log(result.token);
                     axios.post('/checkout',{
                         stripe: result,
-                        items: items
+                        items: items,
+                        email: email,
                     }).then((res) => {
-                        console.log(res);
+                        console.log('success', res);
                     }).catch(err => {
-                        console.log(err.response);
+                        console.log('error', err.response);
                     })
                 });
             }
