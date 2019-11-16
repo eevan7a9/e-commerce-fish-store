@@ -9,4 +9,9 @@ class Product extends Model
 {
     //
     use SoftDeletes;
+
+    public function orders()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }
