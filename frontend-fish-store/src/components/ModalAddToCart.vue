@@ -103,6 +103,7 @@ export default {
       const add_product = {
         id: this.product.id,
         name: this.product.name,
+        weight: this.product.weight,
         price: this.order.total_price,
         quantity: this.order.quantity
       };

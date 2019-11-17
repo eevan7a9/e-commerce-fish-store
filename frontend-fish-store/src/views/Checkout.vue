@@ -33,6 +33,17 @@
             />
             <small class="form-text text-muted">Total cost</small>
           </div>
+          <div class="form-group">
+            <label for="price">Total Weight (lb)</label>
+            <input
+              type="text"
+              class="form-control bg-light font-weight-bold text-success"
+              v-model="total_weight"
+              id="weight"
+              readonly
+            />
+            <small class="form-text text-muted">Total weight</small>
+          </div>
         </div>
         <!-- Payment Details -->
         <PaymentForm :items="cart" />
@@ -58,26 +69,47 @@ export default {
   data() {
     return {
       total_quantity: 0,
-      total_price: 0
+      total_price: 0,
+      total_weight: 0,
     };
   },
   computed: mapGetters(["cart"]),
+  watch: {
+    cart(val){
+      if(val.length > 0){
+        this.getTotalAll(val);
+      }else{
+        this.total_quantity = 0;
+        this.total_price = 0;
+        this.total_weight = 0;
+      }
+    }
+  },
   methods: {
-    getTotalQuantity: cart => {
-      return cart
+    getTotalQuantity(cart) {
+      this.total_quantity = cart
         .map(item => item.quantity)
         .reduce((a, b) => parseInt(a) + parseInt(b));
     },
-    getTotalPrice: cart => {
-      return cart
+    getTotalPrice(cart) {
+      this.total_price = cart
         .map(item => item.price)
         .reduce((a, b) => parseFloat(a) + parseFloat(b));
+    },
+    getTotalWeight(cart){
+      this.total_weight = cart
+        .map(item => item.weight)
+        .reduce((a, b) => parseFloat(a) + parseFloat(b));
+    },
+    getTotalAll(cart){
+      this.getTotalQuantity(cart);
+      this.getTotalPrice(cart);
+      this.getTotalWeight(cart);
     }
   },
   created() {
     if (this.cart.length > 0) {
-      this.total_quantity = this.getTotalQuantity(this.cart);
-      this.total_price = "$" + this.getTotalPrice(this.cart);
+      this.getTotalAll(this.cart);
     }
   }
 };
