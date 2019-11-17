@@ -28,7 +28,7 @@
                 <input type="text" v-model="billing.province" class="form-control">
             </div>
             <div class="form-group col-sm-4">
-                <label for="sel1">Select list (select one):</label>
+                <label for="sel1">Country (select one):</label>
                 <select class="form-control" id="sel1" v-model="billing.country">
                     <option value="us">US</option>
                     <option value="jp">JP</option>
@@ -52,10 +52,9 @@
     let stripe = Stripe(`pk_test_7nkOweBBNAxRdKMS2449Desn00zmvCOyAJ`),
         // elements = stripe.elements(),
         card = undefined;
-
     import axios from "axios";
     export default {
-        props:{
+        props: {
             items: Array
         },
         data() {
@@ -82,15 +81,16 @@
         methods: {
             purchase: function() {
                 const items = this.items;
-                const email = this.billing.email;
+                const billing_details = this.billing;
+
                 let self = this;
                 const additional_data = {
-                    name: this.billing.name,
-                    address_line1: this.billing.address,
-                    address_city: this.billing.city,
-                    address_state: this.billing.province,
-                    address_zip: this.billing.zip,
-                    address_country: this.billing.country,
+                    name: billing_details.name,
+                    address_line1: billing_details.address,
+                    address_city: billing_details.city,
+                    address_state: billing_details.province,
+                    address_zip: billing_details.zip,
+                    address_country: billing_details.country,
                     currency: "usd",
                 }
                 stripe.createToken(card, additional_data).then(function(result) {
@@ -99,13 +99,26 @@
                         self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
                         return;
                     }
-                    // console.log(result.token);
-                    axios.post('/checkout',{
-                        stripe: result,
+                    // console.log(JSON.stringify(result));
+                    axios.post('/order', {
+                        token: result.token.id,
                         items: items,
-                        email: email,
+                        email: billing_details.email,
+                        phone: billing_details.phone,
+
+                        address: result.token.card.address_line1,
+                        country: result.token.card.address_country,
+                        city: result.token.card.address_city,
+                        state: result.token.card.address_state,
+                        postal_code: result.token.card.address_zip,
+
+                        last4: result.token.card.last4,
+                        payment_method: result.token.type
+
                     }).then((res) => {
-                        console.log('success', res);
+
+                        console.log(res);
+
                     }).catch(err => {
                         console.log('error', err.response);
                     })
