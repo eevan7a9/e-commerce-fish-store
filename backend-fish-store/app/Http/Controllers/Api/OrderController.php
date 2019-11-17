@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Order;
+use App\Product;
+use Cartalyst\Stripe\Exception\CardErrorException;
+use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -30,20 +33,113 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+
+        // 
         $validated = $request->validate([
-            'product_id' => 'required|numeric',
-            'user_id' => 'required|numeric',
-            'quantity' => 'required|numeric',
+            'token' => 'required',
             'address' => 'required',
+            'country' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'postal_code' => 'required|numeric',
+            'phone' => 'required|numeric',
+            'email' => 'required',
+            'payment_method' => 'required',
+            'last4' => 'required'
         ]);
 
-        $order = new Order();
-        $order->product_id = $request->product_id;
-        $order->user_id = $request->user_id;
-        $order->quantity = $request->quantity;
-        $order->address = $request->address;
-        $order->save();
-        return response()->json($order, 201);
+        // we get the cart item equivalent product from database;
+        $cart = $this->getCartItems($request->items);
+        try {
+            $charge = Stripe::charges()->create([
+                'amount' => $cart['amount'],
+                'currency' => 'USD',
+                'source' => $request->token, // token
+                'description' => 'Online Fish store payments',
+                'receipt_email' => $request->email,
+                'metadata' => [
+                    'Items' => $cart['items'],
+                    'Total Quantity' => $cart['quantity'],
+                    'Total Price' => $cart['amount'],
+                    'Total Weight' => $cart['weight'],
+                ],
+            ]);
+            // $charge["billing_details"]
+            
+            // save this info to your database
+            // SUCCESSFUL
+
+            $order = new Order();
+            $order->user_id = $request->user_id;
+            $order->description = $charge['description'];
+
+            $order->quantity = $cart['quantity'];
+            $order->amount = $cart['amount'];
+            $order->weight = $cart['weight'];
+
+            $order->address = $request->address;
+            $order->country = $request->country;
+            $order->city = $request->city;
+            $order->state = $request->state;
+            $order->postal_code = $request->postal_code;
+
+            $order->phone = $request->phone;
+            $order->email = $request->email;
+
+            $order->charge_id = $charge['id'];
+            $order->last4 = $request->last4;
+            $order->payment_method = $request->payment_method;
+
+            $order->receipt_url = $charge['receipt_url'];
+            $order->paid = $charge['paid'];
+       
+            $order->save();
+
+            return response()->json(['order' => $order, 'message' => 'Thank you! Your payment has been accepted.'], 201);
+
+        } catch (CardErrorException $e) {
+            // save info to database for failed
+            // return back()->withErrors('Error! ' . $e->getMessage());
+            return response()->json($e->getMessage());
+        }
+
+    }
+    /** 
+    * we get Products according to carts item id
+    */
+    public function getCartItems($items)
+    {
+        $cart_items = "";
+        $amount = 0.00;
+        $weight = 0.00;
+        $quantity = 0;
+
+        $len = count($items);
+        foreach ($items as $index => $item) {
+            // we check and get  the item from database
+            $product = Product::find($item["id"]);
+            
+            if ($product) {
+
+                if ($index === $len - 1) { 
+                    // if item is the last iteration
+                    $cart_items .= $item["name"] . " : " . $item["quantity"];
+                }else{ 
+                    // regular iteration
+                    $cart_items .= $item["name"] . " : " . $item["quantity"] .", | ";
+                }
+                $amount += ($product->price * $item["quantity"]);
+                $weight += ($product->weight * $item["quantity"]);
+                $quantity += $item['quantity'];
+            }
+        }
+        $cart = [
+            "items" => $cart_items,
+            "quantity" => $quantity,
+            "amount" => $amount,
+            "weight" => $weight
+        ];
+        return $cart;
     }
     /**
      *  Update Order base on 'id'

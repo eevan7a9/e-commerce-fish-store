@@ -27,13 +27,15 @@ Route::prefix('v1')->group(function () { // domain/api/v1/
 
     Route::post('/checkout', 'Api\CheckoutController@checkoutCard')->name("checkout");
 
+    Route::post('/order', 'Api\OrderController@store')->name("order.store");    
+    
     Route::group(['middleware' => ['auth:api']], function () { // Authenticated Users Only
         Route::get('/user', 'Api\AuthController@userInfo');
         Route::get('/logout', 'Api\AuthController@logout');
 
         Route::get('/order', 'Api\OrderController@index')->name("order.index");
         Route::get('/order/{id}', 'Api\OrderController@show')->name("order.show");
-        Route::post('/order', 'Api\OrderController@store')->name("order.store");
+        // Route::post('/order', 'Api\OrderController@store')->name("order.store");
         Route::post('/order/{id}', 'Api\OrderController@update')->name("order.update");
         Route::delete('/order/{id}', 'Api\OrderController@destroy')->name("order.destroy");
 
