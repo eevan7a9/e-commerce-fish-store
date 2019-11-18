@@ -84,13 +84,15 @@ export default {
       in_cart: false,
       order: {
         quantity: 1,
-        total_price: this.product.price
+        total_price: this.product.price,
+        total_weight: this.product.weight
       }
     };
   },
   watch: {
     "order.quantity": function(val) {
-      this.order.total_price = val * this.product.price;
+      this.order.total_price = parseFloat(val) * parseFloat(this.product.price);
+      this.order.total_weight = parseFloat(val) * parseFloat(this.product.weight);
     }
   },
   computed: mapGetters(["cart"]),
@@ -103,7 +105,7 @@ export default {
       const add_product = {
         id: this.product.id,
         name: this.product.name,
-        weight: this.product.weight,
+        weight: this.order.total_weight,
         price: this.order.total_price,
         quantity: this.order.quantity
       };
