@@ -50,7 +50,9 @@ class OrderController extends Controller
 
         // we get the cart item equivalent product from database;
         $cart = $this->getCartItems($request->items);
-        try {
+
+        // we send payment action to Stripe
+        try { 
             $charge = Stripe::charges()->create([
                 'amount' => $cart['amount'],
                 'currency' => 'USD',
@@ -66,9 +68,6 @@ class OrderController extends Controller
             ]);
             // $charge["billing_details"]
             
-            // save this info to your database
-            // SUCCESSFUL
-
             $order = new Order();
             $order->user_id = $request->user_id;
             $order->description = $charge['description'];
@@ -95,7 +94,22 @@ class OrderController extends Controller
        
             $order->save();
 
-            return response()->json(['order' => $order, 'message' => 'Thank you! Your payment has been accepted.'], 201);
+            foreach ($request->items as $key => $item) {
+                $product = Product::find($item['id']);
+                if ($product) {
+                    $order->products()->syncWithoutDetaching([
+                        $item['id'] => [
+                            "quantity" => $item['quantity'],
+                            "amount" => $product->price * $item['quantity'],
+                            "weight" => $product->weight * $item['quantity']
+                        ]
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'order' => $order,
+                'message' => 'Thank you! Your payment has been accepted.'], 201);
 
         } catch (CardErrorException $e) {
             // save info to database for failed
