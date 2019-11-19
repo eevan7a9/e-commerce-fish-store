@@ -1,12 +1,12 @@
 <template>
   <div class="container p-5">
-    <div class="card w-100 col-md-10 mx-auto">
+    <div class="card w-100 mx-auto">
       <div class="card-body justify-content-center">
         <h3>Cart Content :</h3>
         <CartContentTable />
         <div class="d-flex justify-content-between">
           <div v-if="cart.length === 0">
-            <router-link :to="{name:'catalog'}" class="text-success">
+            <router-link :to="{name:'catalog'}" class="violet">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -21,7 +21,7 @@
                 <polyline points="11 17 6 12 11 7" />
                 <polyline points="18 17 13 12 18 7" />
               </svg>
-              <span class="font-weight-bold">Start shopping</span>
+              <span class="font-weight-bold violet">Start shopping</span>
             </router-link>
           </div>
           <div v-else>

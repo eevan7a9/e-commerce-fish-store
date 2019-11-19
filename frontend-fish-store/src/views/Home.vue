@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <!-- Modal -->
+    <ModalSuccessOrder />
+    <!-- Modal ends -->
     <!-- Cover Image Here -->
     <ShowcaseImage />
     <div class="container">
@@ -39,6 +42,7 @@ import ShowcaseImage from "../components/ShowcaseImage";
 import Carousel from "../components/Carousel";
 import FeaturedProducts from "../components/FeaturedProducts";
 import FeaturedArticle from "../components/FeaturedArticle";
+import ModalSuccessOrder from "../components/ModalSuccessOrder";
 import { mapGetters } from "vuex";
 export default {
   name: "home",
@@ -46,7 +50,8 @@ export default {
     ShowcaseImage,
     FeaturedProducts,
     FeaturedArticle,
-    Carousel
+    Carousel,
+    ModalSuccessOrder
   },
   computed: mapGetters(["user"])
 };
