@@ -39,7 +39,8 @@ const getters = {
 }
 
 const mutations = {
-    insertOrder: async (state, new_order) => state.orders = [new_order, ...state.orders],
+    insertOrder: (state, new_order) => state.orders = [new_order, ...state.orders],
+    setOrders: (state, orders) => state.orders = orders 
 }
 
 const actions = {
@@ -64,7 +65,19 @@ const actions = {
 
         }).catch(err => {
             return err.response;
-     
+
+        })
+    },
+    getOrders: async ({ commit, rootState }) => {
+        axios.get('/order', {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.auth.myToken}`
+            }
+        }).then(res => {
+            commit("setOrders", res.data);
+        }).catch(err => {
+            alert(err);
         })
     }
 }

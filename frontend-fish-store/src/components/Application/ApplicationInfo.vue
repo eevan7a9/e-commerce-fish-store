@@ -48,11 +48,16 @@
                 </b-card>
             </b-card-group>
         </div>
+        <OrdersTable class="mt-5" />
     </div>
 </template>
 <script>
+    import OrdersTable from "../Orders/OrdersTable.vue"
     export default {
-        name: "ApplicationInfo"
+        name: "ApplicationInfo",
+        components:{
+            OrdersTable
+        }
     };
 </script>
 <style scoped>
