@@ -53,6 +53,9 @@
         // elements = stripe.elements(),
         card = undefined;
     import axios from "axios";
+    import {
+        mapActions
+    } from "vuex";
     export default {
         props: {
             items: Array
@@ -79,10 +82,10 @@
             card.mount(this.$refs.card);
         },
         methods: {
+            ...mapActions(["newOrder", "deleteCartItem"]),
             purchase: function() {
                 const items = this.items;
                 const billing_details = this.billing;
-
                 let self = this;
                 const additional_data = {
                     name: billing_details.name,
@@ -100,31 +103,36 @@
                         return;
                     }
                     // console.log(JSON.stringify(result));
-                    axios.post('/order', {
+                    const order = {
                         token: result.token.id,
                         items: items,
                         email: billing_details.email,
                         phone: billing_details.phone,
-
                         address: result.token.card.address_line1,
                         country: result.token.card.address_country,
                         city: result.token.card.address_city,
                         state: result.token.card.address_state,
                         postal_code: result.token.card.address_zip,
-
                         last4: result.token.card.last4,
                         payment_method: result.token.type
-
-                    }).then((res) => {
-
-                        console.log(res);
-
-                    }).catch(err => {
-                        console.log('error', err.response);
-                    })
+                    }
+                    self.addToServer(order);
+                });
+            },
+            addToServer(order) {
+                this.newOrder(order).then(() => {
+                    this.billing.name = "";
+                    this.billing.email = "";
+                    this.billing.address = "";
+                    this.billing.phone = 0;
+                    this.billing.city = "";
+                    this.billing.province = "";
+                    this.billing.zip = 0;
+                    this.billing.country = "";
+                    this.deleteCartItem();
                 });
             }
-        }
+        },
     };
 </script>
 <style scoped>

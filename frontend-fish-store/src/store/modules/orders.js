@@ -1,6 +1,7 @@
+import axios from "axios";
+
 const state = {
-    orders: [
-        {
+    orders: [{
             id: 1,
             product_name: "koi first",
             user_email: "user1@gmail.com",
@@ -38,12 +39,32 @@ const getters = {
 }
 
 const mutations = {
-    insertOrder: async (state, new_order) => state.orders = [new_order, ...state.orders]
+    insertOrder: async (state, new_order) => state.orders = [new_order, ...state.orders],
 }
 
 const actions = {
     newOrder: async ({ commit }, order) => {
-        commit("insertOrder", order);
+
+        return axios.post('/order', {
+            token: order.token,
+            items: order.items,
+            email: order.email,
+            phone: order.phone,
+            address: order.address,
+            country: order.country,
+            city: order.city,
+            state: order.state,
+            postal_code: order.postal_code,
+            last4: order.last4,
+            payment_method: order.payment_method
+
+        }).then((res) => {
+            commit("insertOrder", res);
+            console.log(res);
+
+        }).catch(err => {
+            console.log('error', err.response);
+        })
     }
 }
 
