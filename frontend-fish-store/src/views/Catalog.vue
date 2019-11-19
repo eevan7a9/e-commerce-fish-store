@@ -3,7 +3,7 @@
     <div>
       <section class="row align-items-center m-5">
         <div class="h-400 col-12 text-center text-dark">
-          <h2 class="font-weight-light featured-header text-inner-shadow-success">Products</h2>
+          <h2 class="font-weight-light featured-header text-inner-shadow-violet">Products</h2>
         </div>
       </section>
       <div class="row mt-5">

@@ -3,28 +3,44 @@
   padding: 0;
   box-sizing: border-box;
 }
-.bg-custom-brown {
-  background: #d95b00;
+.violet {
+  color: #6f1b9d;
 }
-.btn-custom-outline-brown {
-  border: 2px solid #d95b00;
-  border-radius: 10px;
-  color: #d95b00;
-  font-weight: 700;
+.bg-custom-violet {
+  background: #6f1b9d;
 }
-.btn-custom-outline-brown:hover {
+.btn-custom-violet{
+  background: #6f1b9d;
   color: aliceblue;
-  background: #d95b00;
+  font-weight: bold;
+  border-radius: 20px;
+  padding: 10px 0px;
+}
+.btn-custom-violet:hover {
+  background: aliceblue;
+  color: #6f1b9d;
+  border: 2px solid #6f1b9d;
   transition: 1s;
 }
-.text-inner-shadow-brown {
-  text-shadow: -1px 0 #d95b00, 0 1px #d95b00, 0.5px 0 #d95b00, 0 -1px #d95b00;
+.btn-custom-outline-violet {
+  border: 2px solid #6f1b9d;
+  border-radius: 10px;
+  color: #6f1b9d;
+  font-weight: 700;
+}
+.btn-custom-outline-violet:hover {
+  color: aliceblue;
+  background: #6f1b9d;
+  transition: 1s;
+}
+.text-inner-shadow-violet {
+  text-shadow: -1px 0 #6f1b9d, 0 1px #6f1b9d, 0.5px 0 #6f1b9d, 0 -1px #6f1b9d;
 }
 .text-inner-shadow-success {
   text-shadow: -1px 0 #02af11, 0 1px #2abd3d, 0.5px 0 #afe765, 0 -1px #09af49;
 }
 .card-custom-border {
-  border: #d95b00 2px solid;
+  border: #6f1b9d 2px solid;
   /* border-radius: 10px; */
 }
 .pointer {

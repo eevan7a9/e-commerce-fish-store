@@ -19,7 +19,7 @@
         </svg>
         <transition name="bounce" mode="out-in">
           <span class="cart-number" :key="cart.length">
-            <div>{{ cart.length }}</div>
+            <div class="violet">{{ cart.length }}</div>
           </span>
         </transition>
       </span>

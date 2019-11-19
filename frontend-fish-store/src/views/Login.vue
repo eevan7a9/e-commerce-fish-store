@@ -21,7 +21,7 @@
         />
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-success btn-block">Log in</button>
+        <button type="submit" class="btn-custom-violet btn-block">Log in</button>
       </div>
       <!-- <div class="clearfix">
         <label class="pull-left checkbox-inline">
@@ -31,7 +31,8 @@
       </div>-->
     </form>
     <p class="text-center">
-      <a href="#">Create an Account</a>
+
+      <router-link :to="{name:'register'}">Create an Account</router-link>
     </p>
   </div>
 </template>

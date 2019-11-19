@@ -2,7 +2,7 @@
   <div>
     <button
       type="button"
-      class="btn btn-sm btn-outline-success p-3 font-weight-bold"
+      class="btn-custom-outline-violet p-3 font-weight-bold"
       @click="showModal(product.id)"
     >${{ product.price }} | A Piece</button>
 

@@ -54,7 +54,7 @@
                   <a href="#">terms of service</a>
                 </label>
               </div>
-              <input class="btn btn-lg btn-success btn-block" value="Sign Me Up" type="submit" />
+              <input class="btn-custom-violet btn-block" value="Sign Me Up" type="submit" />
             </fieldset>
           </form>
         </div>
