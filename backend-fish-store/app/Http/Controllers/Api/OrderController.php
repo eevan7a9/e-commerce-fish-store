@@ -50,6 +50,13 @@ class OrderController extends Controller
 
         // we get the cart item equivalent product from database;
         $cart = $this->getCartItems($request->items);
+        // we check if error exists in cart
+        if ($cart['error']) { 
+
+             return response()->json([
+                        "message" => "Sorry we cant satisfy this order"
+                    ], 400);
+        }
 
         // we send payment action to Stripe
         try { 
@@ -128,30 +135,44 @@ class OrderController extends Controller
         $weight = 0.00;
         $quantity = 0;
 
+        $error = false;
+
         $len = count($items);
         foreach ($items as $index => $item) {
             // we check and get  the item from database
             $product = Product::find($item["id"]);
             
             if ($product) {
+                // we check if there is enough available products
+                if ($product->units >= $item['quantity']) {
 
-                if ($index === $len - 1) { 
-                    // if item is the last iteration
-                    $cart_items .= $item["name"] . " : " . $item["quantity"];
-                }else{ 
-                    // regular iteration
-                    $cart_items .= $item["name"] . " : " . $item["quantity"] .", | ";
+                    if ($index === $len - 1) {
+                        // if item is the last iteration
+                        $cart_items .= $item["name"] . " : " . $item["quantity"];
+                    }else{ 
+                        // regular iteration
+                        $cart_items .= $item["name"] . " : " . $item["quantity"] .", | ";
+                    }
+                    $amount += ($product->price * $item["quantity"]);
+                    $weight += ($product->weight * $item["quantity"]);
+                    $quantity += $item['quantity'];
+                }else{
+
+                    $error = true;
+                    break;
                 }
-                $amount += ($product->price * $item["quantity"]);
-                $weight += ($product->weight * $item["quantity"]);
-                $quantity += $item['quantity'];
+            }else{
+
+                $error = true;
+                break;
             }
         }
         $cart = [
             "items" => $cart_items,
             "quantity" => $quantity,
             "amount" => $amount,
-            "weight" => $weight
+            "weight" => $weight,
+            "error" => $error
         ];
         return $cart;
     }
