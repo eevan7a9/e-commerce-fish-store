@@ -60,10 +60,11 @@ const actions = {
 
         }).then((res) => {
             commit("insertOrder", res);
-            console.log(res);
+            return res
 
         }).catch(err => {
-            console.log('error', err.response);
+            return err.response;
+     
         })
     }
 }

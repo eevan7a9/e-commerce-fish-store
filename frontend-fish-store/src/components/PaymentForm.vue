@@ -120,16 +120,19 @@
                 });
             },
             addToServer(order) {
-                this.newOrder(order).then(() => {
-                    this.billing.name = "";
-                    this.billing.email = "";
-                    this.billing.address = "";
-                    this.billing.phone = 0;
-                    this.billing.city = "";
-                    this.billing.province = "";
-                    this.billing.zip = 0;
-                    this.billing.country = "";
-                    this.deleteCartItem();
+                this.newOrder(order).then(res => {
+                    if (res.status === 201) {
+                        this.billing.name = "";
+                        this.billing.email = "";
+                        this.billing.address = "";
+                        this.billing.phone = 0;
+                        this.billing.city = "";
+                        this.billing.province = "";
+                        this.billing.zip = 0;
+                        this.billing.country = "";
+                        this.deleteCartItem();
+                        this.$router.push({name:'home'});   
+                    }
                 });
             }
         },

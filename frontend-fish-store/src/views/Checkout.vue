@@ -111,7 +111,6 @@ export default {
     if (this.cart.length > 0) {
       this.getTotalAll(this.cart);
     }
-    console.log(this.total_weight, this.cart)
   }
 };
 </script>
