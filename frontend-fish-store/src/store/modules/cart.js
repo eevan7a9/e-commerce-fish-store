@@ -27,8 +27,13 @@ const actions = {
         commit("insertToCart", item);
     },
     deleteCartItem: async ({ commit, state }, id) => {
-        const cart_storage = state.cart.filter(item => item.id !== id);
-        localStorage.setItem('cart_shopping', JSON.stringify(cart_storage)); // we stored cart on localstorage
+        if (id) {
+            const cart_storage = state.cart.filter(item => item.id !== id);
+            localStorage.setItem('cart_shopping', JSON.stringify(cart_storage)); // we stored cart on localstorage
+        }else{
+            localStorage.removeItem("cart_shopping");
+            localStorage.removeItem("cart_stored");
+        }
         commit("removeCartItem", id);
     }
 }

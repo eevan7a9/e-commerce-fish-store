@@ -56,7 +56,6 @@ export default {
 
     if (cart != null && cart_stored == null) {
       // we check if there is no cart_stored and clear/remove all items in cart
-      localStorage.removeItem("cart_shopping");
       this.deleteCartItem();
     } else if (cart && cart_stored) {
       const current_time = new Date().getTime();
@@ -65,8 +64,6 @@ export default {
       if (7200 < time_diff) {
         // if the the time the cart is stored excceeds 2hrs
         // we clear the cart
-        localStorage.removeItem("cart_shopping");
-        localStorage.removeItem("cart_stored");
         this.deleteCartItem();
       }
     }
