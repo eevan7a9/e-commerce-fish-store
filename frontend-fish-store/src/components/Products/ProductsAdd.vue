@@ -52,7 +52,7 @@
               placeholder="Weight"
             />
           </div>
-          <div class="form-group mx-sm-3 mt-4">
+          <div class="form-group mx-sm-3 my-2">
             <label for="price">Price :</label>
             <div class="input-group-prepend">
               <span class="input-group-text">$</span>

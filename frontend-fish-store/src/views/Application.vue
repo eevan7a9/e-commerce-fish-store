@@ -10,7 +10,7 @@
                     <b-list-group>
                         <b-list-group-item class="bg-secondary">
                             <router-link :to="{name:'application.info'}" class="text-light">App Status
-    <img src="../assets/img/bar-chart-2.svg" class="ml-1" alt="">
+                                <img src="../assets/img/bar-chart-2.svg" class="ml-1" alt="">
                             </router-link>
                         </b-list-group-item>
                         <!-- <b-list-group-item class="bg-secondary text-light">Layout</b-list-group-item> -->
