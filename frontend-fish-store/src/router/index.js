@@ -41,7 +41,11 @@ const routes = [
     name: 'checkout',
     component: () => import("../views/Checkout.vue"),
     props: true,
-    meta: { requiresAuth: true }
+  },    
+  {
+    path: '/checkout/success',
+    name: 'checkout.success',
+    component: () => import('../views/checkoutSuccess.vue')
   },
   {
     path: '/application',
