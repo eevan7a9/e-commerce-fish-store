@@ -89,11 +89,11 @@ const actions = {
                 "Authorization": `Bearer ${rootState.auth.myToken}`,
             }
         }).then(res => {
-            console.log(res);
+            // console.log(res);
             commit("insertProduct", res.data);
             return res;
         }).catch(err => {
-            console.log(err.response);
+            // console.log(err.response);
             return err.response;
         })
     },
@@ -115,11 +115,11 @@ const actions = {
                 "Authorization": `Bearer ${rootState.auth.myToken}`
             }
         }).then(res => {
-            console.log(res)
+            // console.log(res)
             commit("updateProduct", res.data);
             return res
         }).catch(err => {
-            console.log(err.response);
+            // console.log(err.response);
             return err;
         });
     }

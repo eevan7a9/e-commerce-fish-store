@@ -10,7 +10,7 @@
         <!-- products items -->
         <div class="col-md-4" v-for="product in products" :key="product.id">
           <div class="card mb-4 box-shadow">
-            <img class="card-img-top" src="../assets/img/f1.jpg" alt="Card image cap" />
+            <img class="card-img-top" :src="product.image_location" alt="Card image cap" />
             <div class="card-body">
               <h4>{{ product.name }}</h4>
               <p class="card-text description">{{ product.description }}</p>

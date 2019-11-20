@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -92,7 +93,8 @@ class ProductController extends Controller
             ]);
             // If validation is correct we delete the old image
             if(file_exists(public_path('images/'. $product->image))){
-                unlink(public_path('images/' . $product->image));
+                File::delete(public_path('images/' . $product->image));
+                // unlink(public_path('images/' . $product->image));
             }
             // we added the new image
             $product->image_location = URL::asset('images').'/'.time().'.'.$request->image->getClientOriginalExtension();

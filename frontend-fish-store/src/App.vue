@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    {{user}} / {{ token }}
     <Navbar />
     <transition name="fade" mode="out-in">
       <router-view class="view" />
