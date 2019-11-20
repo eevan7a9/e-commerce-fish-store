@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class ProductController extends Controller
 {
@@ -48,6 +49,7 @@ class ProductController extends Controller
             request()->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
+            $product->image_location = URL::asset('images').'/'.time().'.'.$request->image->getClientOriginalExtension();
             $product->image = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(public_path('images'), $product->image);
         }
@@ -93,6 +95,7 @@ class ProductController extends Controller
                 unlink(public_path('images/' . $product->image));
             }
             // we added the new image
+            $product->image_location = URL::asset('images').'/'.time().'.'.$request->image->getClientOriginalExtension();
             $product->image = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(public_path('images'), $product->image);
         }

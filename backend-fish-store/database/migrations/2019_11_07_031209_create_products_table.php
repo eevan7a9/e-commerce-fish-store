@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 9, 2);
             $table->decimal('weight', 5, 2);
             $table->integer('units')->default(1);
+            $table->string('image_location')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
