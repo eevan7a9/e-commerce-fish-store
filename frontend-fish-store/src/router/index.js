@@ -51,7 +51,7 @@ const routes = [
   {
     path: '/application',
     component: () => import("../views/Application.vue"),
-    meta: { requiresAuth: true },
+    meta: { requiresAdmin: true },
     children: [
       {
         path: '',

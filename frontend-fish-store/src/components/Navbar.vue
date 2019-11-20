@@ -35,7 +35,7 @@
             <router-link to="/login" class="text-light font-weight-bolder">Login</router-link>
           </b-nav-item>
 
-          <b-nav-item class="text-light font-weight-bolder application" v-if="token">
+          <b-nav-item class="text-light font-weight-bolder application" v-if="token && user.role === 'admin'">
             <router-link to="/application" class="text-light font-weight-bolder">Application</router-link>
           </b-nav-item>
           <b-nav-item-dropdown right v-if="token">
@@ -86,7 +86,9 @@ export default {
     out() {
       this.logout().then(res => {
         this.$router.push({ name: "login" });
-        alert(res.data.message);
+        if (res !== undefined) {
+          alert(res.data.message);
+        }
       });
     }
   }

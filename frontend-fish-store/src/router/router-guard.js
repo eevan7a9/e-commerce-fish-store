@@ -11,7 +11,16 @@ router.beforeEach((to, from, next) => {
         } else {
             next()
         }
-    } else if (to.matched.some(record => record.meta.requiresVisitor)) {
+    } else if (to.matched.some(record => record.meta.requiresAdmin)) {
+        // this route requires visitor, check if not login
+        if (store.state.auth.user.role !== 'admin') {
+            next({
+                path: '/',
+            })
+        } else {
+            next()
+        }
+    }else if (to.matched.some(record => record.meta.requiresVisitor)) {
         // this route requires visitor, check if not login
         if (store.state.auth.myToken) {
             next({

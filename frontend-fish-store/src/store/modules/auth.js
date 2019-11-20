@@ -61,10 +61,24 @@ const actions = {
                 return res
             })
             .catch(err => {
-                // console.error(err.response);
+                localStorage.removeItem("auth");
+                commit("clearUser");
                 alert("Something went wrong", err);
-                return err
             });
+    },
+    getUser: async ({commit, state, dispatch}) => {
+       try {
+            const result = await axios.get('/user', {
+                headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${state.myToken}`
+                }
+            });
+            commit("setUser", { user: result.data.user, token: state.myToken })
+       } catch(e) {
+           dispatch('logout');
+           alert(e);
+       }
     }
 
 }

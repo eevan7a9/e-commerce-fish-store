@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    {{user}} / {{ token }}
     <Navbar />
     <transition name="fade" mode="out-in">
       <router-view class="view" />
@@ -8,16 +9,20 @@
 </template>
 <script>
 import Navbar from "./components/Navbar";
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
     Navbar
   },
+  computed: mapGetters(["user", "token"]),
   methods: {
-    ...mapActions(["getProducts"])
+    ...mapActions(["getProducts", "getUser"])
   },
   created() {
     this.getProducts();
+    if (this.token) {
+      this.getUser();
+    }
   }
 };
 </script>
