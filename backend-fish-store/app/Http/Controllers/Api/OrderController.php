@@ -8,6 +8,7 @@ use App\Product;
 use Cartalyst\Stripe\Exception\CardErrorException;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -17,7 +18,16 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::all();
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            $orders = Order::all();
+        } else {
+            $orders = Order::where('user_id', '=', $user->id)->get();
+        }
+        foreach ($orders as $key => $order) {
+            $order->products;
+        }
+
         return response()->json($orders, 200);
     }
     /**
@@ -34,7 +44,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
 
-        // 
+        //
         $validated = $request->validate([
             'token' => 'required',
             'address' => 'required',
@@ -45,21 +55,21 @@ class OrderController extends Controller
             'phone' => 'required|numeric',
             'email' => 'required',
             'payment_method' => 'required',
-            'last4' => 'required'
+            'last4' => 'required',
         ]);
 
         // we get the cart item equivalent product from database;
         $cart = $this->getCartItems($request->items);
         // we check if error exists in cart
-        if ($cart['error']) { 
+        if ($cart['error']) {
 
-             return response()->json([
-                        "message" => "Sorry we cant satisfy this order"
-                    ], 400);
+            return response()->json([
+                "message" => "Sorry we cant satisfy this order",
+            ], 400);
         }
 
         // we send payment action to Stripe
-        try { 
+        try {
             $charge = Stripe::charges()->create([
                 'amount' => $cart['amount'],
                 'currency' => 'USD',
@@ -74,7 +84,7 @@ class OrderController extends Controller
                 ],
             ]);
             // $charge["billing_details"]
-            
+
             $order = new Order();
             $order->user_id = $request->user_id;
             $order->description = $charge['description'];
@@ -98,7 +108,7 @@ class OrderController extends Controller
 
             $order->receipt_url = $charge['receipt_url'];
             $order->paid = $charge['paid'];
-       
+
             $order->save();
 
             foreach ($request->items as $key => $item) {
@@ -108,8 +118,8 @@ class OrderController extends Controller
                         $item['id'] => [
                             "quantity" => $item['quantity'],
                             "amount" => $product->price * $item['quantity'],
-                            "weight" => $product->weight * $item['quantity']
-                        ]
+                            "weight" => $product->weight * $item['quantity'],
+                        ],
                     ]);
                 }
             }
@@ -125,9 +135,9 @@ class OrderController extends Controller
         }
 
     }
-    /** 
-    * we get Products according to carts item id
-    */
+    /**
+     * we get Products according to carts item id
+     */
     public function getCartItems($items)
     {
         $cart_items = "";
@@ -141,7 +151,7 @@ class OrderController extends Controller
         foreach ($items as $index => $item) {
             // we check and get  the item from database
             $product = Product::find($item["id"]);
-            
+
             if ($product) {
                 // we check if there is enough available products
                 if ($product->units >= $item['quantity']) {
@@ -149,19 +159,19 @@ class OrderController extends Controller
                     if ($index === $len - 1) {
                         // if item is the last iteration
                         $cart_items .= $item["name"] . " : " . $item["quantity"];
-                    }else{ 
+                    } else {
                         // regular iteration
-                        $cart_items .= $item["name"] . " : " . $item["quantity"] .", | ";
+                        $cart_items .= $item["name"] . " : " . $item["quantity"] . ", | ";
                     }
                     $amount += ($product->price * $item["quantity"]);
                     $weight += ($product->weight * $item["quantity"]);
                     $quantity += $item['quantity'];
-                }else{
+                } else {
 
                     $error = true;
                     break;
                 }
-            }else{
+            } else {
 
                 $error = true;
                 break;
@@ -172,7 +182,7 @@ class OrderController extends Controller
             "quantity" => $quantity,
             "amount" => $amount,
             "weight" => $weight,
-            "error" => $error
+            "error" => $error,
         ];
         return $cart;
     }

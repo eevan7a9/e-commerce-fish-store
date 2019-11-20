@@ -27,8 +27,8 @@ Route::prefix('v1')->group(function () { // domain/api/v1/
 
     Route::post('/checkout', 'Api\CheckoutController@checkoutCard')->name("checkout");
 
-    Route::post('/order', 'Api\OrderController@store')->name("order.store");    
-    
+    Route::post('/order', 'Api\OrderController@store')->name("order.store");
+
     Route::group(['middleware' => ['auth:api']], function () { // Authenticated Users Only
         Route::get('/user', 'Api\AuthController@userInfo');
         Route::get('/logout', 'Api\AuthController@logout');
