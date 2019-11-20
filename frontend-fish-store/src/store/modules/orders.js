@@ -64,8 +64,8 @@ const actions = {
             return res
 
         }).catch(err => {
-            return err.response;
-
+            // return err.response;
+            alert(err);
         })
     },
     getOrders: async ({ commit, rootState }) => {

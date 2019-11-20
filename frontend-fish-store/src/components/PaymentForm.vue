@@ -131,7 +131,7 @@
                         this.billing.zip = 0;
                         this.billing.country = "";
                         this.deleteCartItem();
-                        this.$router.push({name:'home'});   
+                        this.$router.push({name:'checkout.success', params:{receipt_url: res.data.order.receipt_url}});   
                     }
                 });
             }

@@ -13,10 +13,13 @@
             <p class="mb-0 my-2">
                 Please be patient we will email you for more information about your order!!!
             </p>
-            <div class="d-flex justify-content-center py-3">
-                <router-link :to="{name:'home'}" class="btn-custom-violet py-3 px-5">
-                    OK
+            <div class="d-flex justify-content-between py-3">
+                <router-link :to="{name:'home'}" class="btn btn-secondary font-weight-bold text-light">
+                    Go Back
                 </router-link>
+                  <a :href="receipt_url" class="btn btn-info font-weight-bold text-light">
+                    View Receipt
+                </a>
             </div>
         </div>
     </div>
@@ -24,9 +27,17 @@
 <script>
     export default {
         name: "checkoutSuccess",
+        props: {
+            receipt_url: String
+        },
         data() {
             return {
                 message_alert: "Success, your order is being processed...",
+            }
+        },
+        created(){
+            if (!this.receipt_url) {
+                this.$router.push({name:"home"});
             }
         }
     }
