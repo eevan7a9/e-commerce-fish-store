@@ -8,12 +8,13 @@
       </section>
       <div class="row mt-5">
         <!-- products items -->
-        <div class="col-md-4" v-for="product in products" :key="product.id">
+        <div class="col-md-4" v-for="(product, index) in products" :key="product.id">
           <div class="card mb-4 box-shadow">
-            <img class="card-img-top" :src="product.image_location" alt="Card image cap" />
+            <img class="card-img-top" :src="product.image_location ? product.image_location : 'https://via.placeholder.com/250'" @error="imgError(index)" alt="Card image cap" />
             <div class="card-body">
               <h4>{{ product.name }}</h4>
               <p class="card-text description">{{ product.description }}</p>
+              {{product.image}}
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <!-- <button
@@ -43,6 +44,9 @@ export default {
   methods: {
     showModal(modal_ref) {
       this.$refs[`${modal_ref}`].show();
+    },
+    imgError(index){
+      this.products[index].image_location = "";
     }
   }
 };

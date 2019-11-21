@@ -118,7 +118,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addProduct", "editProduct"]),
+    ...mapActions(["addProduct", "editProduct", "toggleLoader"]),
     onImageChange(e){
       // console.log(e.target.files[0]);
       this.product.image = e.target.files[0];
@@ -131,6 +131,8 @@ export default {
     submit() {
       this.validate();
       if (this.error.name.status != 1 && this.error.description.status != 1) {
+        // we show loader
+        this.toggleLoader();
         // After we check for error
         // we check if it's for 'adding' or 'editing' a product
         if (this.edit_product === undefined) {
@@ -138,6 +140,7 @@ export default {
           this.addProduct(this.product).then(res => {
             if (res.status === 201) {
               this.$router.push({ name: "application.products" });
+              this.toggleLoader();
                alert("added");
             }
           });
@@ -147,6 +150,7 @@ export default {
           this.editProduct(this.product).then(res => {
             if (res.status === 201) {
               this.$router.push({ name: "application.products" });
+              this.toggleLoader();
               alert("Edit, success.");
             }else{
               alert("something went wrong.");

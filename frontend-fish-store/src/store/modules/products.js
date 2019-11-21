@@ -57,6 +57,7 @@ const mutations = {
             found_product.weight = updated_product.weight;
             found_product.units = updated_product.units;
             found_product.price = updated_product.price;
+            found_product.image_location = updated_product.image_location;
         }
     },
     setProducts: (state, products) => state.products = products
@@ -81,7 +82,7 @@ const actions = {
         if (product.image) {
             formData.append('image', product.image);
         }
-        console.log(product);
+        // console.log(product);
         return axios.post('/product', formData,{
             headers: {
                 "Accept": "application/json",
@@ -107,7 +108,7 @@ const actions = {
         if (product.image) {
             formData.append('image', product.image);
         }
-        console.log(product);
+        // console.log(product);
         return axios.post(`/product/${product.id}`, formData,{
             headers: {
                 "Accept": "application/json",
