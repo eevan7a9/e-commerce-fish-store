@@ -2,26 +2,34 @@
   <div id="app">
     <Navbar />
     <transition name="fade" mode="out-in">
-      <router-view class="view" />
+      <router-view class="view" v-if="!appLoader" />
     </transition>
+    <!-- application Loader -->
+    <AppLoader  v-if="appLoader" />
   </div>
 </template>
 <script>
 import Navbar from "./components/Navbar";
+import AppLoader from "./components/AppLoader";
 import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
-    Navbar
+    Navbar,
+    AppLoader
   },
-  computed: mapGetters(["user", "token"]),
+  computed: mapGetters(["user", "token", "appLoader"]),
   methods: {
-    ...mapActions(["getProducts", "getUser"])
+    ...mapActions(["getProducts", "getUser" ,"toggleLoader"])
   },
   created() {
-    this.getProducts();
-    if (this.token) {
-      this.getUser();
-    }
+    this.toggleLoader(); // we load app loader
+    this.getProducts().then(() => {
+      if (this.token) {
+        this.getUser().then(() => this.toggleLoader()); // disable app loader
+      }else{
+        this.toggleLoader(); // disable app loader 
+      }
+    });
   }
 };
 </script>

@@ -5,6 +5,7 @@ import auth from './modules/auth';
 import product from "./modules/products";
 import order from "./modules/orders";
 import cart from "./modules/cart";
+import loader from "./modules/loader";
 
 Vue.use(Vuex)
 
@@ -16,5 +17,6 @@ export default new Vuex.Store({
     product,
     order,
     cart,
+    loader,
   }
 })
