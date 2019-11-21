@@ -5,31 +5,31 @@
         <div class="form-row">
             <div class="form-group col-sm-6">
                 <label class="text-capitalize">Name</label>
-                <input type="text" v-model="billing.name" class="form-control">
+                <input type="text" v-model="billing.name" class="form-control" required>
             </div>
             <div class="form-group col-sm-6">
                 <label class="text-capitalize">Email</label>
-                <input type="email" v-model="billing.email" class="form-control">
+                <input type="email" v-model="billing.email" class="form-control" required>
             </div>
             <div class="form-group col-sm-6">
                 <label class="text-capitalize">Address</label>
-                <input type="text" v-model="billing.address" class="form-control">
+                <input type="text" v-model="billing.address" class="form-control" required>
             </div>
             <div class="form-group col-sm-6">
                 <label class="text-capitalize">Phone</label>
-                <input type="text" v-model="billing.phone" class="form-control">
+                <input type="text" v-model="billing.phone" class="form-control" required>
             </div>
             <div class="form-group col-sm-4">
                 <label class="text-capitalize">City</label>
-                <input type="text" v-model="billing.city" class="form-control">
+                <input type="text" v-model="billing.city" class="form-control" required>
             </div>
             <div class="form-group col-sm-4">
                 <label class="text-capitalize">Province</label>
-                <input type="text" v-model="billing.province" class="form-control">
+                <input type="text" v-model="billing.province" class="form-control" required>
             </div>
             <div class="form-group col-sm-4">
                 <label for="sel1">Country (select one):</label>
-                <select class="form-control" id="sel1" v-model="billing.country">
+                <select class="form-control" id="sel1" v-model="billing.country" required>
                     <option value="us">US</option>
                     <option value="jp">JP</option>
                     <option value="ph">PH</option>
@@ -38,13 +38,13 @@
             </div>
             <div class="form-group col-sm-4">
                 <label class="text-capitalize">postal code</label>
-                <input type="number" v-model="billing.postal_code" class="form-control">
+                <input type="number" v-model="billing.postal_code" class="form-control" required>
             </div>
         </div>
         <hr>
         <h4>Payment Details :</h4>
         <div ref="card" class="p-3 mb-2 border rounded"></div>
-        <button v-on:click="purchase" class="btn btn-success form-control font-weight-bold text-uppercase">Purchase</button>
+        <button v-on:click="purchase" class="btn btn-success form-control font-weight-bold text-uppercase mt-3">Purchase</button>
     </div>
 </template>
 <script id="stripe-js" src="https://js.stripe.com/v3/" async></script>
@@ -72,20 +72,21 @@
                     country: "",
                     postal_code: 0,
                 },
-                card: null,
-                elements: null
+                elements: null,
             }
         },
         mounted: function() {
-            this.elements = stripe.elements(),
-                card = this.elements.create('card');
+            this.elements = stripe.elements();
+            card = this.elements.create('card');
             card.mount(this.$refs.card);
         },
         methods: {
-            ...mapActions(["newOrder", "deleteCartItem"]),
+            ...mapActions(["newOrder", "deleteCartItem", "toggleLoader"]),
             purchase: function() {
+                this.toggleLoader();
                 const items = this.items;
                 const billing_details = this.billing;
+
                 let self = this;
                 const additional_data = {
                     name: billing_details.name,
@@ -100,6 +101,7 @@
                     if (result.error) {
                         self.hasCardErrors = true;
                         self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
+                        self.toggleLoader();
                         return;
                     }
                     // console.log(JSON.stringify(result));
@@ -132,6 +134,9 @@
                         this.billing.country = "";
                         this.deleteCartItem();
                         this.$router.push({name:'checkout.success', params:{receipt_url: res.data.order.receipt_url}});   
+                        this.toggleLoader();
+                    }else{
+                        this.toggleLoader();
                     }
                 });
             }
