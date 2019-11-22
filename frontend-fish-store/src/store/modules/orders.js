@@ -1,37 +1,7 @@
 import axios from "axios";
 
 const state = {
-    orders: [{
-            id: 1,
-            product_name: "koi first",
-            user_email: "user1@gmail.com",
-            quantity: 23,
-            address: "somewhere I belong",
-            is_delivered: 0,
-            created_at: "2019-11-07 19:52:17",
-            updated_at: "2019-11-07 19:52:17"
-        },
-        {
-            id: 2,
-            product_name: "koi Second",
-            user_email: "user2@gmail.com",
-            quantity: 13,
-            address: "somewhere I belong",
-            is_delivered: 1,
-            created_at: "2019-11-07 19:52:17",
-            updated_at: "2019-11-07 19:52:17"
-        },
-        {
-            id: 3,
-            product_name: "koi first",
-            user_email: "user2@gmail.com",
-            quantity: 10,
-            address: "somewhere I belong",
-            is_delivered: 0,
-            created_at: "2019-11-07 19:52:17",
-            updated_at: "2019-11-07 19:52:17"
-        }
-    ]
+    orders: []
 }
 
 const getters = {
@@ -64,8 +34,7 @@ const actions = {
             return res
 
         }).catch(err => {
-            // return err.response;
-            alert(err);
+            return err.response
         })
     },
     getOrders: async ({ commit, rootState }) => {
