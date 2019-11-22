@@ -6,26 +6,32 @@
             <div class="form-group col-sm-6">
                 <label class="text-capitalize">Name</label>
                 <input type="text" v-model="billing.name" class="form-control" required>
+                <p class="text-danger" v-if="error.name">Required</p>
             </div>
             <div class="form-group col-sm-6">
                 <label class="text-capitalize">Email</label>
                 <input type="email" v-model="billing.email" class="form-control" required>
+                <p class="text-danger" v-if="error.email">Required</p>
             </div>
             <div class="form-group col-sm-6">
                 <label class="text-capitalize">Address</label>
                 <input type="text" v-model="billing.address" class="form-control" required>
+                <p class="text-danger" v-if="error.address">Required</p>
             </div>
             <div class="form-group col-sm-6">
                 <label class="text-capitalize">Phone</label>
                 <input type="text" v-model="billing.phone" class="form-control" required>
+                <p class="text-danger" v-if="error.phone">Required</p>
             </div>
             <div class="form-group col-sm-4">
                 <label class="text-capitalize">City</label>
                 <input type="text" v-model="billing.city" class="form-control" required>
+                <p class="text-danger" v-if="error.city">Required</p>
             </div>
             <div class="form-group col-sm-4">
                 <label class="text-capitalize">Province</label>
                 <input type="text" v-model="billing.province" class="form-control" required>
+                <p class="text-danger" v-if="error.province">Required</p>
             </div>
             <div class="form-group col-sm-4">
                 <label for="sel1">Country (select one):</label>
@@ -35,10 +41,12 @@
                     <option value="ph">PH</option>
                     <option value="au">AU</option>
                 </select>
+                <p class="text-danger" v-if="error.country">Required</p>
             </div>
             <div class="form-group col-sm-4">
                 <label class="text-capitalize">postal code</label>
-                <input type="number" v-model="billing.postal_code" class="form-control" required>
+                <input type="text" v-model="billing.postal_code" class="form-control" required>
+                <p class="text-danger" v-if="error.postal_code">Required</p>
             </div>
         </div>
         <hr>
@@ -66,13 +74,23 @@
                     name: "",
                     email: "",
                     address: "",
-                    phone: "0",
+                    phone: "",
                     city: "",
                     province: "",
                     country: "",
-                    postal_code: 0,
+                    postal_code: "",
                 },
                 elements: null,
+                error: {
+                    name: 1,
+                    email: 1,
+                    address: 1,
+                    phone: 1,
+                    city: 1,
+                    province: 1,
+                    country: 1,
+                    postal_code: 1,
+                }
             }
         },
         mounted: function() {
@@ -82,44 +100,57 @@
         },
         methods: {
             ...mapActions(["newOrder", "deleteCartItem", "toggleLoader"]),
-            purchase: function() {
-                this.toggleLoader();
-                const items = this.items;
-                const billing_details = this.billing;
 
-                let self = this;
-                const additional_data = {
-                    name: billing_details.name,
-                    address_line1: billing_details.address,
-                    address_city: billing_details.city,
-                    address_state: billing_details.province,
-                    address_zip: billing_details.zip,
-                    address_country: billing_details.country,
-                    currency: "usd",
-                }
-                stripe.createToken(card, additional_data).then(function(result) {
-                    if (result.error) {
-                        self.hasCardErrors = true;
-                        self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
-                        self.toggleLoader();
-                        return;
+            purchase: function() {
+
+                let is_error = 0; // holds value if theres error
+                this.validation();
+                // we check if error exists after validation
+                Object.values(this.error).forEach( values => {
+                    if (values) {
+                        is_error = 1;
                     }
-                    // console.log(JSON.stringify(result));
-                    const order = {
-                        token: result.token.id,
-                        items: items,
-                        email: billing_details.email,
-                        phone: billing_details.phone,
-                        address: result.token.card.address_line1,
-                        country: result.token.card.address_country,
-                        city: result.token.card.address_city,
-                        state: result.token.card.address_state,
-                        postal_code: result.token.card.address_zip,
-                        last4: result.token.card.last4,
-                        payment_method: result.token.type
-                    }
-                    self.addToServer(order);
                 });
+                if (!is_error) {
+                    this.toggleLoader();
+
+                    const items = this.items;
+                    const billing_details = this.billing;
+
+                    let self = this;
+                    const additional_data = {
+                        name: billing_details.name,
+                        address_line1: billing_details.address,
+                        address_city: billing_details.city,
+                        address_state: billing_details.province,
+                        address_zip: billing_details.zip,
+                        address_country: billing_details.country,
+                        currency: "usd",
+                    }
+                    stripe.createToken(card, additional_data).then(function(result) {
+                        if (result.error) {
+                            self.hasCardErrors = true;
+                            self.$forceUpdate(); // Forcing the DOM to update so the Stripe Element can update.
+                            self.toggleLoader();
+                            return;
+                        }
+                        // console.log(JSON.stringify(result));
+                        const order = {
+                            token: result.token.id,
+                            items: items,
+                            email: billing_details.email,
+                            phone: billing_details.phone,
+                            address: result.token.card.address_line1,
+                            country: result.token.card.address_country,
+                            city: result.token.card.address_city,
+                            state: result.token.card.address_state,
+                            postal_code: result.token.card.address_zip,
+                            last4: result.token.card.last4,
+                            payment_method: result.token.type
+                        }
+                        self.addToServer(order);
+                    });
+                }
             },
             addToServer(order) {
                 this.newOrder(order).then(res => {
@@ -137,8 +168,29 @@
                         this.toggleLoader();
                     }else{
                         this.toggleLoader();
+                        alert(res.data.message);
                     }
                 });
+            },
+            validation(){
+                this.error.name = this.billing.name ? 0 : 1;
+                this.error.email = this.validEmail(this.billing.email) ? 0 : 1;
+                this.error.address = this.billing.address ? 0 : 1;
+                this.error.phone = this.validPhone(this.billing.phone) ? 0 : 1;
+                this.error.city = this.billing.city ? 0 : 1;
+                this.error.province = this.billing.province ? 0 : 1;
+                this.error.postal_code = this.billing.postal_code.length < 4 || isNaN(this.billing.postal_code) ? 1 : 0; 
+                this.error.country = this.billing.country ? 0 : 1;
+            },
+            validEmail(string) {
+                const re = /\S+@\S+\.\S+/;
+                return re.test(string);
+            },
+            validPhone(input){
+                if (input.length > 8) {
+                    const re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+                    return re.test(input); 
+                }
             }
         },
     };
