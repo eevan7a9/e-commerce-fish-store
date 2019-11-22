@@ -17,7 +17,8 @@
                 <router-link :to="{name:'home'}" class="btn btn-secondary font-weight-bold text-light">
                     Go Back
                 </router-link>
-                  <a :href="receipt_url" class="btn btn-info font-weight-bold text-light">
+                  <a :href="receipt_url" class="btn btn-info font-weight-bold text-light" 
+                  v-if="receipt_url">
                     View Receipt
                 </a>
             </div>
@@ -25,6 +26,7 @@
     </div>
 </template>
 <script>
+import { mapGetters, mapActions } from "vuex";
     export default {
         name: "checkoutSuccess",
         props: {
@@ -35,10 +37,17 @@
                 message_alert: "Success, your order is being processed...",
             }
         },
+        computed: mapGetters(["orderSuccess"]),
+        methods: {
+            ...mapActions(["removeOrderSuccess"])
+        },
         created(){
-            if (!this.receipt_url) {
+            if (!this.orderSuccess) {
                 this.$router.push({name:"home"});
             }
+        },
+        destroyed(){
+            this.removeOrderSuccess();
         }
     }
 </script>

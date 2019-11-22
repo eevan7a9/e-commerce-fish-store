@@ -1,6 +1,5 @@
 <template>
     <div class="container pt-5">
-        {{cart}}
         <div class="card ml-auto mr-auto col-md-8">
             <div class="mt-3">
                 <router-link :to="{name:'checkout'}" class="violet">
@@ -121,7 +120,7 @@
             card.mount(this.$refs.card);
         },
         methods: {
-            ...mapActions(["newOrder", "deleteCartItem", "toggleLoader"]),
+            ...mapActions(["newOrder", "deleteCartItem", "toggleLoader", "makeOrderSuccess"]),
 
             purchase: function() {
 
@@ -186,6 +185,7 @@
                         this.billing.zip = 0;
                         this.billing.country = "";
                         this.deleteCartItem();
+                        this.makeOrderSuccess();
                         this.$router.push({name:'checkout_success', params:{receipt_url: res.data.order.receipt_url}});   
                         this.toggleLoader();
                     }else{

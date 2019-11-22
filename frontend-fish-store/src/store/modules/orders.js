@@ -1,16 +1,19 @@
 import axios from "axios";
 
 const state = {
-    orders: []
+    orders: [],
+    order_success: 1
 }
 
 const getters = {
-    orders: state => state.orders
+    orders: state => state.orders,
+    orderSuccess: state => state.order_success
 }
 
 const mutations = {
     insertOrder: (state, new_order) => state.orders = [new_order, ...state.orders],
-    setOrders: (state, orders) => state.orders = orders 
+    setOrders: (state, orders) => state.orders = orders,
+    setOrderSuccess: (state, value) => state.order_success = value
 }
 
 const actions = {
@@ -48,7 +51,9 @@ const actions = {
         }).catch(err => {
             alert(err);
         })
-    }
+    },
+    makeOrderSuccess: ({commit}) => commit("setOrderSuccess", 1),
+    removeOrderSuccess: ({commit}) => commit("setOrderSuccess", 0),
 }
 
 export default {
