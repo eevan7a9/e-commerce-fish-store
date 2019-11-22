@@ -41,11 +41,16 @@ const routes = [
     name: 'checkout',
     component: () => import("../views/Checkout.vue"),
     props: true,
+  },
+  {
+    path: '/checkout/stripe',
+    name: 'checkout_stripe',
+    component: () => import("../views/CheckoutStripe.vue"),
   },    
   {
     path: '/checkout/success',
-    name: 'checkout.success',
-    component: () => import('../views/checkoutSuccess.vue'),
+    name: 'checkout_success',
+    component: () => import('../views/CheckoutSuccess.vue'),
     props: true
   },
   {

@@ -1,58 +1,80 @@
 <template>
-    <div>
-        <hr>
-        <h4>Billing Details :</h4>
-        <div class="form-row">
-            <div class="form-group col-sm-6">
-                <label class="text-capitalize">Name</label>
-                <input type="text" v-model="billing.name" class="form-control" required>
-                <p class="text-danger" v-if="error.name">Required</p>
+    <div class="container pt-5">
+        {{cart}}
+        <div class="card ml-auto mr-auto col-md-8">
+            <div class="mt-3">
+                <router-link :to="{name:'checkout'}" class="violet">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="30"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="11 17 6 12 11 7" />
+                    <polyline points="18 17 13 12 18 7" />
+                  </svg>
+                  <span class="font-weight-bold violet text-uppercase">Back</span>
+                </router-link>
             </div>
-            <div class="form-group col-sm-6">
-                <label class="text-capitalize">Email</label>
-                <input type="email" v-model="billing.email" class="form-control" required>
-                <p class="text-danger" v-if="error.email">Required</p>
+            <hr>
+            <h4 class="mb-4">Billing Details :</h4>
+            <div class="form-row">
+                <div class="form-group col-sm-6">
+                    <label class="text-capitalize">Name</label>
+                    <input type="text" v-model="billing.name" class="form-control" required>
+                    <p class="text-danger" v-if="error.name">Required</p>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="text-capitalize">Email</label>
+                    <input type="email" v-model="billing.email" class="form-control" required>
+                    <p class="text-danger" v-if="error.email">Required</p>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="text-capitalize">Address</label>
+                    <input type="text" v-model="billing.address" class="form-control" required>
+                    <p class="text-danger" v-if="error.address">Required</p>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="text-capitalize">Phone</label>
+                    <input type="text" v-model="billing.phone" class="form-control" required>
+                    <p class="text-danger" v-if="error.phone">Required</p>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label class="text-capitalize">City</label>
+                    <input type="text" v-model="billing.city" class="form-control" required>
+                    <p class="text-danger" v-if="error.city">Required</p>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label class="text-capitalize">Province</label>
+                    <input type="text" v-model="billing.province" class="form-control" required>
+                    <p class="text-danger" v-if="error.province">Required</p>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label for="sel1">Country (select one):</label>
+                    <select class="form-control" id="sel1" v-model="billing.country" required>
+                        <option value="us">US</option>
+                        <option value="jp">JP</option>
+                        <option value="ph">PH</option>
+                        <option value="au">AU</option>
+                    </select>
+                    <p class="text-danger" v-if="error.country">Required</p>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label class="text-capitalize">postal code</label>
+                    <input type="text" v-model="billing.postal_code" class="form-control" required>
+                    <p class="text-danger" v-if="error.postal_code">Required</p>
+                </div>
             </div>
-            <div class="form-group col-sm-6">
-                <label class="text-capitalize">Address</label>
-                <input type="text" v-model="billing.address" class="form-control" required>
-                <p class="text-danger" v-if="error.address">Required</p>
-            </div>
-            <div class="form-group col-sm-6">
-                <label class="text-capitalize">Phone</label>
-                <input type="text" v-model="billing.phone" class="form-control" required>
-                <p class="text-danger" v-if="error.phone">Required</p>
-            </div>
-            <div class="form-group col-sm-4">
-                <label class="text-capitalize">City</label>
-                <input type="text" v-model="billing.city" class="form-control" required>
-                <p class="text-danger" v-if="error.city">Required</p>
-            </div>
-            <div class="form-group col-sm-4">
-                <label class="text-capitalize">Province</label>
-                <input type="text" v-model="billing.province" class="form-control" required>
-                <p class="text-danger" v-if="error.province">Required</p>
-            </div>
-            <div class="form-group col-sm-4">
-                <label for="sel1">Country (select one):</label>
-                <select class="form-control" id="sel1" v-model="billing.country" required>
-                    <option value="us">US</option>
-                    <option value="jp">JP</option>
-                    <option value="ph">PH</option>
-                    <option value="au">AU</option>
-                </select>
-                <p class="text-danger" v-if="error.country">Required</p>
-            </div>
-            <div class="form-group col-sm-4">
-                <label class="text-capitalize">postal code</label>
-                <input type="text" v-model="billing.postal_code" class="form-control" required>
-                <p class="text-danger" v-if="error.postal_code">Required</p>
-            </div>
+            <hr>
+            <h4>Payment Details :</h4>
+            <div ref="card" class="p-3 mb-2 border rounded"></div>
+            <button v-on:click="purchase" class="btn btn-success form-control font-weight-bold text-uppercase mt-3">Purchase</button>
         </div>
-        <hr>
-        <h4>Payment Details :</h4>
-        <div ref="card" class="p-3 mb-2 border rounded"></div>
-        <button v-on:click="purchase" class="btn btn-success form-control font-weight-bold text-uppercase mt-3">Purchase</button>
     </div>
 </template>
 <script id="stripe-js" src="https://js.stripe.com/v3/" async></script>
@@ -62,12 +84,11 @@
         card = undefined;
     import axios from "axios";
     import {
+        mapGetters,
         mapActions
     } from "vuex";
     export default {
-        props: {
-            items: Array
-        },
+        name: "StripePaymentForm",
         data() {
             return {
                 billing: {
@@ -93,6 +114,7 @@
                 }
             }
         },
+        computed: mapGetters(["cart"]),
         mounted: function() {
             this.elements = stripe.elements();
             card = this.elements.create('card');
@@ -114,7 +136,7 @@
                 if (!is_error) {
                     this.toggleLoader();
 
-                    const items = this.items;
+                    const items = this.cart;
                     const billing_details = this.billing;
 
                     let self = this;
@@ -164,7 +186,7 @@
                         this.billing.zip = 0;
                         this.billing.country = "";
                         this.deleteCartItem();
-                        this.$router.push({name:'checkout.success', params:{receipt_url: res.data.order.receipt_url}});   
+                        this.$router.push({name:'checkout_success', params:{receipt_url: res.data.order.receipt_url}});   
                         this.toggleLoader();
                     }else{
                         this.toggleLoader();
@@ -196,4 +218,10 @@
     };
 </script>
 <style scoped>
+a{
+    text-decoration: none;
+}
+a:hover{
+    color: #6f1b9d;
+}
 </style>
