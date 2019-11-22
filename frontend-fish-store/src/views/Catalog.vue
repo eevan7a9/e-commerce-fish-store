@@ -14,7 +14,6 @@
             <div class="card-body">
               <h4>{{ product.name }}</h4>
               <p class="card-text description">{{ product.description }}</p>
-              {{product.image}}
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <!-- <button
