@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\Product;
+use App\User;
 use Cartalyst\Stripe\Exception\CardErrorException;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Illuminate\Http\Request;
@@ -43,10 +44,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-
-        //
-        $validated = $request->validate([
-            'token' => 'required',
+        // validate request credentials
+        $request->validate([
             'address' => 'required',
             'country' => 'required',
             'city' => 'required',
@@ -55,8 +54,15 @@ class OrderController extends Controller
             'phone' => 'required|numeric',
             'email' => 'required',
             'payment_method' => 'required',
-            'last4' => 'required',
         ]);
+
+        if ($request->payment_method === 'card') {
+
+            $request->validate([
+                'token' => 'required',
+                'last4' => 'required',
+            ]);
+        }
 
         // we get the cart item equivalent product from database;
         $cart = $this->getCartItems($request->items);
@@ -70,24 +76,28 @@ class OrderController extends Controller
 
         // we send payment action to Stripe
         try {
-            $charge = Stripe::charges()->create([
-                'amount' => $cart['amount'],
-                'currency' => 'USD',
-                'source' => $request->token, // token
-                'description' => 'Online Fish store payments',
-                'receipt_email' => $request->email,
-                'metadata' => [
-                    'Items' => $cart['items'],
-                    'Total Quantity' => $cart['quantity'],
-                    'Total Price' => $cart['amount'],
-                    'Total Weight' => $cart['weight'],
-                ],
-            ]);
-            // $charge["billing_details"]
+            
+            if ($request->payment_method === "card") {
+                $charge = Stripe::charges()->create([
+                    'amount' => $cart['amount'],
+                    'currency' => 'USD',
+                    'source' => $request->token, // token
+                    'description' => 'Online Fish store payments',
+                    'receipt_email' => $request->email,
+                    'metadata' => [
+                        'Items' => $cart['items'],
+                        'Total Quantity' => $cart['quantity'],
+                        'Total Price' => $cart['amount'],
+                        'Total Weight' => $cart['weight'],
+                    ],
+                ]);
+            }
+            // we get user if its authetticated
+            $user = Auth::guard('api')->user();
 
             $order = new Order();
-            $order->user_id = $request->user_id;
-            $order->description = $charge['description'];
+            // if user is authenticated assign user 'id'...
+            $order->user_id = $user ? $user->id : null;
 
             $order->quantity = $cart['quantity'];
             $order->amount = $cart['amount'];
@@ -102,12 +112,14 @@ class OrderController extends Controller
             $order->phone = $request->phone;
             $order->email = $request->email;
 
-            $order->charge_id = $charge['id'];
-            $order->last4 = $request->last4;
-            $order->payment_method = $request->payment_method;
-
-            $order->receipt_url = $charge['receipt_url'];
-            $order->paid = $charge['paid'];
+            if ($request->payment_method === "card") {
+                $order->description = $charge['description'];
+                $order->charge_id = $charge['id'];
+                $order->last4 = $request->last4;
+                $order->payment_method = $request->payment_method;
+                $order->receipt_url = $charge['receipt_url'];
+                $order->paid = $charge['paid'];
+            }
 
             $order->save();
 
