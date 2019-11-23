@@ -3,7 +3,7 @@
         <div class="ml-auto mr-auto col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <router-link :to="{name:'checkout'}" class="violet d-flex align-items-center">
+                    <router-link :to="{ name: 'checkout' }" class="violet d-flex align-items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="11 17 6 12 11 7" />
                             <polyline points="18 17 13 12 18 7" />
@@ -12,37 +12,37 @@
                     </router-link>
                 </div>
                 <div class="card-body">
-                    <hr>
+                    <hr />
                     <h4 class="mb-4">Billing Details :</h4>
                     <div class="form-row">
                         <div class="form-group col-sm-6">
                             <label class="text-capitalize">Name</label>
-                            <input type="text" v-model="billing.name" class="form-control" required>
+                            <input type="text" v-model="billing.name" class="form-control" required />
                             <p class="text-danger" v-if="error.name">Required</p>
                         </div>
                         <div class="form-group col-sm-6">
                             <label class="text-capitalize">Email</label>
-                            <input type="email" v-model="billing.email" class="form-control" required>
+                            <input type="email" v-model="billing.email" class="form-control" required />
                             <p class="text-danger" v-if="error.email">Required</p>
                         </div>
                         <div class="form-group col-sm-6">
                             <label class="text-capitalize">Address</label>
-                            <input type="text" v-model="billing.address" class="form-control" required>
+                            <input type="text" v-model="billing.address" class="form-control" required />
                             <p class="text-danger" v-if="error.address">Required</p>
                         </div>
                         <div class="form-group col-sm-6">
                             <label class="text-capitalize">Phone</label>
-                            <input type="text" v-model="billing.phone" class="form-control" required>
+                            <input type="text" v-model="billing.phone" class="form-control" required />
                             <p class="text-danger" v-if="error.phone">Required</p>
                         </div>
                         <div class="form-group col-sm-4">
                             <label class="text-capitalize">City</label>
-                            <input type="text" v-model="billing.city" class="form-control" required>
+                            <input type="text" v-model="billing.city" class="form-control" required />
                             <p class="text-danger" v-if="error.city">Required</p>
                         </div>
                         <div class="form-group col-sm-4">
                             <label class="text-capitalize">Province</label>
-                            <input type="text" v-model="billing.province" class="form-control" required>
+                            <input type="text" v-model="billing.province" class="form-control" required />
                             <p class="text-danger" v-if="error.province">Required</p>
                         </div>
                         <div class="form-group col-sm-4">
@@ -57,12 +57,13 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <label class="text-capitalize">postal code</label>
-                            <input type="text" v-model="billing.postal_code" class="form-control" required>
+                            <input type="text" v-model="billing.postal_code" class="form-control" required />
                             <p class="text-danger" v-if="error.postal_code">Required</p>
                         </div>
                     </div>
-                    <hr>
+                    <hr />
                     <h4>Payment Details :</h4>
+                    <StripeCards class="mb-2" />
                     <div ref="card" class="p-3 mb-2 border rounded"></div>
                     <button v-on:click="purchase" class="btn btn-success form-control font-weight-bold text-uppercase mt-3">Purchase</button>
                 </div>
@@ -80,8 +81,13 @@
         mapGetters,
         mapActions
     } from "vuex";
+    // import StripeCards from "../components/StripeCards";
+    import StripeCards from "../components/StripeCards";
     export default {
         name: "StripePaymentForm",
+        components: {
+            StripeCards
+        },
         data() {
             return {
                 billing: {
@@ -92,7 +98,7 @@
                     city: "",
                     province: "",
                     country: "",
-                    postal_code: "",
+                    postal_code: ""
                 },
                 elements: null,
                 error: {
@@ -103,18 +109,23 @@
                     city: 1,
                     province: 1,
                     country: 1,
-                    postal_code: 1,
+                    postal_code: 1
                 }
-            }
+            };
         },
         computed: mapGetters(["cart"]),
         mounted: function() {
             this.elements = stripe.elements();
-            card = this.elements.create('card');
+            card = this.elements.create("card");
             card.mount(this.$refs.card);
         },
         methods: {
-            ...mapActions(["newOrder", "deleteCartItem", "toggleLoader", "makeOrderSuccess"]),
+            ...mapActions([
+                "newOrder",
+                "deleteCartItem",
+                "toggleLoader",
+                "makeOrderSuccess"
+            ]),
             purchase: function() {
                 let is_error = 0; // holds value if theres error
                 this.validation();
@@ -136,8 +147,8 @@
                         address_state: billing_details.province,
                         address_zip: billing_details.zip,
                         address_country: billing_details.country,
-                        currency: "usd",
-                    }
+                        currency: "usd"
+                    };
                     stripe.createToken(card, additional_data).then(function(result) {
                         if (result.error) {
                             self.hasCardErrors = true;
@@ -158,7 +169,7 @@
                             postal_code: result.token.card.address_zip,
                             last4: result.token.card.last4,
                             payment_method: result.token.type
-                        }
+                        };
                         self.addToServer(order);
                     });
                 }
@@ -177,7 +188,7 @@
                         this.deleteCartItem();
                         this.makeOrderSuccess();
                         this.$router.push({
-                            name: 'checkout_success',
+                            name: "checkout_success",
                             params: {
                                 receipt_url: res.data.order.receipt_url
                             }
@@ -196,7 +207,10 @@
                 this.error.phone = this.validPhone(this.billing.phone) ? 0 : 1;
                 this.error.city = this.billing.city ? 0 : 1;
                 this.error.province = this.billing.province ? 0 : 1;
-                this.error.postal_code = this.billing.postal_code.length < 4 || isNaN(this.billing.postal_code) ? 1 : 0;
+                this.error.postal_code =
+                    this.billing.postal_code.length < 4 || isNaN(this.billing.postal_code) ?
+                    1 :
+                    0;
                 this.error.country = this.billing.country ? 0 : 1;
             },
             validEmail(string) {
@@ -209,7 +223,7 @@
                     return re.test(input);
                 }
             }
-        },
+        }
     };
 </script>
 <style scoped>
