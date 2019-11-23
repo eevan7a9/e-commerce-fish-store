@@ -53,7 +53,9 @@
             </router-link>
           </div>
           <div>
-            <h4>Cash on Delivery</h4>
+            <router-link :to="{name:'checkout_cash'}">
+              <h4>Cash on Delivery</h4>
+            </router-link>
           </div>
         </div>
         <template v-slot:footer>
