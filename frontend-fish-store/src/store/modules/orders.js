@@ -17,7 +17,7 @@ const mutations = {
 }
 
 const actions = {
-    newOrder: async ({ commit }, order) => {
+    newOrder: async ({ commit, rootState }, order) => {
 
         return axios.post('/order', {
             token: order.token,
@@ -32,6 +32,11 @@ const actions = {
             last4: order.last4,
             payment_method: order.payment_method
 
+        }, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.auth.myToken}`
+            }
         }).then((res) => {
             commit("insertOrder", res);
             return res
