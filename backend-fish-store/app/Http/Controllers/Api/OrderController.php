@@ -62,6 +62,16 @@ class OrderController extends Controller
                 'token' => 'required',
                 'last4' => 'required',
             ]);
+        }else{
+            // if payment is not using card 
+            // we check if the user is authenticated
+            $user = Auth::guard('api')->user();
+
+            if (!$user) {
+                return response()->json([
+                    "message" => "COD is for authenticated users only"
+                ], 403);
+            }
         }
 
         // we get the cart item equivalent product from database;
@@ -98,6 +108,7 @@ class OrderController extends Controller
             $order = new Order();
             // if user is authenticated assign user 'id'...
             $order->user_id = $user ? $user->id : null;
+            $order->description = 'Online Fish store payments';
 
             $order->quantity = $cart['quantity'];
             $order->amount = $cart['amount'];
@@ -113,7 +124,6 @@ class OrderController extends Controller
             $order->email = $request->email;
 
             if ($request->payment_method === "card") {
-                $order->description = $charge['description'];
                 $order->charge_id = $charge['id'];
                 $order->last4 = $request->last4;
                 $order->payment_method = $request->payment_method;
@@ -136,9 +146,17 @@ class OrderController extends Controller
                 }
             }
 
+            $message = "";
+            if ($request->payment_method === "card") {
+                $message = 'Thank you! Your payment has been accepted.';
+            }else{
+                $message = 'Thank you! Your order is now being processed';
+            }
+
             return response()->json([
                 'order' => $order,
-                'message' => 'Thank you! Your payment has been accepted.'], 201);
+                'message' => $message 
+            ], 201);
 
         } catch (CardErrorException $e) {
             // save info to database for failed
