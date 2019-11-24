@@ -45,19 +45,7 @@
             <small class="form-text text-muted">Total weight</small>
           </div>
         </div>
-        <h2>Pay with ?</h2>
-        <div class="row d-flex justify-content-around">
-          <div class="">
-            <router-link :to="{name:'checkout_stripe'}">
-              <h4>Stripe</h4>
-            </router-link>
-          </div>
-          <div>
-            <router-link :to="{name:'checkout_cash'}">
-              <h4>Cash on Delivery</h4>
-            </router-link>
-          </div>
-        </div>
+        <PayOptions />
         <template v-slot:footer>
           <em></em>
         </template>
@@ -68,11 +56,13 @@
 
 <script>
 import CartContentTable from "../components/CartContentTable";
+import PayOptions from "../components/PayOptions";
 import { mapGetters } from "vuex";
 export default {
   name: "checkout",
   components: {
     CartContentTable,
+    PayOptions
   },
   data() {
     return {
@@ -124,4 +114,9 @@ export default {
 </script>
 
 <style scoped>
+.icon-contaier{
+}
+.stripe{
+  color: blue;
+}
 </style>

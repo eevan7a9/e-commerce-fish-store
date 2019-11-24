@@ -1,5 +1,5 @@
 <template>
-    <div class="container pt-5">
+    <div class="container pt-3 pb-5">
         <div class="ml-auto mr-auto col-md-8">
             <div class="card">
                 <div class="card-header">

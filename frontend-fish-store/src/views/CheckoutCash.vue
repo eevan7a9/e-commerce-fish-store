@@ -1,5 +1,5 @@
 <template>
-    <div class="container d-flex justify-content-center pt-5">
+    <div class="container d-flex justify-content-center pt-3 pb-5">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
@@ -146,7 +146,6 @@
                             });
                             this.toggleLoader(); // stop loader
                         } else {
-                            console.log(res);
                             this.toggleLoader(); // stop loader
                             alert(res.data.message);
                         }
@@ -170,6 +169,9 @@
                     return re.test(input);
                 }
             }
+        },
+        created() {
+            
         }
     }
 </script>
