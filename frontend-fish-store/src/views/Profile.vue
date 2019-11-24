@@ -44,7 +44,7 @@
             </router-link>
           </div>
           <div v-if="cart.length > 0">
-            <router-link to="/home" class="text-success">
+            <router-link to="/checkout" class="text-success">
               <span class="font-weight-bold">Checkout</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
