@@ -96,7 +96,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["registerBuyer"]),
+    ...mapActions(["registerBuyer", "toggleLoader"]),
     validEmail() {
       let re = /\S+@\S+\.\S+/;
       return re.test(this.user.email);
@@ -111,6 +111,7 @@ export default {
           : 0;
     },
     submit() {
+      this.toggleLoader();
       this.validate();
       if (
         !this.error.username.status &&
@@ -120,6 +121,7 @@ export default {
       ) {
         this.registerBuyer(this.user).then(() => {
           this.$router.push({ name: "home" });
+          this.toggleLoader();
         });
       }
     }
