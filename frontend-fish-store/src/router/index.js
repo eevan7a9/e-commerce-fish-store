@@ -51,6 +51,7 @@ const routes = [
     path: '/checkout/cash',
     name: 'checkout_cash',
     component: () => import("../views/CheckoutCash.vue"),
+    meta: { requiresAuth: true }
   },    
   {
     path: '/checkout/success',

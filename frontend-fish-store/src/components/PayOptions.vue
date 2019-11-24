@@ -14,7 +14,8 @@
                 <router-link :to="{name:'checkout_cash'}">
                     <div class="cash-container text-center d-flex flex-column justify-content-center">
                         <img class="cash" src="../assets/img/cash.png" alt="cash">
-                        <h4 class="font-weight-bold text-uppercase">Cash on Delivery</h4>
+                        <span class="font-weight-bold text-uppercase">Cash on Delivery</span>
+                        <i class="text-danger" v-if="!token">* Login required.</i>
                     </div>
                 </router-link>
             </div>
@@ -23,11 +24,13 @@
 </template>
 <script>
     import StripeCards from "./StripeCards.vue";
+    import { mapGetters } from "vuex";
     export default {
         name: "PayOptions",
         components: {
             StripeCards
-        }
+        },
+        computed: mapGetters(["token"])
     }
 </script>
 <style scoped>
@@ -56,7 +59,9 @@
         color: #3752a4;
         font-family: 'Righteous', cursive;
     }
-
+    .cash-container span{
+        font-size: 20px;
+    }
     .cash {
         height: 150px;
         width: 200px;
