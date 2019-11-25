@@ -24,9 +24,20 @@
         </transition>
       </span>
     </template>
-    <b-dropdown-item :to="{name:'checkout'}">
+    <b-dropdown-item @click="checkout">
       <span class="font-weight-bold">Checkout</span>
     </b-dropdown-item>
+    <!-- Checkout Modal Starts -->
+    <b-modal ref="checkout-modal" title="Checkout Notice" ok-only>
+      <div class="d-block text-center">
+        <h3 class="violet font-weight-bold text-uppercase">Your cart, it's empty!!!.</h3>
+      </div>
+      <div class="img-cont d-flex">
+        <img click="empty-cart" src="../assets/img/empty_cart.svg" alt="">
+      </div>
+    </b-modal>
+    <!-- Checkout Modal Ends -->
+
     <b-dropdown-item href="#" @click="$bvModal.show('my-modal')">View Content</b-dropdown-item>
 
     <!-- Modal starts -->
@@ -47,7 +58,15 @@ export default {
   },
   computed: mapGetters(["cart"]),
   methods: {
-    ...mapActions(["deleteCartItem"])
+    ...mapActions(["deleteCartItem"]),
+    checkout(){
+      if (this.cart.length < 1) {
+        this.$refs['checkout-modal'].show();
+        // console.log("can't checkout, you have empty cart!!!");
+      }else{
+        this.$router.push({name:'checkout'});
+      }
+    }
   },
   created() {
     const cart = JSON.parse(localStorage.getItem("cart_shopping"));
@@ -90,6 +109,10 @@ svg {
   color: green;
   font-weight: 900;
   border-radius: 100%;
+}
+.empty-cart{
+  width: 200px;
+  height: 200px;
 }
 .cart-number a {
   padding: 4px;
