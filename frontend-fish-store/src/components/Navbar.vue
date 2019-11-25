@@ -82,10 +82,12 @@ export default {
     ...mapGetters(["token", "user"])
   },
   methods: {
-    ...mapActions(["logout"]),
+    ...mapActions(["logout", "toggleLoader"]),
     out() {
+      this.toggleLoader();
       this.logout().then(res => {
         this.$router.push({ name: "login" });
+        this.toggleLoader();
         if (res !== undefined) {
           alert(res.data.message);
         }

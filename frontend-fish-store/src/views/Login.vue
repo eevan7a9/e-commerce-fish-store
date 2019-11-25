@@ -49,18 +49,22 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loginUser"]),
+    ...mapActions(["loginUser", "toggleLoader"]),
     submit() {
+      this.toggleLoader();
       this.loginUser(this.user).then((res) => {
         if (res.status == 200) {
           this.$router.push({ name: "home" });
+          this.toggleLoader();
         }else if (res.status == 401) {
           alert("Invalid Credentials");
           this.user.email = "";
           this.user.password = "";
+          this.toggleLoader();
         }
       }).catch(err => {
         alert(err)
+        this.toggleLoader();
       });
     }
   }
