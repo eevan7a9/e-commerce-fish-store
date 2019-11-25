@@ -228,7 +228,7 @@ class OrderController extends Controller
         $order = Order::findOrFail($id);
         $order->quantity = $request->quantity ? $request->quantity : $order->quantity;
         $order->address = $request->address ? $request->address : $order->address;
-        $order->is_delivered = $request->is_delivered ? $request->is_delivered : $order->is_delivered;
+        $order->is_delivered = $request->is_delivered;
         $order->update();
 
         return response()->json($order, 201);
