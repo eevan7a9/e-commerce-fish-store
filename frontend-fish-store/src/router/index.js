@@ -41,17 +41,19 @@ const routes = [
     name: 'checkout',
     component: () => import("../views/Checkout.vue"),
     props: true,
+    meta: { requiresCart: true }
   },
   {
     path: '/checkout/stripe',
     name: 'checkout_stripe',
     component: () => import("../views/CheckoutStripe.vue"),
+    meta: { requiresCart: true }
   },
   {
     path: '/checkout/cash',
     name: 'checkout_cash',
     component: () => import("../views/CheckoutCash.vue"),
-    meta: { requiresAuth: true }
+    meta: { requiresAuthCart: true }
   },    
   {
     path: '/checkout/success',
