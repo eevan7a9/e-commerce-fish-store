@@ -16,11 +16,11 @@
                     <h4>Billing Details :</h4>
                     <div class="col-md-8 mt-3">
                         <label>Name :</label>
-                        <input type="text" class="form-control" v-model="billing.name">
+                        <input type="text" class="form-control" v-model="billing.name" readonly>
                     </div>
                     <div class="col-md-8 mt-3">
                         <label>Email :</label>
-                        <input type="text" class="form-control" v-model="billing.email">
+                        <input type="text" class="form-control" v-model="billing.email" readonly>
                     </div>
                     <div class="col-md-8 mt-3">
                         <label>Address :</label>
@@ -96,7 +96,7 @@
                 }
             }
         },
-        computed: mapGetters(["cart"]),
+        computed: mapGetters(["cart", "user"]),
         methods: {
             ...mapActions([
                 "newOrder", "toggleLoader", "deleteCartItem", "makeOrderSuccess"
@@ -130,7 +130,7 @@
                     // we submit request to server
                     this.newOrder(order).then(res => {
                         if (res.status === 201) {
-                            console.log(res)
+                            // console.log(res)
                             this.billing.name = "";
                             this.billing.email = "";
                             this.billing.address = "";
@@ -171,7 +171,8 @@
             }
         },
         created() {
-            
+            this.billing.name = this.user.name;
+            this.billing.email = this.user.email;
         }
     }
 </script>
