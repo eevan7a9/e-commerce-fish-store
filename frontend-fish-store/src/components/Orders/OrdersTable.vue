@@ -7,13 +7,22 @@
             <template v-slot:head(created_at)>
                 <div class="text-nowrap">Ordered at</div>
             </template>
-            <template v-slot:cell(User Id)="data">
-                <!-- `data.value` is the value after formatted by the Formatter -->
-                <a :href="`#${data.value}`">{{ data.value }}</a>
+            <template v-slot:head(is_delivered)>
+                <div class="text-nowrap text-center">Delivered</div>
             </template>
-            <template v-slot:cell(Action)="data">
-                <!-- `data.value` is the value after formatted by the Formatter -->
-                <!-- <button @click="view(data.item.id)" class="btn btn-outline-primary">Edit</button> -->
+            <template v-slot:cell(is_delivered)="data">
+                <div class="w-100 text-center" v-if="spinner === data.item.id">
+                    <b-spinner variant="primary" label="Spinning"></b-spinner>
+                </div>
+                <div v-else>
+                    <div class="custom-control custom-switch" v-if="user.role === 'admin'">
+                        <input type="checkbox" class="custom-control-input" :checked="data.item.is_delivered">
+                        <label class="custom-control-label font-weight-bold" for="customSwitches" @click="setDeliver(data.item.id)" :class="data.item.is_delivered ?'text-success':'text-danger'">{{data.value}}</label>
+                    </div>
+                    <div class="text-nowrap font-weight-bold" :class="data.item.is_delivered ?'text-success':'text-danger'" v-if="user.role === 'buyer'">{{data.value}}</div>
+                </div>
+            </template>
+            <template v-slot:cell(view)="data">
                 <button @click="$bvModal.show(`${data.item.id}`)" class="btn btn-outline-success">View</button>
                 <!-- Modal starts -->
                 <b-modal :id="`${data.item.id}`" size="lg" title="Orders Made:" ok-only>
@@ -57,9 +66,9 @@
                         formatter: val => '$ ' + val
                     },
                     {
-                      key: "weight",
-                      label: "weight",
-                      formatter: val => 'lb '+val
+                        key: "weight",
+                        label: "weight",
+                        formatter: val => 'lb ' + val
                     },
                     {
                         key: "is_delivered",
@@ -77,17 +86,35 @@
                         }
                     },
                     {
-                        key: "Action",
-                        label: "Action"
-                    }
-                ]
+                        key: "view",
+                        label: "View"
+                    },
+                ],
+                spinner: 0,
+                hide: 0
             };
         },
-        computed: mapGetters(["orders"]),
+        computed: mapGetters(["orders", "user"]),
         methods: {
-            ...mapActions(["getOrders"]),
-            view(value) {
-                alert(value);
+            ...mapActions(["getOrders", "setOrderDelivered"]),
+            setDeliver(id) {
+                const confirmed = confirm("you are about to update the delivered status, are you sure?");
+ 
+                if (confirmed) {
+                    this.spinner = id;
+                    const find_order = this.orders.find(order => order.id === id);
+                    if (find_order) {
+                        const order = {
+                            id: find_order.id,
+                            is_delivered: !find_order.is_delivered
+                        };
+                        this.setOrderDelivered(order).then(() => {
+                            this.spinner = 0;
+                        }).catch(err => {
+                            alert(err);
+                        });
+                    }
+                }
             }
         },
         created() {

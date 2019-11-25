@@ -13,7 +13,13 @@ const getters = {
 const mutations = {
     insertOrder: (state, new_order) => state.orders = [new_order, ...state.orders],
     setOrders: (state, orders) => state.orders = orders,
-    setOrderSuccess: (state, value) => state.order_success = value
+    setOrderSuccess: (state, value) => state.order_success = value,
+    updateOrders: (state, updated_order) => {
+        const found_order = state.orders.find(order => order.id === updated_order.id);
+        if (found_order) {
+            found_order.is_delivered = updated_order.is_delivered;
+        }
+    }
 }
 
 const actions = {
@@ -59,6 +65,19 @@ const actions = {
     },
     makeOrderSuccess: ({commit}) => commit("setOrderSuccess", 1),
     removeOrderSuccess: ({commit}) => commit("setOrderSuccess", 0),
+    setOrderDelivered: async ({ commit, rootState }, order) => {
+        return await axios.post(`/order/${order.id}`, {
+            is_delivered: order.is_delivered
+        }, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.auth.myToken}`
+            }
+        }).then(res => {
+            commit("updateOrders", order);
+            return res;
+        }).catch(err => err.response)
+    }
 }
 
 export default {
