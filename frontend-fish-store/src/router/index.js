@@ -63,6 +63,7 @@ const routes = [
   },
   {
     path: '/application',
+    name: 'application',
     component: () => import("../views/Application.vue"),
     meta: { requiresAdmin: true },
     children: [
