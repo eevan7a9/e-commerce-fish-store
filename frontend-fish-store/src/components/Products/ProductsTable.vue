@@ -28,7 +28,11 @@
       <template v-slot:cell(Action)="data">
         <!-- `data.value` is the value after formatted by the Formatter -->
         <!-- <button @click="view(data.item.id)" class="btn btn-outline-primary">Edit</button> -->
-        <div class="d-flex align-items-center justify-content-center">
+        <span v-if="spinner === data.item.id">
+          <b-spinner small type="grow"></b-spinner>
+            Loading...
+        </span>
+        <div class="d-flex align-items-center justify-content-center" v-else>
           <router-link :to="{name:'application.products.edit', params:{edit_product:data.item}}" 
               class="btn btn-outline-primary mr-2">
               <svg
@@ -47,10 +51,6 @@
               </svg>
           </router-link>
           <button class="btn btn-outline-danger" @click="remove(data.item)">
-            <span v-if="spinner === data.item.id">
-              <b-spinner small type="grow"></b-spinner>
-              Loading...
-            </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -61,7 +61,6 @@
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              v-else
             >
               <polyline points="3 6 5 6 21 6" />
               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
