@@ -116,7 +116,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         // we check if item has an image and remove the image
         if(file_exists(public_path('images/'. $product->image))){
-            unlink(public_path('images/' . $product->image));
+            File::delete(public_path('images/' . $product->image));
         }
         $product->delete();
         return response()->json($product, 200);

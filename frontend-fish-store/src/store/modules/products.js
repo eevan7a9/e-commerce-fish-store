@@ -60,7 +60,8 @@ const mutations = {
             found_product.image_location = updated_product.image_location;
         }
     },
-    setProducts: (state, products) => state.products = products
+    setProducts: (state, products) => state.products = products,
+    removeProduct: (state, id) => state.products = state.products.filter(product => product.id != id)
 }
 const actions = {
     getProducts: async ({ commit }) => {
@@ -122,6 +123,19 @@ const actions = {
         }).catch(err => {
             // console.log(err.response);
             return err;
+        });
+    },
+    deleteProduct: async ({ commit, rootState }, id) => {
+        return axios.delete(`/product/${id}`,{
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.auth.myToken}`
+            }
+        }).then(res => {
+            commit("removeProduct", id);
+            return res;
+        }).catch(err => {
+            return err.response;
         });
     }
 }
