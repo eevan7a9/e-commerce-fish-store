@@ -23,10 +23,10 @@
   transition: 1s;
 }
 .btn-custom-outline-violet {
-  border: 2px solid #6f1b9d;
-  border-radius: 10px;
+  border: 1px solid #6f1b9d;
+  border-radius: 5px;
   color: #6f1b9d;
-  font-weight: 700;
+  font-weight: 400;
 }
 .btn-custom-outline-violet:hover {
   color: aliceblue;

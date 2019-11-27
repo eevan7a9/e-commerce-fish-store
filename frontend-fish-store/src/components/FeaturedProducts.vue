@@ -21,7 +21,7 @@
                   >${{ product.price }} | A piece</button>-->
                   <ModalAddToCart :product="product" />
                 </div>
-                <p class="text-muted">lb {{ product.weight }}</p>
+                <p class="text-secondary font-weight-bold">lb {{ product.weight }}</p>
               </div>
             </div>
           </div>
