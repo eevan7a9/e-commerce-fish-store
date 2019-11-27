@@ -29,6 +29,8 @@ Route::prefix('v1')->group(function () { // domain/api/v1/
 
     Route::group(['middleware' => ['auth:api']], function () { // Authenticated Users Only
         Route::get('/user', 'Api\AuthController@userInfo');
+        Route::get('/user/lists', 'Api\AuthController@usersList');
+
         Route::get('/logout', 'Api\AuthController@logout');
 
         Route::get('/order', 'Api\OrderController@index')->name("order.index");

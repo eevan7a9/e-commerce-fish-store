@@ -7,7 +7,9 @@ const state = {
 
 const getters = {
     orders: state => state.orders,
-    orderSuccess: state => state.order_success
+    orderSuccess: state => state.order_success,
+    pendingOrders: state => state.orders.filter(order => !order.is_delivered && !order.deleted_at),
+    successOrders: state => state.orders.filter(order => order.is_delivered)
 }
 
 const mutations = {

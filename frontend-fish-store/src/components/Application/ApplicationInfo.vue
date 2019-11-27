@@ -12,7 +12,7 @@
                         </svg>
                     </span>
                     <hr />
-                    <h3 class="mt-3 font-weight-bold">23</h3>
+                    <h3 class="mt-3 font-weight-bold">{{ products.length }}</h3>
                 </b-card>
                 <b-card bg-variant="secondary" text-variant="white" header="Registered" class="text-center">
                     <span>
@@ -24,7 +24,7 @@
                         </svg>
                     </span>
                     <hr />
-                    <h3 class="mt-3 font-weight-bold">7</h3>
+                    <h3 class="mt-3 font-weight-bold">{{users}}</h3>
                 </b-card>
                 <b-card bg-variant="danger" text-variant="white" header="Pending Order" class="text-center">
                     <span>
@@ -34,9 +34,9 @@
                         </svg>
                     </span>
                     <hr />
-                    <h3 class="mt-3 font-weight-bold">13</h3>
+                    <h3 class="mt-3 font-weight-bold">{{pendingOrders.length}}</h3>
                 </b-card>
-                <b-card bg-variant="success" text-variant="white" header="Sale Made" class="text-center">
+                <b-card bg-variant="success" text-variant="white" header="Orders delivered" class="text-center">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="9 11 12 14 22 4" />
@@ -44,7 +44,7 @@
                         </svg>
                     </span>
                     <hr />
-                    <h3 class="mt-3 font-weight-bold">55</h3>
+                    <h3 class="mt-3 font-weight-bold">{{successOrders.length}}</h3>
                 </b-card>
             </b-card-group>
         </div>
@@ -52,11 +52,36 @@
     </div>
 </template>
 <script>
-    import OrdersTable from "../Orders/OrdersTable.vue"
+    import OrdersTable from "../Orders/OrdersTable.vue";
+    import { mapGetters } from "vuex";
+    import axios from "axios";
     export default {
         name: "ApplicationInfo",
         components:{
             OrdersTable
+        },
+        data() {
+            return {
+                users: 0,
+            }
+        },
+        computed: mapGetters(["pendingOrders", "successOrders", "products", "token"]),
+        methods: {
+            getUsersList(){
+                axios.get('/user/lists', {
+                    headers:{
+                        "Accept": "application/json",
+                        "Authorization": `Bearer ${this.token}`
+                    }
+                }).then(res => {
+                    this.users = res.data.length - 1; // not included the admin
+                }).catch(err => {
+                    alert(err);
+                })
+            }
+        },
+        created() {
+            this.getUsersList();
         }
     };
 </script>
