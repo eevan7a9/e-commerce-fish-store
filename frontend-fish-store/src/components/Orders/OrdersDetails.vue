@@ -62,14 +62,19 @@
                 <div class="row">
                   <div class="col-sm-6 col-md-4" v-for="product in order.products" :key="product.id">
                   <b-card :img-src="product.image_location" img-alt="Image" img-top>
-                    <template v-slot:footer>
-                      <small class="text-dark">{{product.name}}
-                      <ul>
-                        <li>Quantity : {{product.pivot.quantity}}</li>
-                        <li>Total price : $ {{product.pivot.amount}}</li>
-                        <li>Total weight : lb {{product.pivot.weight}}</li>
+                    <small class="text-dark">{{product.name}}</small>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <small>Quantity : {{product.pivot.quantity}}</small>
+                        </li>
+                        <li class="list-group-item">
+                          <small>Total price : ${{product.pivot.amount}}</small>
+                        </li>
+                        <li class="list-group-item">
+                          <small>Total weight : lb{{product.pivot.weight}}</small>
+                        </li>
                       </ul>
-                      </small>
+                    <template v-slot:footer>
                     </template>
                   </b-card>
                 </div>

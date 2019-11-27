@@ -18,6 +18,7 @@ const mutations = {
         const found_order = state.orders.find(order => order.id === updated_order.id);
         if (found_order) {
             found_order.is_delivered = updated_order.is_delivered;
+            found_order.deleted_at = updated_order.deleted_at;
         }
     }
 }
@@ -87,10 +88,10 @@ const actions = {
                 "Authorization": `Bearer ${rootState.auth.myToken}`
             }
         }).then(res => {
-            console.log(res);
             commit("updateOrders", res.data);
+            return res;
         }).catch(err => {
-            console.log(err.response);
+            alert(err);
         })
     }
 }
