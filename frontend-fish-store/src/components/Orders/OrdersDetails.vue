@@ -1,90 +1,96 @@
 <template>
-  <div>
-    <b-card-group deck>
-      <b-card>
-        <div class="grouper">
-          <div class="inner-group">
-            <label>Product Name :</label>
-            <p>{{ order.product_name }}</p>
-          </div>
-
-          <div class="inner-group">
-            <label>Email address :</label>
-            <p>{{ order.user_email }}</p>
-          </div>
-
-          <div class="inner-group">
-            <label>Quantity :</label>
-            <p>{{ order.quantity }}</p>
-          </div>
-
-          <div class="inner-group">
-            <label>Address :</label>
-            <p>{{ order.address }}</p>
-          </div>
-
-          <div class="inner-group">
-            <label>Created at :</label>
-            <p>{{ order.created_at }}</p>
-          </div>
-
-          <div class="inner-group">
-            <label>Updated at :</label>
-            <p>{{ order.updated_at }}</p>
-          </div>
-        </div>
-        <hr />
-        <div class="grouper">
-          <div class="inner-group">
-            <label>Delivered :</label>
-            <p>{{ order.is_delivered }}</p>
-          </div>
-          <div class="inner-group">
-            <label>Delivered at:</label>
-            <p>0000-00-00</p>
-          </div>
-        </div>
-        <!-- <hr />
-        <router-link :to="{name:'application.orders'}" class="btn btn-secondary px-4">Go back</router-link>-->
-      </b-card>
-    </b-card-group>
-  </div>
+    <div>
+        <b-card>
+            <div class="row">
+                <div class="col-sm-3 text-right">Email address :</div>
+                <p class="col-sm-9">{{ order.email }}</p>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 text-right">Address :</div>
+                <p class="col-sm-9">{{ order.address }}</p>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 text-right">Ordered at :</div>
+                <p class="col-sm-9">{{ order.created_at }}</p>
+            </div>
+            <hr />
+            <div class="row w-100">
+                <div class="col-sm-4 text-center">
+                    <label>Quantity</label>
+                    <p>{{ order.quantity }}</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <label>Amount</label>
+                    <p>{{ order.amount }}</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <label>Weight</label>
+                    <p>{{ order.weight }}</p>
+                </div>
+            </div>
+            <hr />
+            <hr />
+            <div class="row">
+                <div class="col-sm-3 text-right">Delivered :</div>
+                <div class="col-sm-9">{{ order.is_delivered ? 'Yes' : 'No' }}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 text-right">Delivered at:</div>
+                <div class="col-sm-9">{{ order.updated_at }}</div>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-info mt-3" v-b-toggle.collapse-products>
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </span>
+                Product
+              </button>
+              <b-collapse id="collapse-products" class='mt-2'> 
+                <div class="row">
+                  <div class="col-sm-6 col-md-4" v-for="product in order.products" :key="product.id">
+                  <b-card :img-src="product.image_location" img-alt="Image" img-top>
+                    <template v-slot:footer>
+                      <small class="text-dark">{{product.name}}
+                      <ul>
+                        <li>Quantity : {{product.pivot.quantity}}</li>
+                        <li>Total price : $ {{product.pivot.amount}}</li>
+                        <li>Total weight : lb {{product.pivot.weight}}</li>
+                      </ul>
+                      </small>
+                    </template>
+                  </b-card>
+                </div>
+                </div>
+              </b-collapse>
+            </div>
+        </b-card>
+    </div>
 </template>
-
 <script>
-export default {
-  name: "OrdersDetails",
-  props: {
-    order: Object
-  },
-  data() {
-    return {
-      edit_mode: 0
+    export default {
+        name: "OrdersDetails",
+        props: {
+            order: Object
+        },
+        data() {
+            return {
+                edit_mode: 0
+            };
+        }
     };
-  }
-};
 </script>
-
 <style scoped>
-.grouper {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  font-size: 18px;
-}
-.inner-group {
-  width: 80%;
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  /* background: rebeccapurple; */
-}
-label,
-p {
-  padding: 10px;
-  margin: 0;
-}
-label {
-  text-align: right;
-}
 </style>

@@ -63,8 +63,8 @@ const actions = {
             alert(err);
         })
     },
-    makeOrderSuccess: ({commit}) => commit("setOrderSuccess", 1),
-    removeOrderSuccess: ({commit}) => commit("setOrderSuccess", 0),
+    makeOrderSuccess: ({ commit }) => commit("setOrderSuccess", 1),
+    removeOrderSuccess: ({ commit }) => commit("setOrderSuccess", 0),
     setOrderDelivered: async ({ commit, rootState }, order) => {
         return await axios.post(`/order/${order.id}`, {
             is_delivered: order.is_delivered
@@ -77,6 +77,21 @@ const actions = {
             commit("updateOrders", order);
             return res;
         }).catch(err => err.response)
+    },
+    cancelOrder: async ({ commit, rootState }, id) => {
+        axios.post(`/order/${id}`, {
+            _method: 'delete'
+        }, {
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${rootState.auth.myToken}`
+            }
+        }).then(res => {
+            console.log(res);
+            commit("updateOrders", res.data);
+        }).catch(err => {
+            console.log(err.response);
+        })
     }
 }
 

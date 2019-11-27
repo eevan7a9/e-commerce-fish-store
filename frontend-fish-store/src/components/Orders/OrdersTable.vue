@@ -22,10 +22,13 @@
                     <div class="text-nowrap font-weight-bold" :class="data.item.is_delivered ?'text-success':'text-danger'" v-if="user.role === 'buyer'">{{data.value}}</div>
                 </div>
             </template>
+            <template v-slot:cell(deleted_at)="data">
+                <p class="text-center" :class="data.item.deleted_at ? 'text-danger' : 'text-success'">{{ data.value }}</p>
+            </template>
             <template v-slot:cell(view)="data">
                 <button @click="$bvModal.show(`${data.item.id}`)" class="btn btn-outline-success">View</button>
                 <!-- Modal starts -->
-                <b-modal :id="`${data.item.id}`" size="lg" title="Orders Made:" ok-only>
+                <b-modal :id="`${data.item.id}`"  scrollable size="lg" title="Order's details:" ok-only>
                     <OrdersDetails :order="data.item" />
                 </b-modal>
                 <!-- The modal ends-->
@@ -66,14 +69,9 @@
                         formatter: val => '$ ' + val
                     },
                     {
-                        key: "weight",
-                        label: "weight",
-                        formatter: val => 'lb ' + val
-                    },
-                    {
                         key: "is_delivered",
                         label: "Delivered",
-                        formatter: val => (val == 1 ? "Yes" : "Pending")
+                        formatter: val => (val == 1 ? "Yes" : "No")
                     },
                     {
                         key: "created_at",
@@ -84,6 +82,11 @@
                             const month = dt.getMonth() + 1 > 9 ? dt.getMonth() + 1 : '0' + (dt.getMonth() + 1)
                             return `${dt.getFullYear()} - ${month} - ${dt.getDate()}`;
                         }
+                    },
+                    {
+                        key: "deleted_at",
+                        label: "Canceled",
+                        formatter: val => val ? "Yes" : "-"
                     },
                     {
                         key: "view",
