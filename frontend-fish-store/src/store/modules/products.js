@@ -126,7 +126,9 @@ const actions = {
         });
     },
     deleteProduct: async ({ commit, rootState }, id) => {
-        return axios.delete(`/product/${id}`,{
+        return axios.post(`/product/${id}`,{
+            _method: 'delete'
+        },{
             headers: {
                 "Accept": "application/json",
                 "Authorization": `Bearer ${rootState.auth.myToken}`
