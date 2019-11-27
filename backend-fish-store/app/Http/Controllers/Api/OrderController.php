@@ -21,7 +21,7 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         if ($user->role === 'admin') {
-            $orders = Order::all();
+            $orders = Order::withTrashed()->get();
         } else {
             $orders = Order::where('user_id', '=', $user->id)->get();
         }
@@ -240,6 +240,6 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->delete();
-        return response()->json(["message" => "Order deleted successfuly"], 200);
+        return response()->json($order, 200);
     }
 }
