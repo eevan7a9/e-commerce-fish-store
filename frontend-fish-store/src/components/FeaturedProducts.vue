@@ -6,61 +6,40 @@
       </div>
     </section>
     <div class="row mt-5">
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img class="card-img-top" src="../assets/img/f1.jpg" alt="Card image cap" />
-          <div class="card-body">
-            <p
-              class="card-text"
-            >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn-custom-outline-violet  px-3 py-2">$30 | A piece</button>
+       <!-- products items -->
+        <div class="col-md-4" v-for="(product, index) in products.slice(0,3)" :key="product.id">
+          <div class="card mb-4 box-shadow">
+            <img class="card-img-top" :src="product.image_location ? product.image_location : 'https://via.placeholder.com/250'" @error="imgError(index)" alt="Card image cap" />
+            <div class="card-body">
+              <h4>{{ product.name }}</h4>
+              <p class="card-text description">{{ product.description }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <!-- <button
+                    type="button"
+                    class="btn btn-sm btn-outline-success p-3"
+                  >${{ product.price }} | A piece</button>-->
+                  <ModalAddToCart :product="product" />
+                </div>
+                <p class="text-muted">lb {{ product.weight }}</p>
               </div>
-              <small class="text-muted">9 mins</small>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img class="card-img-top" src="../assets/img/f2.jpg" alt="Card image cap" />
-          <div class="card-body">
-            <p
-              class="card-text"
-            >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn-custom-outline-violet  px-3 py-2">$30 | A piece</button>
-              </div>
-              <small class="text-muted">9 mins</small>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
-          <img class="card-img-top" src="../assets/img/f3.jpg" alt="Card image cap" />
-          <div class="card-body">
-            <p
-              class="card-text"
-            >This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn-custom-outline-violet  px-3 py-2">$30 | A piece</button>
-              </div>
-              <small class="text-muted">9 mins</small>
-            </div>
-          </div>
-        </div>
-      </div>
+        <!-- products items end -->
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import ModalAddToCart from "./ModalAddToCart";
 export default {
-  name: "FeaturedProducts"
+  name: "FeaturedProducts",
+  components: {
+    ModalAddToCart
+  },
+  computed: mapGetters(["products"]),
 };
 </script>
 
@@ -72,5 +51,9 @@ img {
 }
 .featured-header {
   font-family: "Staatliches", cursive;
+}
+.description {
+  height: 120px;
+  overflow-y: scroll;
 }
 </style>

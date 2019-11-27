@@ -1,7 +1,8 @@
 <template>
     <div>
         <button type="button" class="btn-custom-outline-violet px-3 py-2 font-weight-bold" @click="showModal(product.id)">${{ product.price }} | A Piece</button>
-        <p class="text-dark mt-2">Click to Add</p>
+        <br>
+        <small class="text-dark mt-2">Click to Show</small>
         <b-modal :ref="product.id" size="xl" centered hide-footer title="Add this product to cart?">
             <div class="row">
                 <div class="col-lg-5">
