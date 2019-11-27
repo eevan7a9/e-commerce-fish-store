@@ -24,7 +24,7 @@
                 <b-collapse visible id="collapse-1" class="pl-3 bg-dark">
                     <b-list-group>
                         <b-list-group-item class="bg-secondary">
-                            <router-link :to="{name:'application.products'}" class="text-light">Data Table
+                            <router-link :to="{name:'application.products'}" class="text-light">Products Table
                                 <img src="../assets/img/file-text.svg" class="ml-1" alt="">
                             </router-link>
                         </b-list-group-item>
@@ -42,7 +42,7 @@
                 <b-collapse visible id="collapse-2" class="pl-3 bg-dark">
                     <b-list-group>
                         <b-list-group-item class="bg-secondary">
-                            <router-link :to="{name:'application.orders'}" class="text-light">Data Table
+                            <router-link :to="{name:'application.orders'}" class="text-light">Orders Table
                                 <img src="../assets/img/file-text.svg" class="ml-1" alt="">
                             </router-link>
                         </b-list-group-item>
