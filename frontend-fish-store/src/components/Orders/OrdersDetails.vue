@@ -36,7 +36,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-3 text-right">Delivered at:</div>
-                <div class="col-sm-9">{{ order.updated_at }}</div>
+                <div class="col-sm-9">{{ order.delivered_at }}</div>
             </div>
             <div class="col-12">
               <button class="btn btn-info mt-3" v-b-toggle.collapse-products>
