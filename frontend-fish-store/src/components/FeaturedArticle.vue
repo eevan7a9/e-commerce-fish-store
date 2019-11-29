@@ -2,9 +2,9 @@
   <div>
     <!-- START THE FEATURETTES -->
     <hr class="featurette-divider" />
-    <div class="row featurette" 
+    <div class="row featurette my-5" 
     data-aos="fade-left"
-    data-aos-offset="100"
+    data-aos-offset="30"
     data-aos-delay="50"
     data-aos-duration="500"
     data-aos-easing="ease-in-out"
@@ -31,10 +31,10 @@
 
     <hr class="featurette-divider" />
 
-    <div class="row featurette"
+    <div class="row featurette my-5"
     data-aos="fade-right"
-    data-aos-offset="100"
-    data-aos-delay="100"
+    data-aos-offset="30"
+    data-aos-delay="50"
     data-aos-duration="500"
     data-aos-easing="ease-in-out"
     data-aos-mirror="true"
@@ -60,10 +60,10 @@
 
     <hr class="featurette-divider" />
 
-    <div class="row featurette"
+    <div class="row featurette my-5"
     data-aos="fade-left"
-    data-aos-offset="100"
-    data-aos-delay="100"
+    data-aos-offset="30"
+    data-aos-delay="50"
     data-aos-duration="500"
     data-aos-easing="ease-in-out"
     data-aos-mirror="true"

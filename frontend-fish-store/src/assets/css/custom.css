@@ -24,14 +24,16 @@
 }
 .btn-custom-outline-violet {
   border: 1px solid #6f1b9d;
-  border-radius: 5px;
   color: #6f1b9d;
-  font-weight: 400;
+  font-weight: 600;
+  background: #6f1b9d;
+  color: aliceblue;
 }
 .btn-custom-outline-violet:hover {
-  color: aliceblue;
-  background: #6f1b9d;
+  color: #6f1b9d;;
+  background: #fff;
   transition: 1s;
+
 }
 .text-inner-shadow-violet {
   text-shadow: -1px 0 #6f1b9d, 0 1px #6f1b9d, 0.5px 0 #6f1b9d, 0 -1px #6f1b9d;

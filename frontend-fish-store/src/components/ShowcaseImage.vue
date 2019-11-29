@@ -20,7 +20,7 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
 .masterhead {
-  height: 60vh;
+  height: 90vh;
   min-height: 500px;
   background-image: url("https://cdn.pixabay.com/photo/2014/04/21/11/51/koi-329076_960_720.jpg");
   background-size: cover;

@@ -54,7 +54,7 @@
                         </svg>
                     </button>
                     <button class="btn btn-outline-danger" @click="trashOrder(data.item.id)" 
-                        v-if="!data.item.deleted_at && !data.item.is_delivered"
+                        v-if="!data.item.deleted_at && !data.item.is_delivered && user.role === 'admin'"
                     >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
