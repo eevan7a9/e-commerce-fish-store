@@ -1,5 +1,5 @@
 <template>
-  <main class="container">
+  <main class="container mb-5">
     <div>
       <section class="row align-items-center m-5">
         <div class="h-400 col-12 text-center text-dark">
@@ -8,7 +8,14 @@
       </section>
       <div class="row mt-5">
         <!-- products items -->
-        <div class="col-md-4" v-for="(product, index) in products" :key="product.id">
+        <div class="col-md-4" v-for="(product, index) in products" :key="product.id"
+        data-aos="fade-up"
+        data-aos-offset="50"
+        data-aos-delay="50"
+        data-aos-duration="1000"
+        data-aos-easing="ease-in-out"
+        data-aos-mirror="true"
+        >
           <div class="card mb-4 box-shadow">
             <img class="card-img-top" :src="product.image_location ? product.image_location : 'https://via.placeholder.com/250'" @error="imgError(index)" alt="Card image cap" />
             <div class="card-body">
