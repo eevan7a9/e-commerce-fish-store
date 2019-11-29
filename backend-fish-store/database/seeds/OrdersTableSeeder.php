@@ -29,7 +29,7 @@ class OrdersTableSeeder extends Seeder
             "payment_method" => "card",
             "last4" => "2443",
             "receipt_url" => "https://placeholder.com/",
-            "paid" => false,
+            "paid" => true,
             "is_delivered" => false,
             "created_at" => now(),
         ]);
@@ -50,9 +50,10 @@ class OrdersTableSeeder extends Seeder
             "payment_method" => "card",
             "last4" => "2443",
             "receipt_url" => "https://placeholder.com/",
-            "paid" => false,
+            "paid" => true,
             "is_delivered" => true,
             "created_at" => "2019-11-13 00:00:00",
+            "delivered_at" => "2019-11-23 00:00:00",
         ]);
         DB::table('orders')->insert([
             "user_id" => 3,
@@ -71,9 +72,10 @@ class OrdersTableSeeder extends Seeder
             "payment_method" => "card",
             "last4" => "2443",
             "receipt_url" => "https://placeholder.com/",
-            "paid" => false,
+            "paid" => true,
             "is_delivered" => true,
             "created_at" => "2019-11-13 00:00:00",
+            "delivered_at" => "2019-11-23 00:00:00",
         ]);
         DB::table('orders')->insert([
             "user_id" => 1,
@@ -92,9 +94,10 @@ class OrdersTableSeeder extends Seeder
             "payment_method" => "card",
             "last4" => "2443",
             "receipt_url" => "https://placeholder.com/",
-            "paid" => false,
+            "paid" => true,
             "is_delivered" => true,
             "created_at" => "2019-11-13 00:00:00",
+            "delivered_at" => "2019-11-23 00:00:00",
         ]);
 
     }
