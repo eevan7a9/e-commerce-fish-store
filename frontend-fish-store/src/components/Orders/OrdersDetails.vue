@@ -5,9 +5,33 @@
                 <div class="col-sm-3 text-right">Email address :</div>
                 <p class="col-sm-9">{{ order.email }}</p>
             </div>
+             <div class="row">
+                <div class="col-sm-3 text-right">Phone :</div>
+                <p class="col-sm-9">{{ order.phone }}</p>
+            </div>
             <div class="row">
                 <div class="col-sm-3 text-right">Address :</div>
                 <p class="col-sm-9">{{ order.address }}</p>
+            </div>
+            <hr />
+            <div class="row w-100">
+                <div class="col-sm-4 text-center">
+                    <label>Country</label>
+                    <p>{{ order.country }}</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <label>City</label>
+                    <p>{{ order.city }}</p>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <label>State</label>
+                    <p>{{ order.state }}</p>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-3 text-right">Description:</div>
+                <p class="col-sm-9">{{ order.description }}</p>
             </div>
             <div class="row">
                 <div class="col-sm-3 text-right">Ordered at :</div>
@@ -29,15 +53,6 @@
                 </div>
             </div>
             <hr />
-            <hr />
-            <div class="row">
-                <div class="col-sm-3 text-right">Delivered :</div>
-                <div class="col-sm-9">{{ order.is_delivered ? 'Yes' : 'No' }}</div>
-            </div>
-            <div class="row">
-                <div class="col-sm-3 text-right">Delivered at:</div>
-                <div class="col-sm-9">{{ order.delivered_at }}</div>
-            </div>
             <div class="col-12">
               <button class="btn btn-info mt-3" v-b-toggle.collapse-products>
                   <span>
@@ -80,6 +95,19 @@
                 </div>
                 </div>
               </b-collapse>
+            </div>
+            <hr />
+            <div class="row mb-2">
+                <div class="col-sm-3 text-right">Payment Method:</div>
+                <div class="col-sm-9 text-capitalize">{{ order.payment_method }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-3 text-right">Delivered :</div>
+                <div class="col-sm-9">{{ order.is_delivered ? 'Yes' : 'No' }}</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-3 text-right">Delivered at:</div>
+                <div class="col-sm-9">{{ order.delivered_at }}</div>
             </div>
         </b-card>
     </div>
