@@ -46,7 +46,7 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
 .masterhead {
-  height: 95vh;
+  height: 93vh;
   min-height: 500px;
   background: linear-gradient(0deg,rgba(15, 13, 13, 0.3),rgba(23, 19, 21, 0.3)), url("https://cdn.pixabay.com/photo/2014/04/21/11/51/koi-329076_960_720.jpg");
   background-size: cover;
