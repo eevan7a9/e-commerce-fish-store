@@ -221,25 +221,32 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'quantity' => "numeric",
-            'is_delivered' => "boolean",
-        ]);
-        $order = Order::findOrFail($id);
-        $order->quantity = $request->quantity ? $request->quantity : $order->quantity;
-        $order->address = $request->address ? $request->address : $order->address;
-        $order->is_delivered = $request->is_delivered;
-        $order->update();
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            $request->validate([
+                'quantity' => "numeric",
+                'is_delivered' => "boolean",
+            ]);
+            $order = Order::findOrFail($id);
+            $order->quantity = $request->quantity ? $request->quantity : $order->quantity;
+            $order->address = $request->address ? $request->address : $order->address;
+            $order->is_delivered = $request->is_delivered;
+            $order->delivered_at = now();
+            $order->update();
 
-        return response()->json($order, 201);
+            return response()->json($order, 201);
+        }
     }
     /**
      *  Delete a Order base on 'id'
      */
     public function destroy($id)
     {
-        $order = Order::findOrFail($id);
-        $order->delete();
-        return response()->json($order, 200);
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            $order = Order::findOrFail($id);
+            $order->delete();
+            return response()->json($order, 200);
+        }
     }
 }
