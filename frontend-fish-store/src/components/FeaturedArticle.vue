@@ -2,7 +2,14 @@
   <div>
     <!-- START THE FEATURETTES -->
     <hr class="featurette-divider" />
-    <div class="row featurette">
+    <div class="row featurette" 
+    data-aos="fade-left"
+    data-aos-offset="100"
+    data-aos-delay="50"
+    data-aos-duration="500"
+    data-aos-easing="ease-in-out"
+    data-aos-mirror="true"
+    >
       <div class="col-md-7">
         <h2 class="featurette-heading">
           First featurette heading.
@@ -24,7 +31,14 @@
 
     <hr class="featurette-divider" />
 
-    <div class="row featurette">
+    <div class="row featurette"
+    data-aos="fade-right"
+    data-aos-offset="100"
+    data-aos-delay="100"
+    data-aos-duration="500"
+    data-aos-easing="ease-in-out"
+    data-aos-mirror="true"
+    >
       <div class="col-md-7 order-md-2">
         <h2 class="featurette-heading">
           Oh yeah, it's that good.
@@ -46,7 +60,14 @@
 
     <hr class="featurette-divider" />
 
-    <div class="row featurette">
+    <div class="row featurette"
+    data-aos="fade-left"
+    data-aos-offset="100"
+    data-aos-delay="100"
+    data-aos-duration="500"
+    data-aos-easing="ease-in-out"
+    data-aos-mirror="true"
+    >
       <div class="col-md-7">
         <h2 class="featurette-heading">
           And lastly, this one.
