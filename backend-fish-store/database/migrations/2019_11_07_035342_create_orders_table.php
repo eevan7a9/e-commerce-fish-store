@@ -34,6 +34,7 @@ class CreateOrdersTable extends Migration
             $table->boolean('paid')->default(false);
             $table->string('payment_method')->default('cod');
             $table->boolean('is_delivered')->default(false);
+            $table->dateTime('delivered_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
