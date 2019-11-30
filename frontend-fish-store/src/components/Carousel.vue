@@ -23,7 +23,7 @@
             alt="image slot"
           />
         </template>
-        <h2>Slide First</h2>
+        <h2>Rich Variety</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
           a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
@@ -39,7 +39,7 @@
             alt="image slot"
           />
         </template>
-        <h2>Slide Second</h2>
+        <h2>Healthy and Strong</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
           a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
@@ -56,7 +56,7 @@
             alt="image slot"
           />
         </template>
-        <h2>Slide Third</h2>
+        <h2>Raise in Clean Waters</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
           a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
@@ -72,7 +72,7 @@
             alt="image slot"
           />
         </template>
-        <h2>Slide Fourth</h2>
+        <h2>Fed Organically</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eros felis, tincidunt
           a tincidunt eget, convallis vel est. Ut pellentesque ut lacus vel interdum.
