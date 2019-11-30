@@ -7,7 +7,8 @@
   color: #6f1b9d;
 }
 .bg-custom-violet {
-  background: #6f1b9d;
+  /*background: #6f1b9d;*/
+ background: linear-gradient(0deg, rgba(94,36,126,1) 18%, rgba(107,31,149,1) 52%, rgba(97,35,130,1) 99%);
 }
 .btn-custom-violet{
   background: #6f1b9d;
