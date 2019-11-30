@@ -37,6 +37,9 @@ export default {
 </script>
 <style>
 @import url("./assets/css/custom.css");
+@import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Cabin&display=swap');
+
 body,
 html {
   height: 100%;

@@ -11,6 +11,9 @@
                     <b-nav-item to="/catalog" class="text-light font-weight-bolder" :active="$route.name == 'catalog'">
                         Catalog
                     </b-nav-item>
+                    <b-nav-item to="/about" class="text-light font-weight-bolder" :active="$route.name == 'about'">
+                        About
+                    </b-nav-item>
                 </b-navbar-nav>
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">

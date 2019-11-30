@@ -4,7 +4,7 @@
             <div class="h-100 showcase-wrapper">
                 <div class="text-white py-5 showcase-header">
                     <h1 class="font-weight-light text-inner-shadow-violet">Organic Fed Kois</h1>
-                    <p class="lead text-inner-shadow-violet">We grow the Fish the way a Fish normally should.</p>
+                    <p class="lead text-inner-shadow-violet">We grow the Fish the way a Fish normally should. We commit ourselves to fish greatness There's nothing like our fish. It's time to think about fresh healthy fish.</p>
                     <div class="w-100 text-center mt-5">
                         <router-link :to="{name:'catalog'}">
                            <button class="btn-shopping font-weight-bold py-2 px-3 text-uppercase pulse">Start shopping
@@ -32,12 +32,8 @@
     };
 </script>
 <style scoped>
-    @import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
-    @import url('https://fonts.googleapis.com/css?family=Cabin&display=swap');
-
     .masterhead {
         height: 93vh;
-        min-height: 500px;
         background: linear-gradient(0deg, rgba(15, 13, 13, 0.3), rgba(23, 19, 21, 0.3)), url("https://cdn.pixabay.com/photo/2014/04/21/11/51/koi-329076_960_720.jpg");
         background-size: cover;
         background-position: center;
@@ -100,6 +96,9 @@
         }
         .showcase-header {
           order: 2;
+        }
+        img{
+            height: 200px;
         }
     }
 </style>
