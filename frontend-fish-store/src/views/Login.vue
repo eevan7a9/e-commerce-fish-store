@@ -6,7 +6,7 @@
         <input
           type="email"
           class="form-control"
-          v-model="user.email"
+          v-model="current_user.email"
           placeholder="Email"
           required="required"
         />
@@ -15,7 +15,7 @@
         <input
           type="password"
           class="form-control"
-          v-model="user.password"
+          v-model="current_user.password"
           placeholder="Password"
           required="required"
         />
@@ -37,29 +37,34 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "login",
   data() {
     return {
-      user: {
+      current_user: {
         email: "",
         password: ""
       }
     };
   },
+  computed: mapGetters(["user"]),
   methods: {
     ...mapActions(["loginUser", "toggleLoader"]),
     submit() {
       this.toggleLoader();
-      this.loginUser(this.user).then((res) => {
+      this.loginUser(this.current_user).then((res) => {
         if (res.status == 200) {
-          this.$router.push({ name: "home" });
+          if(this.user.role === 'admin'){
+            this.$router.push({ name: "application.info" });
+          }else{
+            this.$router.push({ name: "home" });
+          }
           this.toggleLoader();
         }else if (res.status == 401) {
           alert("Invalid Credentials");
-          this.user.email = "";
-          this.user.password = "";
+          this.current_user.email = "";
+          this.current_user.password = "";
           this.toggleLoader();
         }
       }).catch(err => {
