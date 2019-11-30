@@ -21,9 +21,9 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         if ($user->role === 'admin') {
-            $orders = Order::withTrashed()->get();
+            $orders = Order::withTrashed()->orderby('created_at', 'desc')->get();
         } else {
-            $orders = Order::where('user_id', '=', $user->id)->get();
+            $orders = Order::where('user_id', '=', $user->id)->orderby('created_at', 'desc')->get();
         }
         foreach ($orders as $key => $order) {
             $order->products;
