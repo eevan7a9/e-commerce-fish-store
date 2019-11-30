@@ -5,7 +5,7 @@
       <router-view class="view" v-if="!appLoader" />
     </transition>
     <!-- application Loader -->
-    <AppLoader  v-if="appLoader" />
+    <AppLoader  class="vh-100"   v-if="appLoader" />
   </div>
 </template>
 <script>
@@ -27,7 +27,9 @@ export default {
       if (this.token) {
         this.getUser().then(() => this.toggleLoader()); // disable app loader
       }else{
-        this.toggleLoader(); // disable app loader 
+        setTimeout(() => {
+          this.toggleLoader(); // disable app loader 
+        },1000)
       }
     });
   }
