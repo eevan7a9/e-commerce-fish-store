@@ -9,6 +9,7 @@
           v-model="current_user.email"
           placeholder="Email"
           required="required"
+          autocomplete="email"
         />
       </div>
       <div class="form-group">
@@ -18,6 +19,7 @@
           v-model="current_user.password"
           placeholder="Password"
           required="required"
+          autocomplete="password"
         />
       </div>
       <div class="form-group">

@@ -14,6 +14,7 @@
                   placeholder="Username"
                   name="name"
                   type="text"
+                  autocomplete="username"
                 />
                 <small class="text-danger" v-if="error.username.status">{{ error.username.message }}</small>
               </div>
@@ -25,6 +26,7 @@
                   placeholder="E-mail Address"
                   name="email"
                   type="email"
+                  autocomplete="email"
                 />
                 <small class="text-danger" v-if="error.email.status">{{ error.email.message }}</small>
               </div>
@@ -34,9 +36,8 @@
                   class="form-control input-lg"
                   v-model="user.password"
                   placeholder="Password"
-                  name="password"
-                  value
                   type="password"
+                  autocomplete="new-password"
                 />
                 <small class="text-danger" v-if="error.password.status">{{ error.password.message }}</small>
               </div>
@@ -46,9 +47,8 @@
                   class="form-control input-lg"
                   v-model="user.confirm"
                   placeholder="Confirm Password"
-                  name="password"
-                  value
                   type="password"
+                  autocomplete="confirm-password"
                 />
                 <small class="text-danger" v-if="error.confirm.status">{{ error.confirm.message }}</small>
               </div>
