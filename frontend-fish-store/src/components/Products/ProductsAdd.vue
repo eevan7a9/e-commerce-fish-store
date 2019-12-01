@@ -10,6 +10,7 @@
             v-model="product.name"
             id="exampleInputName"
             placeholder="Enter Name"
+            @input="validate"
           />
           <p class="text-danger" v-if="error.name.status">{{ error.name.message }}</p>
         </div>
@@ -20,6 +21,7 @@
             id="exampleInputDescription"
             v-model="product.description"
             placeholder="Description"
+            @input="validate"
           ></textarea>
           <p class="text-danger" v-if="error.description.status">{{ error.description.message }}</p>
         </div>
