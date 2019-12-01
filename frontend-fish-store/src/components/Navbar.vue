@@ -39,7 +39,7 @@
                     <b-nav-item to="/login" class="text-light font-weight-bolder" :active="$route.name == 'login'" v-if="!token">
                         Login
                     </b-nav-item>
-                    <b-nav-item to="/application" class="text-light font-weight-bolder application" :active="$route.matched.some(({ name }) => name === 'application')" v-if="token && user.role === 'admin'">
+                    <b-nav-item :to="{name:'application.info'}" class="text-light font-weight-bolder application" :active="$route.matched.some(({ name }) => name === 'application')" v-if="token && user.role === 'admin'">
                         Application
                     </b-nav-item>
                     <b-nav-item-dropdown right v-if="token">
@@ -79,13 +79,14 @@
             ...mapGetters(["token", "user"])
         },
         methods: {
-            ...mapActions(["logout", "toggleLoader"]),
+            ...mapActions(["logout", "toggleLoader", "clearOrders"]),
             out() {
                 this.toggleLoader();
                 this.logout().then(res => {
                     this.$router.push({
                         name: "login"
                     });
+                    this.clearOrders();
                     this.toggleLoader();
                     if (res !== undefined) {
                         alert(res.data.message);

@@ -78,10 +78,6 @@ const routes = [
     meta: { requiresAdmin: true },
     children: [
       {
-        path: '',
-        redirect: { name: 'application.info' }
-      },
-      {
         path: 'info',
         name: 'application.info',
         component: () => import("../components/Application/ApplicationInfo.vue")
