@@ -8,9 +8,10 @@
             <fieldset>
               <div class="form-group has-error">
                 <input
+                  @input="validate"
                   class="form-control input-lg"
                   v-model="user.username"
-                  placeholder="username"
+                  placeholder="Username"
                   name="name"
                   type="text"
                 />
@@ -18,6 +19,7 @@
               </div>
               <div class="form-group has-error">
                 <input
+                  @input="validate"
                   class="form-control input-lg"
                   v-model="user.email"
                   placeholder="E-mail Address"
@@ -28,6 +30,7 @@
               </div>
               <div class="form-group has-success">
                 <input
+                  @input="validate"
                   class="form-control input-lg"
                   v-model="user.password"
                   placeholder="Password"
@@ -39,6 +42,7 @@
               </div>
               <div class="form-group has-success">
                 <input
+                  @input="validate"
                   class="form-control input-lg"
                   v-model="user.confirm"
                   placeholder="Confirm Password"
@@ -50,8 +54,9 @@
               </div>
               <div class="checkbox">
                 <label class="small">
-                  <input name="terms" type="checkbox" />I have read and agree to the
-                  <a href="#">terms of service</a>
+                  <input name="terms" type="checkbox" v-model="user.accept" /> I have read and agree to the
+                  <a href="#">terms of service</a><br>
+                  <span class="text-danger" v-if="!user.accept">Required</span>
                 </label>
               </div>
               <input class="btn-custom-violet btn-block" value="Sign Me Up" type="submit" />
@@ -73,7 +78,8 @@ export default {
         username: "",
         email: "",
         password: "",
-        confirm: ""
+        confirm: "",
+        accept:true
       },
       error: {
         username: {
@@ -96,7 +102,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["registerBuyer", "toggleLoader"]),
+    ...mapActions(["registerBuyer", "toggleLoader", "getUser"]),
     validEmail() {
       let re = /\S+@\S+\.\S+/;
       return re.test(this.user.email);
@@ -117,12 +123,17 @@ export default {
         !this.error.username.status &&
         !this.error.email.status &&
         !this.error.password.status &&
-        !this.error.confirm.status
+        !this.error.confirm.status && 
+        this.user.accept
       ) {
         this.registerBuyer(this.user).then(() => {
           this.$router.push({ name: "home" });
-          this.toggleLoader();
+          this.getUser().then(() => {
+            this.toggleLoader();
+          })
         });
+      }else{
+        this.toggleLoader();
       }
     }
   }
