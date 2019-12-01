@@ -95,6 +95,9 @@ const actions = {
         }).catch(err => {
             alert(err);
         })
+    },
+    clearOrders: async ({commit}) => {
+        commit("setOrders", []);
     }
 }
 
