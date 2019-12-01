@@ -74,4 +74,15 @@ class AuthController extends Controller
         $users = User::where('role', '=', 'buyer')->with('orders')->get();
         return response()->json($users, 200);
     }
+    public function destroy(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            $delete_user = User::findOrFail($request->id);
+            $delete_user->delete();
+            return response()->json($delete_user, 200);
+        }else{
+            return response()->json(['message' => 'not allowed'], 403);
+        }
+    }
 }

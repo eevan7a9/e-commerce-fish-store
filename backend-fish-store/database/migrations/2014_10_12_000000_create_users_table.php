@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('role')->default('buyer');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
