@@ -33,8 +33,8 @@
 </script>
 <style scoped>
     .masterhead {
-        height: 93vh;
-        background: linear-gradient(0deg, rgba(15, 13, 13, 0.3), rgba(23, 19, 21, 0.3)), url("https://cdn.pixabay.com/photo/2014/04/21/11/51/koi-329076_960_720.jpg");
+        height: 95vh;
+        background: linear-gradient(0deg, rgba(15, 13, 13, 0.3), rgba(23, 19, 21, 0.3)), url("https://cdn.pixabay.com/photo/2015/11/19/21/34/purple-1052067_960_720.jpg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -54,7 +54,7 @@
     .btn-shopping {
         border: 3px solid #fbfbfb0f;
         color: #6f1b9d;
-        border-radius: 14px;
+/*        border-radius: 14px;*/
         font-size: 16px;
         font-family: 'Cabin', sans-serif;
         font-weight: bold;

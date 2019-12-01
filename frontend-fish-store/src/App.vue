@@ -43,6 +43,11 @@ export default {
 body,
 html {
   height: 100%;
+  background-image: radial-gradient(
+    circle farthest-corner at 18.7% 37.8%,
+    rgba(250, 250, 250, 1) 0%,
+    rgba(225, 234, 238, 1) 90%
+  );
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -50,6 +55,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
 }
+
 
 #nav {
   padding: 30px;

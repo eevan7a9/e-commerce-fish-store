@@ -9,24 +9,24 @@
         <!-- Alert ends -->
         <div class="col-md-8 m-auto">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header bg-custom-violet text-light">
                     <h4>We would love to hear from you.</h4>
                 </div>
                 <div class="card-body">
                     <div class="form-group">
                         <label>Email :</label>
                         <input type="email" v-model="email" class="form-control" @blur="validation" placeholder="Johndoe@email.com">
-                        <p class="text-danger" v-if="error.email">Require, must be valid.</p>
+                        <small class="text-danger" v-if="error.email">Require, must be valid.</small>
                     </div>
                     <div class="form-group">
                         <label>Name :</label>
                         <input type="text" v-model="name" class="form-control" @blur="validation" placeholder="John Doe">
-                        <p class="text-danger" v-if="error.name">Require</p>
+                        <small class="text-danger" v-if="error.name">Require</small>
                     </div>
                     <div class="form-group">
                         <label>Message</label>
                         <textarea class="form-control" v-model="message" @blur="validation" placeholder="Questions, Clarification, Problems..."></textarea>
-                        <p class="text-danger" v-if="error.message">Require, atleast 12 char.</p>
+                        <small class="text-danger" v-if="error.message">Require, atleast 12 char.</small>
                     </div>
                     <div class="text-right">
                         <button class="btn-custom-violet px-3" @click="sendMessage">Submit
