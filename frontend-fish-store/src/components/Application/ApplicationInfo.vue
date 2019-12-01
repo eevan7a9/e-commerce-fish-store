@@ -24,7 +24,7 @@
                         </svg>
                     </span>
                     <hr />
-                    <h3 class="mt-3 font-weight-bold">{{users}}</h3>
+                    <h3 class="mt-3 font-weight-bold">{{usersList.length}}</h3>
                 </b-card>
                 <b-card bg-variant="danger" text-variant="white" header="Pending Order" class="text-center">
                     <span>
@@ -48,40 +48,28 @@
                 </b-card>
             </b-card-group>
         </div>
-        <OrdersTable class="mt-5" />
+        <UsersTable class="mt-5" />
     </div>
 </template>
 <script>
-    import OrdersTable from "../Orders/OrdersTable.vue";
-    import { mapGetters } from "vuex";
-    import axios from "axios";
+    import UsersTable from "../Users/UsersTable.vue";
+    import { mapGetters, mapActions } from "vuex";
     export default {
         name: "ApplicationInfo",
         components:{
-            OrdersTable
+            UsersTable
         },
         data() {
             return {
                 users: 0,
             }
         },
-        computed: mapGetters(["pendingOrders", "successOrders", "products", "token"]),
+        computed: mapGetters(["pendingOrders", "successOrders", "products", "usersList"]),
         methods: {
-            getUsersList(){
-                axios.get('/user/lists', {
-                    headers:{
-                        "Accept": "application/json",
-                        "Authorization": `Bearer ${this.token}`
-                    }
-                }).then(res => {
-                    this.users = res.data.length - 1; // not included the admin
-                }).catch(err => {
-                    alert(err);
-                })
-            }
+            ...mapActions(["getOrders"])
         },
         created() {
-            this.getUsersList();
+            this.getOrders();
         }
     };
 </script>
