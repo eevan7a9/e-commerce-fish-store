@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Order;
+use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -69,7 +71,7 @@ class AuthController extends Controller
     }
     public function usersList()
     {
-        $users = User::all();
+        $users = User::where('role', '=', 'buyer')->with('orders')->get();
         return response()->json($users, 200);
     }
 }

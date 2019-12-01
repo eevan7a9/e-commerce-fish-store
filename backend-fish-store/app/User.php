@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Cartalyst\Stripe\Api\Orders;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -40,6 +39,6 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Orders::class);
+        return $this->hasMany(Order::class);
     }
 }
