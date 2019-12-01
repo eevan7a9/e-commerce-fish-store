@@ -1,7 +1,10 @@
 <template>
     <div class="bg-custom-violet nav-wrapper">
         <b-navbar toggleable="lg" type="dark" variant="bg-custom-violet" class="container text-uppercase w-100">
-            <b-navbar-brand href="#">FishStore</b-navbar-brand>
+            <b-navbar-brand href="#" class="font-weight-bold">
+                <img src="../assets/img/koi-logo.png" alt="Kitten">
+                <span class="logo-word">KoiStore</span>
+            </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
@@ -93,6 +96,9 @@
     };
 </script>
 <style scoped>
+    .logo-word{
+        font-family: "Anton", sans-serif;
+    }
     a {
         text-decoration: none;
         letter-spacing: 1px;

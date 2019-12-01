@@ -1,7 +1,7 @@
 <template>
   <div class="login-form">
     <form action @submit.prevent="submit">
-      <h2 class="text-center">Log in</h2>
+      <h2 class="text-center text-uppercase">Log in</h2>
       <div class="form-group">
         <input
           type="email"
@@ -21,7 +21,7 @@
         />
       </div>
       <div class="form-group">
-        <button type="submit" class="btn-custom-violet btn-block">Log in</button>
+        <button type="submit" class="btn-custom-violet btn-block">Continue</button>
       </div>
       <!-- <div class="clearfix">
         <label class="pull-left checkbox-inline">

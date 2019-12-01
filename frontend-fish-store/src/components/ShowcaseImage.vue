@@ -4,7 +4,7 @@
             <div class="h-100 showcase-wrapper">
                 <div class="text-white py-5 showcase-header">
                     <h1 class="font-weight-light text-inner-shadow-violet">Organic Fed Kois</h1>
-                    <p class="lead text-inner-shadow-violet">We grow the Fish the way a Fish normally should. We commit ourselves to fish greatness There's nothing like our fish. It's time to think about fresh healthy fish.</p>
+                    <p class="lead text-inner-shadow-violet font-weight-bold">We grow the Fish the way a Fish normally should. We commit ourselves to fish greatness There's nothing like our fish. It's time to think about fresh healthy fish.</p>
                     <div class="w-100 text-center mt-5">
                         <router-link :to="{name:'catalog'}">
                            <button class="btn-shopping font-weight-bold py-2 px-3 text-uppercase pulse">Start shopping
@@ -34,7 +34,7 @@
 <style scoped>
     .masterhead {
         height: 95vh;
-        background: linear-gradient(0deg, rgba(15, 13, 13, 0.3), rgba(23, 19, 21, 0.3)), url("https://cdn.pixabay.com/photo/2015/11/19/21/34/purple-1052067_960_720.jpg");
+        background: linear-gradient(0deg, rgba(15, 13, 13, 0.3), rgba(23, 19, 21, 0.3)), url('~@/assets/img/showcase-bg.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
