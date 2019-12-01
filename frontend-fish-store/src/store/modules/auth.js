@@ -19,7 +19,13 @@ const mutations = {
         state.user = "";
         state.myToken = "";
     },
-    setUsersList: (state, users) => state.usersList = users
+    setUsersList: (state, users) => state.usersList = users,
+    updateUserList: (state, updated_user) => {
+        const found_user = state.usersList.find(user => user.id === updated_user.id);
+        if (found_user) {
+            found_user.deleted_at = updated_user.deleted_at;
+        }
+    }
 }
 const actions = {
     loginUser: async ({ commit }, user) => {
@@ -97,6 +103,22 @@ const actions = {
             alert(err);
             return err.response;
         })
+    },
+    deleteUser: async ({ commit, state }, id) => {
+        return axios.post('/user/delete',{
+            id:id
+        },{
+            headers: {
+                "Accept": "application/json",
+                "Authorization": `Bearer ${state.myToken}`
+            }
+        }).then(res => {
+            commit("updateUserList", res.data);
+        }).catch(err => {
+            alert(err);
+            console.log(err.response);
+        })
+
     }
 
 }
