@@ -71,7 +71,7 @@ class AuthController extends Controller
     }
     public function usersList()
     {
-        $users = User::where('role', '=', 'buyer')->with('orders')->get();
+        $users = User::withTrashed()->where('role', '=', 'buyer')->with('orders')->get();
         return response()->json($users, 200);
     }
     public function destroy(Request $request)
