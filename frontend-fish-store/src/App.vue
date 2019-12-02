@@ -2,10 +2,10 @@
   <div id="app">
     <Navbar />
     <transition name="fade" mode="out-in">
-      <router-view class="view" v-if="!appLoader" />
+      <router-view class="view" />
     </transition>
     <!-- application Loader -->
-    <AppLoader  class="vh-100"   v-if="appLoader" />
+    <AppLoader class="vh-100 w-100 loader"/>
   </div>
 </template>
 <script>
@@ -29,7 +29,7 @@ export default {
       }else{
         setTimeout(() => {
           this.toggleLoader(); // disable app loader 
-        },1000)
+        }, 3000)
       }
     });
   }
@@ -55,8 +55,12 @@ html {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100%;
 }
-
-
+.loader{
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 11;
+}
 #nav {
   padding: 30px;
 }

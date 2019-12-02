@@ -1,11 +1,15 @@
 <template>
-    <div class="w-100 h-100 d-flex justify-content-center align-items-center bg-light">
-        <div class="lds-facebook"><div></div><div></div><div></div></div>
+    <div v-show="appLoader">
+        <div class="w-100 h-100 bg-light  d-flex justify-content-center align-items-center">
+          <div class="lds-facebook"><div></div><div></div><div></div></div>
+        </div>
     </div>
 </template>
 <script>
+    import { mapGetters } from "vuex"
     export default {
         name: 'AppLoader',
+        computed: mapGetters(["appLoader"]),
     }
 </script>
 <style scoped>
