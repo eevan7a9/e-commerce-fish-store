@@ -51,7 +51,7 @@ class OrderController extends Controller
             'city' => 'required',
             'state' => 'required',
             'postal_code' => 'required|numeric',
-            'phone' => 'required|numeric',
+            'phone' => 'required',
             'email' => 'required',
             'payment_method' => 'required',
         ]);
