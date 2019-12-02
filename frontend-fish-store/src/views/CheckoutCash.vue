@@ -24,30 +24,31 @@
                     </div>
                     <div class="col-md-8 mt-3">
                         <label>Address :</label>
-                        <textarea class="form-control" v-model="billing.address"></textarea>
+                        <textarea class="form-control" v-model="billing.address" @input="validation"></textarea>
                         <p class="text-danger" v-if="error.address">Required</p>
                     </div>
                     <div class="col-md-8 mt-3">
                         <label>Phone :</label>
-                        <input type="text" class="form-control" v-model="billing.phone">
+                        <input type="text" class="form-control" v-model="billing.phone" @input="validation">
                         <p class="text-danger" v-if="error.phone">Required</p>
                     </div>
                     <div class="form-row mt-2">
                         <div class="col-md-6 mt-3">
                             <label>City :</label>
-                            <input type="text" class="form-control" v-model="billing.city">
+                            <input type="text" class="form-control" v-model="billing.city" @input="validation">
                             <p class="text-danger" v-if="error.city">Required</p>
                         </div>
                         <div class="col-md-6 mt-3">
                             <label>Province :</label>
-                            <input type="text" class="form-control" v-model="billing.province">
+                            <input type="text" class="form-control" v-model="billing.province" @input="validation">
                             <p class="text-danger" v-if="error.province">Required</p>
                         </div>
                     </div>
                     <div class="form-row mt-2">
                         <div class="col-md-6 mt-3">
                             <label for="sel1">Country (select one):</label>
-                            <select class="form-control" id="sel1" v-model="billing.country" required>
+                            <select class="form-control" id="sel1" v-model="billing.country" 
+                            @change="validation" required>
                                 <option value="us">US</option>
                                 <option value="jp">JP</option>
                                 <option value="ph">PH</option>
@@ -57,7 +58,7 @@
                         </div>
                         <div class="col-md-6 mt-3">
                             <label>postal code :</label>
-                            <input type="text" class="form-control" v-model="billing.postal_code">
+                            <input type="text" class="form-control" v-model="billing.postal_code" @input="validation">
                             <p class="text-danger" v-if="error.postal_code">Required</p>
                         </div>
                     </div>

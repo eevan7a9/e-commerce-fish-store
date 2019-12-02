@@ -47,7 +47,8 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="sel1">Country (select one):</label>
-                            <select class="form-control" id="sel1" v-model="billing.country" required>
+                            <select class="form-control" id="sel1" v-model="billing.country"
+                            @change="validation" required>
                                 <option value="us">US</option>
                                 <option value="jp">JP</option>
                                 <option value="ph">PH</option>
