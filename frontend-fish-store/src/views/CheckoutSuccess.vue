@@ -7,7 +7,7 @@
             </p>
             <hr>
             <div class="img-cont d-flex justify-content-right">
-                <img src="../assets/img/order_illu.svg" alt="">
+                <img src="../assets/img/order_illu.svg" class="img-fluid" alt="success">
             </div>
             <hr>
             <p class="mb-0 my-2">
