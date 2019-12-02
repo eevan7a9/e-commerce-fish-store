@@ -33,7 +33,7 @@
         <h3 class="violet font-weight-bold text-uppercase">Your cart, it's empty!!!.</h3>
       </div>
       <div class="img-cont d-flex">
-        <img click="empty-cart" src="../assets/img/empty_cart.svg" alt="">
+        <img click="empty-cart" class="img-fluid" src="../assets/img/empty_cart.svg" alt="">
       </div>
     </b-modal>
     <!-- Checkout Modal Ends -->
