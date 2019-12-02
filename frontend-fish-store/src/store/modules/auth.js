@@ -116,7 +116,7 @@ const actions = {
             commit("updateUserList", res.data);
         }).catch(err => {
             alert(err);
-            console.log(err.response);
+            // console.log(err.response);
         })
 
     }
