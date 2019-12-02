@@ -1,6 +1,17 @@
 <template>
     <div class="container">
         <h2>Registered buyers</h2>
+        <b-alert
+          :show="dismissCountDown"
+          dismissible
+          variant="danger"
+          @dismissed="dismissCountDown=0"
+          @dismiss-count-down="countDownChanged"
+        >
+            <h3 class="font-weight-bold">Demo Mode!!!</h3>
+            <p class="font-weight-bold">Sorry, some actions are restricted.</p> 
+            <span class="text-right">This alert will dismiss after <i class="font-weight-bold">{{ dismissCountDown }}</i> seconds...</span>
+        </b-alert>
         <b-table sticky-header="500px" :fields="fields" :items="usersList" head-variant="light">
             <template v-slot:cell(orders)="data">
                 <p class="text-center font-weight-bold">{{data.value}}</p>
@@ -12,7 +23,7 @@
             </template>
             <template v-slot:cell(Action)="data">
                 <div class="text-center">
-                    <button class="btn btn-danger" @click="removeUser(data.item.id)" v-if="!data.item.deleted_at">
+                    <button class="btn btn-danger" @click="showAlert" v-if="!data.item.deleted_at">
                         <!-- <span class="font-weight-bold mr-1">Cancel</span> -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10" />
@@ -61,6 +72,8 @@
                         label: "Action"
                     }
                 ],
+                dismissSecs: 10,
+                dismissCountDown: 0
             }
         },
         computed: mapGetters(["usersList"]),
@@ -76,6 +89,12 @@
                         }, 1000);
                     });
                }
+            },
+            countDownChanged(dismissCountDown) {
+                this.dismissCountDown = dismissCountDown
+            },
+            showAlert() {
+                this.dismissCountDown = this.dismissSecs
             }
         },
         created() {

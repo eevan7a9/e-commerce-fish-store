@@ -1,5 +1,17 @@
 <template>
   <div class="wrapper">
+    <b-alert
+      :show="dismissCountDown"
+      dismissible
+      variant="danger"
+      class="w-100"
+      @dismissed="dismissCountDown=0"
+      @dismiss-count-down="countDownChanged"
+    >
+      <h3 class="font-weight-bold">Demo Mode!!!</h3>
+      <p class="font-weight-bold">Sorry, some actions are restricted.</p> 
+      <span class="text-right">This alert will dismiss after <i class="font-weight-bold">{{ dismissCountDown }}</i> seconds...</span>
+    </b-alert>
     <div class="inner-wrapper bg-light">
       <form @submit.prevent="submit" enctype="multipart/form-data">
         <div class="form-group">
@@ -116,7 +128,9 @@ export default {
           status: 0,
           message: "Products's description is required"
         }
-      }
+      },
+      dismissSecs: 10,
+      dismissCountDown: 0
     };
   },
   methods: {
@@ -134,32 +148,39 @@ export default {
       this.validate();
       if (this.error.name.status != 1 && this.error.description.status != 1) {
         // we show loader
-        this.toggleLoader();
-        // After we check for error
-        // we check if it's for 'adding' or 'editing' a product
-        if (this.edit_product === undefined) {
-          // if we're adding product we procceed here...
-          this.addProduct(this.product).then(res => {
-            if (res.status === 201) {
-              this.$router.push({ name: "application.products" });
-              this.toggleLoader();
-               alert("added");
-            }
-          });
-        } else {
-          // if were editing a product we procceed here...
-          this.product.id = this.edit_product.id;
-          this.editProduct(this.product).then(res => {
-            if (res.status === 201) {
-              this.$router.push({ name: "application.products" });
-              this.toggleLoader();
-              alert("Edit, success.");
-            }else{
-              alert("something went wrong.");
-            }
-          });
-        }
+        this.showAlert();
+        // this.toggleLoader();
+        // // After we check for error
+        // // we check if it's for 'adding' or 'editing' a product
+        // if (this.edit_product === undefined) {
+        //   // if we're adding product we procceed here...
+        //   this.addProduct(this.product).then(res => {
+        //     if (res.status === 201) {
+        //       this.$router.push({ name: "application.products" });
+        //       this.toggleLoader();
+        //        alert("added");
+        //     }
+        //   });
+        // } else {
+        //   // if were editing a product we procceed here...
+        //   this.product.id = this.edit_product.id;
+        //   this.editProduct(this.product).then(res => {
+        //     if (res.status === 201) {
+        //       this.$router.push({ name: "application.products" });
+        //       this.toggleLoader();
+        //       alert("Edit, success.");
+        //     }else{
+        //       alert("something went wrong.");
+        //     }
+        //   });
+        // }
       }
+    },
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert() {
+        this.dismissCountDown = this.dismissSecs
     }
   },
   watch: {
@@ -186,6 +207,7 @@ export default {
 .wrapper {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   width: 100%;
 }

@@ -66,11 +66,11 @@
                     <h4>Payment Details :</h4>
                     <StripeCards class="mb-2" />
                     <div ref="card" class="p-3 mb-2 border rounded"></div>
-                    <small v-b-toggle.collapse-1 class="text-info font-weight-bold" style="cursor:pointer;">DEMO CARD: click me!</small>
+                    <span v-b-toggle.collapse-1 class="text-info font-weight-bold" style="cursor:pointer;">DEMO CARD: click me!</span>
                     <b-collapse id="collapse-1" class="mt-2">
                         <div class="bg-light text-secondary d-flex justify-content-between">
-                            <span>CARD: 4242 4242 4242 4242</span>
-                            <span>04 / 24 [any] [any]</span>
+                            <span class="text-success bg-dark font-weight-bold px-1">CARD: 4242 4242 4242 4242</span>
+                            <span class="text-success bg-dark font-weight-bold px-1">04 / 24 [any] [any]</span>
                         </div>
                     </b-collapse>
                     <button v-on:click="purchase" class="btn btn-success form-control font-weight-bold text-uppercase mt-3">Purchase</button>

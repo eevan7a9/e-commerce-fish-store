@@ -6,7 +6,7 @@
         <input
           type="email"
           class="form-control"
-          v-model="current_user.email"
+          v-model.trim="current_user.email"
           placeholder="Email"
           required="required"
           autocomplete="email"
@@ -16,7 +16,7 @@
         <input
           type="password"
           class="form-control"
-          v-model="current_user.password"
+          v-model.trim="current_user.password"
           placeholder="Password"
           required="required"
           autocomplete="password"
@@ -24,6 +24,28 @@
       </div>
       <div class="form-group">
         <button type="submit" class="btn-custom-violet btn-block">Continue</button>
+        <p v-b-toggle.collapse-3 class="mt-5 text-info font-weight-bold"
+        style="cursor:pointer;"
+        >For Demo? click me!!!</p>
+        <b-collapse id="collapse-3">
+          <b-card class="bg-dark text-light">
+            <span class="text-success font-weight-bold">Buyer</span>
+            <div class="d-flex justify-content-between">
+              <span>Email: <i>user1@email.com</i></span>
+              <span>Password: <i>password</i></span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>Email: <i>user2@email.com</i></span>
+              <span>Password: <i>password</i></span>
+            </div>
+            <span class="text-danger font-weight-bold">Admin</span>
+            <div class="d-flex justify-content-between">
+              <span>Email: <i>admin@email.com</i></span>
+              <span>Password: <i>password</i></span>
+            </div>
+            <span class="text-danger bg-light font-weight-bold px-1">some actions are restricted*</span>
+          </b-card>
+        </b-collapse>
       </div>
       <!-- <div class="clearfix">
         <label class="pull-left checkbox-inline">

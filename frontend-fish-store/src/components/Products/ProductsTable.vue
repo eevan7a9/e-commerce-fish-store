@@ -3,14 +3,15 @@
     <b-alert
       :show="dismissCountDown"
       dismissible
-      variant="success"
+      variant="danger"
       @dismissed="dismissCountDown=0"
       @dismiss-count-down="countDownChanged"
     >
-      <h4 class="text-success font-weight-bold">Success</h4>
+      <!-- <h4 class="text-success font-weight-bold">Success</h4> -->
+      <h3 class="font-weight-bold">Demo Mode!!!</h3>
       <p>{{ alertMessage}}</p>
       <b-progress
-        variant="success"
+        variant="danger"
         :max="dismissSecs"
         :value="dismissCountDown"
         height="4px"
@@ -123,11 +124,14 @@ export default {
       this.spinner = product.id;
       const confirmed = confirm(`Are you sure you want to remove ${product.name}`);
       if (confirmed) {
-        this.deleteProduct(product.id).then((res) => {
-          this.alertMessage = `${res.data.name} have been removed`;
+          this.alertMessage = `Sorry, some actions are restricted.`;
           this.spinner = 0;
           this.showAlert();
-        });
+        // this.deleteProduct(product.id).then((res) => {
+        //   this.alertMessage = `${res.data.name} have been removed`;
+        //   this.spinner = 0;
+        //   this.showAlert();
+        // });
       }else{
         this.spinner = 0;
       }
