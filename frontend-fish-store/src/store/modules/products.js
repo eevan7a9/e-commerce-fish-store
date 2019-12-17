@@ -1,48 +1,7 @@
 import axios from "axios";
 
 const state = {
-    products: [
-        {
-            id: 1,
-            name: "Koi First",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in semper ex, tincidunt egestas ligula. Aenean augue lorem, blandit eu urna id, sodales condimentum tellus.",
-            units: 20,
-            weight: 3.5,
-            price: 100.00
-        },
-        {
-            id: 2,
-            name: "Koi Second",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in semper ex, tincidunt egestas ligula. Aenean augue lorem, blandit eu urna id, sodales condimentum tellus.",
-            units: 15,
-            weight: 3.5,
-            price: 120.00
-        },
-        {
-            id: 3,
-            name: "Koi Third",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in semper ex, tincidunt egestas ligula. Aenean augue lorem, blandit eu urna id, sodales condimentum tellus.",
-            units: 22,
-            weight: 3.5,
-            price: 110.00
-        },
-        {
-            id: 4,
-            name: "Koi Fourth",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in semper ex, tincidunt egestas ligula. Aenean augue lorem, blandit eu urna id, sodales condimentum tellus.",
-            units: 20,
-            weight: 3.5,
-            price: 232.00
-        },
-        {
-            id: 5,
-            name: "Koi Fifth",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in semper ex, tincidunt egestas ligula. Aenean augue lorem, blandit eu urna id, sodales condimentum tellus.",
-            units: 32,
-            weight: 3.5,
-            price: 150.00
-        }
-    ]
+    products: []
 }
 const getters = {
     products: state => state.products
@@ -84,7 +43,7 @@ const actions = {
             formData.append('image', product.image);
         }
         // console.log(product);
-        return axios.post('/product', formData,{
+        return axios.post('/product', formData, {
             headers: {
                 "Accept": "application/json",
                 'content-type': 'multipart/form-data',
@@ -110,7 +69,7 @@ const actions = {
             formData.append('image', product.image);
         }
         // console.log(product);
-        return axios.post(`/product/${product.id}`, formData,{
+        return axios.post(`/product/${product.id}`, formData, {
             headers: {
                 "Accept": "application/json",
                 "content-type": "multipart/form-data",
@@ -126,9 +85,9 @@ const actions = {
         });
     },
     deleteProduct: async ({ commit, rootState }, id) => {
-        return axios.post(`/product/${id}`,{
+        return axios.post(`/product/${id}`, {
             _method: 'delete'
-        },{
+        }, {
             headers: {
                 "Accept": "application/json",
                 "Authorization": `Bearer ${rootState.auth.myToken}`
