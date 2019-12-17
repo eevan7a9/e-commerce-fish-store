@@ -48,28 +48,6 @@ Online-store with Stripe that facilitate online transactions of koi(s) and servi
   1. Php Composer
   2. Mysql Server
 
-Navigate **backend-fish-store/** open terminal and run:
-
-- install dependencies:
-
-  `composer install`
-
-- add database migrations
-
-  `php artisan migrate`
-
-- Add database dummies
-
-  `php artisan db:seed`
-
-- Install Laravel Passport
-
-  `php artisan passport:install`
-
-- generate key
-
-  `php artisan key:generate`
-
 - add Database info and Stripe Info
 
   Navigate **backend-fish-store/**:
@@ -92,6 +70,28 @@ Navigate **backend-fish-store/** open terminal and run:
   ```
   STRIPE_SK='secret_key'
   ```
+
+Navigate **backend-fish-store/** open terminal and run:
+
+- install dependencies:
+
+  `composer install`
+
+- add database migrations
+
+  `php artisan migrate`
+
+- Add database dummies
+
+  `php artisan db:seed`
+
+- Install Laravel Passport
+
+  `php artisan passport:install`
+
+- generate key
+
+  `php artisan key:generate`
 
 ### Initialize backend
 
