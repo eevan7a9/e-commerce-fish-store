@@ -16,7 +16,9 @@
                   type="text"
                   autocomplete="username"
                 />
-                <small class="text-danger" v-if="error.username.status">{{ error.username.message }}</small>
+                <small class="text-danger" v-if="error.username.status">{{
+                  error.username.message
+                }}</small>
               </div>
               <div class="form-group has-error">
                 <input
@@ -28,7 +30,9 @@
                   type="email"
                   autocomplete="email"
                 />
-                <small class="text-danger" v-if="error.email.status">{{ error.email.message }}</small>
+                <small class="text-danger" v-if="error.email.status">{{
+                  error.email.message
+                }}</small>
               </div>
               <div class="form-group has-success">
                 <input
@@ -39,7 +43,9 @@
                   type="password"
                   autocomplete="new-password"
                 />
-                <small class="text-danger" v-if="error.password.status">{{ error.password.message }}</small>
+                <small class="text-danger" v-if="error.password.status">{{
+                  error.password.message
+                }}</small>
               </div>
               <div class="form-group has-success">
                 <input
@@ -50,16 +56,23 @@
                   type="password"
                   autocomplete="confirm-password"
                 />
-                <small class="text-danger" v-if="error.confirm.status">{{ error.confirm.message }}</small>
+                <small class="text-danger" v-if="error.confirm.status">{{
+                  error.confirm.message
+                }}</small>
               </div>
               <div class="checkbox">
                 <label class="small">
-                  <input name="terms" type="checkbox" v-model="user.accept" /> I have read and agree to the
-                  <a href="#">terms of service</a><br>
+                  <input name="terms" type="checkbox" v-model="user.accept" /> I
+                  have read and agree to the <a href="#">terms of service</a
+                  ><br />
                   <span class="text-danger" v-if="!user.accept">Required</span>
                 </label>
               </div>
-              <input class="btn-custom-violet btn-block" value="Sign Me Up" type="submit" />
+              <input
+                class="btn-custom-violet btn-block"
+                value="Sign Me Up"
+                type="submit"
+              />
             </fieldset>
           </form>
         </div>
@@ -79,7 +92,7 @@ export default {
         email: "",
         password: "",
         confirm: "",
-        accept:true
+        accept: true
       },
       error: {
         username: {
@@ -123,16 +136,23 @@ export default {
         !this.error.username.status &&
         !this.error.email.status &&
         !this.error.password.status &&
-        !this.error.confirm.status && 
+        !this.error.confirm.status &&
         this.user.accept
       ) {
         this.registerBuyer(this.user).then(() => {
+          this.$swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your are now Registered!",
+            showConfirmButton: false,
+            timer: 1500
+          });
           this.$router.push({ name: "home" });
           this.getUser().then(() => {
             this.toggleLoader();
-          })
+          });
         });
-      }else{
+      } else {
         this.toggleLoader();
       }
     }
