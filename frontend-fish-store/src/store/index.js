@@ -9,7 +9,7 @@ import loader from "./modules/loader";
 
 Vue.use(Vuex)
 
-axios.defaults.baseURL = "http://localhost:8000/public/api/v1/";
+axios.defaults.baseURL = "http://localhost:8000/api/v1/";
 
 export default new Vuex.Store({
   modules: {
