@@ -1,5 +1,10 @@
 import axios from "axios";
 
+const headers = (token) => ({
+  "Accept": "application/json",
+  "Authorization": `Bearer ${token}`
+})
+
 const state = {
   user: "userhere",
   myToken: localStorage.getItem("auth") || null,
@@ -69,10 +74,7 @@ const actions = {
   logout: async ({ commit, state }) => {
     try {
       const result = await axios.get("/logout", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${state.myToken}`
-        }
+        headers: headers(state.myToken)
       });
       localStorage.removeItem("auth");
       commit("clearUser");
@@ -86,10 +88,7 @@ const actions = {
   getUser: async ({ commit, state, dispatch }) => {
     try {
       const result = await axios.get("/user", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${state.myToken}`
-        }
+        headers: headers(state.myToken)
       });
       commit("setUser", {
         user: result.data.user,
@@ -103,10 +102,7 @@ const actions = {
   getUsersList: async ({ commit, state, dispatch }) => {
     try {
       const result = await axios.get("/user/lists", {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${state.myToken}`
-        }
+        headers: headers(state.myToken)
       });
       commit("setUsersList", result.data);
       return result; // not included the admin
@@ -120,15 +116,7 @@ const actions = {
     try {
       const result = await axios.post(
         "/user/delete",
-        {
-          id: id
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${state.myToken}`
-          }
-        }
+        { id }, { headers: headers(state.myToken) }
       );
       commit("updateUserList", result.data);
     } catch (err) {
