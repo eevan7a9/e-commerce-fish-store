@@ -66,8 +66,8 @@ export default {
   data() {
     return {
       current_user: {
-        email: "",
-        password: ""
+        email: "admin@email.com",
+        password: "password"
       }
     };
   },

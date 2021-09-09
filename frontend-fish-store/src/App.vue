@@ -23,7 +23,7 @@ export default {
   },
   async created() {
     this.toggleLoader(); // we load app loader
-    await this.getProducts();
+    // await this.getProducts();
     if (!this.token) {
       setTimeout(() => {
         this.toggleLoader(); // disable app loader
