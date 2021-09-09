@@ -1,5 +1,11 @@
 import axios from "axios";
 
+const headers = (token, multipart = false) => ({
+    "Accept": "application/json",
+    "Authorization": `Bearer ${token}`,
+    ...(multipart && {"content-type": "multipart/form-data"})
+})
+
 const state = {
     products: []
 }
@@ -24,13 +30,12 @@ const mutations = {
 }
 const actions = {
     getProducts: async ({ commit }) => {
-        axios.get('/product')
-            .then(res => {
-                commit("setProducts", res.data.products);
-            })
-            .catch(err => {
-                alert(err);
-            })
+        try {
+            const res = await axios.get('/product');
+            commit("setProducts", res.data.products);
+        } catch (error) {
+            alert.log(error);
+        }
     },
     addProduct: async ({ commit, rootState }, product) => {
         let formData = new FormData();
@@ -42,21 +47,16 @@ const actions = {
         if (product.image) {
             formData.append('image', product.image);
         }
-        // console.log(product);
-        return axios.post('/product', formData, {
-            headers: {
-                "Accept": "application/json",
-                'content-type': 'multipart/form-data',
-                "Authorization": `Bearer ${rootState.auth.myToken}`,
-            }
-        }).then(res => {
-            // console.log(res);
+        try {
+            const res = await axios.post('/product', formData, {
+                headers: headers(rootState.auth.myToken, true)
+            });
             commit("insertProduct", res.data);
             return res;
-        }).catch(err => {
-            // console.log(err.response);
-            return err.response;
-        })
+        } catch (error) {
+            console.log(error)
+            return error.response;
+        }
     },
     editProduct: async ({ commit, rootState }, product) => {
         let formData = new FormData();
@@ -68,36 +68,28 @@ const actions = {
         if (product.image) {
             formData.append('image', product.image);
         }
-        // console.log(product);
-        return axios.post(`/product/${product.id}`, formData, {
-            headers: {
-                "Accept": "application/json",
-                "content-type": "multipart/form-data",
-                "Authorization": `Bearer ${rootState.auth.myToken}`
-            }
-        }).then(res => {
-            // console.log(res)
+        try {
+            const res = await axios.post(`/product/${product.id}`, formData, {
+                headers: headers(rootState.auth.myToken, true)
+            });
             commit("updateProduct", res.data);
             return res
-        }).catch(err => {
-            // console.log(err.response);
-            return err;
-        });
+        } catch (error) {
+            return error;
+        }
     },
     deleteProduct: async ({ commit, rootState }, id) => {
-        return axios.post(`/product/${id}`, {
-            _method: 'delete'
-        }, {
-            headers: {
-                "Accept": "application/json",
-                "Authorization": `Bearer ${rootState.auth.myToken}`
-            }
-        }).then(res => {
+        try {
+            const res = await axios.post(`/product/${id}`, {
+                _method: 'delete'
+            }, {
+                headers: headers(rootState.auth.myToken)
+            });
             commit("removeProduct", id);
             return res;
-        }).catch(err => {
-            return err.response;
-        });
+        } catch (error) {
+            return error.response;
+        }
     }
 }
 
