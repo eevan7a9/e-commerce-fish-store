@@ -55,8 +55,7 @@
       </div>-->
     </form>
     <p class="text-center">
-
-      <router-link :to="{name:'register'}">Create an Account</router-link>
+      <router-link :to="{ name: 'register' }">Create an Account</router-link>
     </p>
   </div>
 </template>
@@ -77,24 +76,40 @@ export default {
     ...mapActions(["loginUser", "toggleLoader"]),
     submit() {
       this.toggleLoader();
-      this.loginUser(this.current_user).then((res) => {
-        if (res.status == 200) {
-          if(this.user.role === 'admin'){
-            this.$router.push({ name: "application.info" });
-          }else{
-            this.$router.push({ name: "home" });
+      this.loginUser(this.current_user)
+        .then(res => {
+          if (res.status == 200) {
+            this.$swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Your are now logged-in!",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            if (this.user.role === "admin") {
+              this.$router.push({ name: "application.info" });
+            } else {
+              this.$router.push({ name: "home" });
+            }
+            this.toggleLoader();
+          } else if (res.status == 401) {
+            this.$swal
+              .fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Wrong Credentials!"
+              })
+              .then(() => {
+                this.current_user.email = "";
+                this.current_user.password = "";
+                this.toggleLoader();
+              });
           }
+        })
+        .catch(err => {
+          alert(err);
           this.toggleLoader();
-        }else if (res.status == 401) {
-          alert("Invalid Credentials");
-          this.current_user.email = "";
-          this.current_user.password = "";
-          this.toggleLoader();
-        }
-      }).catch(err => {
-        alert(err)
-        this.toggleLoader();
-      });
+        });
     }
   }
 };

@@ -5,7 +5,7 @@
       <router-view class="view" />
     </transition>
     <!-- application Loader -->
-    <AppLoader class="vh-100 w-100 loader"/>
+    <AppLoader class="vh-100" v-if="appLoader" />
   </div>
 </template>
 <script>
@@ -15,30 +15,30 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   components: {
     Navbar,
-    AppLoader
+    AppLoader,
   },
   computed: mapGetters(["user", "token", "appLoader"]),
   methods: {
-    ...mapActions(["getProducts", "getUser" ,"toggleLoader"])
+    ...mapActions(["getProducts", "getUser", "toggleLoader"]),
   },
-  created() {
+  async created() {
     this.toggleLoader(); // we load app loader
-    this.getProducts().then(() => {
-      if (this.token) {
-        this.getUser().then(() => this.toggleLoader()); // disable app loader
-      }else{
-        setTimeout(() => {
-          this.toggleLoader(); // disable app loader 
-        }, 3000)
-      }
-    });
-  }
+    await this.getProducts();
+    if (!this.token) {
+      setTimeout(() => {
+        this.toggleLoader(); // disable app loader
+      }, 1000);
+      return;
+    }
+    await this.getUser();
+    this.toggleLoader(); // disable app loader
+  },
 };
 </script>
 <style>
 @import url("./assets/css/custom.css");
 @import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
-@import url('https://fonts.googleapis.com/css?family=Cabin&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Cabin&display=swap");
 
 body,
 html {
