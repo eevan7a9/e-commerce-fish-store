@@ -1,44 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\api\AuthController;
+use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
- */
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::prefix('v1')->group(function () { // domain/api/v1/
-
-    Route::post('/register', 'Api\AuthController@register');
-    Route::post('/login', 'Api\AuthController@login');
-
-    Route::post('product/{id}', 'Api\ProductController@update')->name("product_update");
-    Route::resource('product', 'Api\ProductController');
-
-    Route::post('/order', 'Api\OrderController@store')->name("order.store");
-
-    Route::group(['middleware' => ['auth:api']], function () { // Authenticated Users Only
-        Route::get('/user', 'Api\AuthController@userInfo');
-        Route::get('/user/lists', 'Api\AuthController@usersList');
-        Route::post('/user/delete', 'Api\AuthController@destroy');
-
-        Route::get('/logout', 'Api\AuthController@logout');
-
-        Route::get('/order', 'Api\OrderController@index')->name("order.index");
-        Route::get('/order/{id}', 'Api\OrderController@show')->name("order.show");
-        // Route::post('/order', 'Api\OrderController@store')->name("order.store");
-        Route::post('/order/{id}', 'Api\OrderController@update')->name("order.update");
-        Route::delete('/order/{id}', 'Api\OrderController@destroy')->name("order.destroy");
-
-    });
+Route::middleware(["auth:sanctum"])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'user']);
 });
