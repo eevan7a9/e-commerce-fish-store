@@ -5,9 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -26,7 +24,11 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
+        return response()->json([
+            'message' => 'User registered successfully', 
+            'data' => $user,
+            'status' => 201
+        ], 201);
     }
 
     // Login a user
@@ -39,13 +41,19 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid Credentials'], 401);
+            return response()->json([
+                'error' => 'Invalid',
+                'message' => 'Invalid Credentials',
+                'status' => 401
+            ], 401);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
-            'message' => $user,
+            'message' => 'Signin successful',
+            'data' => $user,
             'token' => $token,
+            'status' => 200
         ], 200);
     }
 
@@ -54,12 +62,44 @@ class AuthController extends Controller
     {
         // Revoke the user's current token
         $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logout successful'], 200);
+        return response()->json([
+            'message' => 'Logout successful',
+            'status' => 200
+        ], 200);
     }
 
     // Get the authenticated user's information
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        return response()->json([
+            'data' => $request->user(),
+            'status' => 200
+        ], 200);
+    }
+
+    public function changePassword(Request $request) {
+        $validated = $request->validate([
+            'password' => 'required|string',
+            'new_password' => 'required|string|confirmed'
+        ]);
+
+        $user = $request->user();
+        $password = $validated['password'];
+
+        if(!Hash::check($password, $user->password)) {
+            return response()->json([
+                'message' => 'Invalid password',
+                'status' => 403
+            ], 403);
+        }
+    
+        $user->password = Hash::make($validated['new_password']);
+        $user->save();
+
+        return response()->json([
+            'message' => 'Password Changed',
+            'data' => $user,
+            'status' => 200
+        ], 200);
     }
 }
