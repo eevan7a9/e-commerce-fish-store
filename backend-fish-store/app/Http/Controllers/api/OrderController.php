@@ -13,10 +13,8 @@ use Illuminate\Routing\Controllers\Middleware;
 
 class OrderController extends Controller implements HasMiddleware
 {
-
     public static function middleware(): array
     {
-
         return [
             // Only Authenticated can view their Orders
             new Middleware(['auth:sanctum'], only: ['show', 'index']),
@@ -101,6 +99,28 @@ class OrderController extends Controller implements HasMiddleware
                 'data' => $order,
                 'status' => 200
             ]);
+        } catch (ModelNotFoundException $err) {
+            return response()->json([
+                'error' => $err,
+                'message' => 'Order not Found!!!',
+                'status' => 404
+            ], 404);
+        }
+    }
+
+    public function updateStatus(Request $request, string $id) {
+        $validated = $request->validate([
+            'status' => 'required|string|in:pending,approved,shipped,received,cancelled',
+        ]);
+        try {
+            $order = Order::findOrFail($id);  
+            $order->status = $validated['status'];
+            $order->save();
+            
+            return response()->json([
+                'data' => $order,
+                'status' => 200
+            ], 200);
         } catch (ModelNotFoundException $err) {
             return response()->json([
                 'error' => $err,

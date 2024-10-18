@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('shipping_state');
             $table->string('shipping_zip_code');
             $table->string('shipping_country');
-            $table->enum('status', ['pending', 'completed', 'cancelled']);
+            $table->enum('status', ['pending', 'approved', 'shipped', 'received', 'cancelled']);
             $table->timestamps();
         });
     }

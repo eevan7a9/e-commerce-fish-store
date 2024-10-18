@@ -28,6 +28,9 @@ Route::middleware(["auth:sanctum"])->group(function () {
         Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
         Route::apiResource('products', ProductController::class)->except(['index', 'show']);
         Route::apiResource('tags', TagController::class)->except(['index']);
+        
+        // ORDERS
+        Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
         Route::apiResource('orders', OrderController::class)->only('destroy', 'update');
 
     });
