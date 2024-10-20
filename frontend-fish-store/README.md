@@ -1,29 +1,37 @@
-# fish-store
+# eevan7a9-fish-store (frontend-fish-store)
 
-## Project setup
-```
+Single-vendor decoupled e-commerce fish store app built with Vue.js and Laravel.
+
+## Install the dependencies
+
+```bash
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+### Start the app in development mode (hot-code reloading, error reporting, etc.)
+
+```bash
+quasar dev
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### Lint the files
 
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
+```bash
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Format the files
+
+```bash
+npm run format
+```
+
+### Build the app for production
+
+```bash
+quasar build
+```
+
+### Customize the configuration
+
+See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
