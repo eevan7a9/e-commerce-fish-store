@@ -8,5 +8,5 @@ export interface Product {
   images: string[];
   category_id: string | number;
   created_at: Date;
-  updated_at: Date;
+  updated_at?: Date;
 }

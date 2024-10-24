@@ -6,7 +6,7 @@ export default {
   success: 'Action was successful',
   menu: {
     home: 'home',
-    products: 'projects',
+    products: 'products',
     profile: 'profile',
     signin: 'signin',
     register: 'register',

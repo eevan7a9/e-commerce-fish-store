@@ -117,17 +117,31 @@ const menuList = computed(() =>
       </q-scroll-area>
     </q-drawer>
 
-    <q-footer bordered class="tw-bg-slate-100 text-white tw-min-h-[200px]">
-      <q-toolbar class="tw-pt-3">
+    <q-footer bordered class="tw-bg-slate-200 text-dark tw-min-h-[150px]">
+      <q-toolbar class="tw-pt-3 tw-max-w-screen-2xl tw-mx-auto">
         <q-toolbar-title class="tw-flex tw-items-center">
           <q-avatar>
             <q-img src="~assets/koi-logo.webp" />
           </q-avatar>
           <span class="tw-text-gray-900 tw-font-anton tw-ml-2">
-            Footer links
+            {{ appName }}
           </span>
+          <menu-language class="tw-ml-auto tw-mr-0" flat />
         </q-toolbar-title>
       </q-toolbar>
+      <div
+        class="tw-max-w-screen-2xl tw-mx-auto tw-text-[16px] tw-flex tw-flex-col tw-items-center"
+      >
+        <h1 class="tw-py-5">
+          By using this site you accept the
+          <router-link to="/" class="tw-underline">terms of use.</router-link>
+        </h1>
+        <a
+          href="https://github.com/eevan7a9/e-commerce-fish-store"
+          class="tw-text-[12px] tw-underline tw-text-primary"
+          >https://github.com/eevan7a9/e-commerce-fish-store</a
+        >
+      </div>
     </q-footer>
   </q-layout>
 </template>

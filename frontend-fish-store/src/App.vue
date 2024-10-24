@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view class="tw-bg-slate-100" />
 </template>
 
 <script setup lang="ts">
