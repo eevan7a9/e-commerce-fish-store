@@ -11,5 +11,12 @@ export default {
     signin: 'signin',
     register: 'register',
     signout: 'signout',
+    account: 'account',
+  },
+  myLanguage: 'My Language',
+  products: {
+    tags: 'tags',
+    categories: 'categories',
+    selected: 'selected',
   },
 };

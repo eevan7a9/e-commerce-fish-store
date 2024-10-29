@@ -5,8 +5,10 @@ export interface Product {
   weight: string;
   units: number;
   description: string;
-  images: string[];
+  images?: string[];
   category_id: string | number;
-  created_at: Date;
-  updated_at?: Date;
+  category_name?: string;
+  tags: string[];
+  created_at: string;
+  updated_at?: string;
 }

@@ -6,10 +6,17 @@ export default {
   success: 'La acción fue exitosa',
   menu: {
     home: 'inicio',
-    products: 'productos', // corrected from 'proyectos'
+    products: 'productos',
     profile: 'perfil',
     signin: 'iniciar sesión',
-    register: 'registrar',
+    register: 'registrarse',
     signout: 'cerrar sesión',
+    account: 'mi cuenta',
+  },
+  myLanguage: 'Mi Idioma',
+  products: {
+    tags: 'etiquetas',
+    categories: 'categorías',
+    selected: 'seleccionado',
   },
 };

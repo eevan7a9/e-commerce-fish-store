@@ -14,13 +14,13 @@ export const useCategoriesStore = defineStore('categories', {
   },
 
   getters: {
-    list: function (state) {
-      return state.categories;
+    list(): Category[] {
+      return this.categories;
     },
   },
 
   actions: {
-    setCategories(categories: []) {
+    setCategories(categories: []): void {
       this.categories = categories;
     },
   },

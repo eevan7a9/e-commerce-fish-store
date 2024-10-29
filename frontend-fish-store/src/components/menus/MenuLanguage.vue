@@ -29,7 +29,7 @@ function selectLang(t: string) {
 </script>
 
 <template>
-  <q-btn padding="4px 8px" class="tw-ml-3" color="primary" unelevated>
+  <q-btn padding="4px 8px" color="primary" unelevated>
     <q-menu>
       <q-list style="min-width: 100px">
         <q-item
@@ -44,6 +44,6 @@ function selectLang(t: string) {
       </q-list>
     </q-menu>
 
-    <span class="tw-capitalize tw-font-bold">{{ currentLang }}</span>
+    <span class="tw-capitalize">{{ currentLang }}</span>
   </q-btn>
 </template>

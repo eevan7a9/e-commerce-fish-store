@@ -3,7 +3,11 @@ import { useQuasar } from 'quasar';
 import { useLogout } from 'src/shared/composables/useLogout';
 import { computed, ref } from 'vue';
 import { useNavMenu } from 'src/shared/composables/useNavMenu';
-import { MenuLanguage, MenuProfile } from 'src/components/menus/index';
+import {
+  MenuLanguage,
+  MenuProfile,
+  MenuCart,
+} from 'src/components/menus/index';
 
 const $q = useQuasar();
 
@@ -36,16 +40,15 @@ const menuList = computed(() =>
   <q-layout view="lHh lpR lff">
     <q-header bordered reveal class="bg-primary text-white">
       <q-toolbar class="tw-max-w-screen-2xl tw-mx-auto">
-        <q-toolbar-title class="tw-min-w-[200px]">
+        <q-toolbar-title class="tw-max-w-[200px]">
           <q-avatar class="tw-w-[60px] tw-h-[60px]">
             <q-img src="~assets/koi-logo.webp" height="50px" width="50px" />
           </q-avatar>
           <span class="tw-font-anton tw-ml-2">{{ appName }} </span>
-          <menu-language />
         </q-toolbar-title>
 
         <ul
-          class="tw-flex tw-items-center tw-text-[16px] tw-font-light tw-gap-x-5"
+          class="tw-mr-auto tw-ml-0 tw-flex tw-items-center tw-text-[16px] tw-font-light tw-gap-x-5"
           v-if="!mobileView"
         >
           <template v-for="menu of menuList">
@@ -60,14 +63,19 @@ const menuList = computed(() =>
               </router-link>
             </li>
           </template>
+        </ul>
 
+        <ul class="tw-flex tw-items-center tw-mr-0 tw-ml-auto">
+          <li class="tw-px-3">
+            <menu-profile padding="2px 4px" />
+          </li>
           <li>
             |
-            <menu-profile />
+            <menu-cart flat size="20px" padding="4px" class="tw-ml-3" />
           </li>
         </ul>
 
-        <q-btn flat @click="sidebar = !sidebar" v-else>
+        <q-btn flat @click="sidebar = !sidebar" v-if="mobileView">
           <q-icon name="menu"></q-icon>
         </q-btn>
       </q-toolbar>
@@ -98,7 +106,7 @@ const menuList = computed(() =>
         </div>
 
         <q-list>
-          <template v-for="(menu, index) in menuList" :key="index">
+          <template v-for="menu in menuList" :key="menu.route">
             <q-item clickable :to="menu.route" exact v-ripple v-if="menu.show">
               <q-item-section avatar v-if="menu.icon">
                 <q-icon :name="menu.icon" />

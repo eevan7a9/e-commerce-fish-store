@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Tag;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,43 +17,43 @@ class TagSeeder extends Seeder
         $tags = [
             [
                 'name' => 'tuna',
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
+                'updated_at' => Carbon::create(2024, 1, 1, 10, 0, 0)
             ],
             [
                 'name' => 'farm raised',
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
+                'updated_at' => Carbon::create(2024, 1, 1, 10, 0, 0)
             ],
             [
                 'name' => 'clothing',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
+                'updated_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
             ],
             [
                 'name' => 'crustaceans',
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
+                'updated_at' => Carbon::create(2024, 1, 1, 10, 0, 0)
             ],
             [
                 'name' => 'rivers',
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
+                'updated_at' => Carbon::create(2024, 1, 1, 10, 0, 0)
             ],
             [
                 'name' => 'sea',
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
+                'updated_at' => Carbon::create(2024, 1, 1, 10, 0, 0)
             ],
             [
                 'name' => 'tropical',
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
+                'updated_at' => Carbon::create(2024, 1, 1, 10, 0, 0)
             ],
             [
                 'name' => 'mussel',
-                'created_at' => now(),
-                'updated_at' => now()
+                'created_at' => Carbon::create(2024, 1, 1, 10, 0, 0),
+                'updated_at' => Carbon::create(2024, 1, 1, 10, 0, 0)
             ],
         ];
 

@@ -21,12 +21,14 @@ function selectTags(name: string) {
 
 <template>
   <div class="">
-    <h1 class="tw-py-3 tw-text-[18px] tw-font-bold">
-      Tags:
-      <small>Selected({{ model.length }})</small>
+    <h1
+      class="tw-py-3 tw-text-[18px] tw-font-semibold tw-relative tw-capitalize"
+    >
+      {{ $t('products.tags') }}:
+      <small>{{ $t('products.selected') }}({{ model.length }})</small>
       <q-btn
         icon="restart_alt"
-        class="tw-ml-3"
+        class="tw-ml-3 tw-absolute -tw-translate-y-2"
         round
         padding="4px"
         unelevated
@@ -40,7 +42,8 @@ function selectTags(name: string) {
       :key="tag.name"
       :selected="model.includes(tag.name)"
       @click="selectTags(tag.name)"
-      :color="model.includes(tag.name) ? 'positive' : 'primary'"
+      :outline="model.includes(tag.name)"
+      color="primary"
       text-color="white"
       icon="tag"
     >

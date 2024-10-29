@@ -22,12 +22,12 @@ function selectCategory(name: string) {
 </script>
 
 <template>
-  <h1 class="tw-py-3 tw-text-[18px] tw-font-bold">
-    Categories:
-    <small>Selected({{ model.length }})</small>
+  <h1 class="tw-py-3 tw-text-[18px] tw-font-semibold tw-relative tw-capitalize">
+    {{ $t('products.categories') }}:
+    <small>{{ $t('products.selected') }}({{ model.length }})</small>
     <q-btn
       icon="restart_alt"
-      class="tw-ml-3"
+      class="tw-ml-3 tw-absolute -tw-translate-y-2"
       round
       padding="4px"
       unelevated
@@ -41,13 +41,16 @@ function selectCategory(name: string) {
     :key="category.name"
     :selected="model.includes(category.name)"
     @click="selectCategory(category.name)"
-    :color="model.includes(category.name) ? 'positive' : 'primary'"
+    :outline="model.includes(category.name)"
+    color="primary"
     text-color="white"
-    icon="category"
     class="tw-min-w-[180px]"
   >
-    <span class="tw-capitalize">
-      {{ category.name }}
-    </span>
+    <div class="tw-flex tw-w-full tw-justify-between tw-items-center">
+      <span class="tw-capitaliz">
+        {{ category.name }}
+      </span>
+      <q-icon name="category" size="20px" />
+    </div>
   </q-chip>
 </template>

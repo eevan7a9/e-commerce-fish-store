@@ -17,3 +17,36 @@ h6 {
   line-height: 1;
   box-sizing: border-box;
 }
+
+.heading-gradient-primary {
+  background: -webkit-linear-gradient($primary, #bc5ee7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px white;
+
+  /* Optional shadow for additional effect */
+  text-shadow: 1px 8px 13px rgba(0, 0, 0, 0.3);
+}
+
+.heading-primary-text {
+  color: $primary;
+  text-shadow: 2px 2px 0 white, -2px 2px 0 white, 2px -2px 0 white,
+    -2px -2px 0 white; /* Adds a shadow to all sides */
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-5deg); // Moves up slightly and tilts left
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}

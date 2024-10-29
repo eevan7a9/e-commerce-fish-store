@@ -14,6 +14,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/ProductsPage.vue'),
       },
       {
+        path: '/products/:id',
+        component: () => import('pages/ProductDetailsPage.vue'),
+      },
+      {
         path: '/signin',
         component: () => import('pages/SigninPage.vue'),
         meta: { requiresGuest: true },
