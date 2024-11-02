@@ -6,6 +6,12 @@
 import { onMounted } from 'vue';
 import { useAuthStore } from './stores/auth';
 import { useLang } from './shared/composables/useLang';
+import { useProductsStore } from './stores/products';
+import { useCategoriesStore } from './stores/categories';
+
+import productsTestData from 'src/assets/test-data/products';
+import categoriesTestData from 'src/assets/test-data/categories';
+import { useCartStore } from './stores/cart';
 
 defineOptions({
   name: 'App',
@@ -13,10 +19,18 @@ defineOptions({
 
 const auth = useAuthStore();
 const lang = useLang();
+const products = useProductsStore();
+const categories = useCategoriesStore();
+const carts = useCartStore();
 
 onMounted(() => {
+  // Fetch initial data
+  products.setProducts(productsTestData);
+  categories.setCategories(categoriesTestData);
+
   auth.loadUser();
   lang.loadLanguage();
+  carts.loadItems();
   console.log('loading user...');
 });
 

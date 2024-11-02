@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\IsAdmin;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -39,7 +40,6 @@ class OrderController extends Controller implements HasMiddleware
             'data' => $orders,
             'status' => 200
         ], 200);
-
     }
 
     /**
@@ -49,6 +49,7 @@ class OrderController extends Controller implements HasMiddleware
     {
         $validated = $request->validate([
             'email' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
             'shipping_address_line1' => 'required|string|max:1000',
             'shipping_address_line2' => 'nullable|string|max:1000',
             'shipping_city' => 'required|string|max:255',
@@ -56,10 +57,9 @@ class OrderController extends Controller implements HasMiddleware
             'shipping_zip_code' => 'required|string|max:255',
             'shipping_country' => 'required|string|max:255',
             'status' => 'required|string|max:255',
-            'order_items' => 'required|array|min:1', // expects array of items(product_id, price, quantity)
+            'order_items' => 'required|array|min:1', // expects array of items(product_id, quantity)
             'order_items.*.product_id' => 'required|exists:products,id',
             'order_items.*.quantity' => 'required|integer|min:1',
-            'order_items.*.price' => 'required|numeric|min:0',
         ]);
 
         // If Customer is authenticated user.
@@ -69,18 +69,19 @@ class OrderController extends Controller implements HasMiddleware
         }
 
         $order = Order::create($validated);
+        // We get the products to get proper price
+        $productIds = array_column($validated['order_items'], 'product_id');
+        $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
 
-        $orderItems = $order->orderItems()->createMany(array_map(function ($item) {
+        $orderItems = $order->orderItems()->createMany(array_map(function ($item) use ($products) {
             return [
                 'product_id' => $item['product_id'],
                 'quantity' => $item['quantity'],
-                'price' => $item['price']
+                'price' => $products[$item['product_id']]->price,
             ];
         }, $validated['order_items']));
-
         // append order_items to $order before we return to client
         $order->orderItems = $orderItems;
-
         return response()->json([
             'message' => 'Order has been created.',
             'data' => $order,
@@ -108,15 +109,16 @@ class OrderController extends Controller implements HasMiddleware
         }
     }
 
-    public function updateStatus(Request $request, string $id) {
+    public function updateStatus(Request $request, string $id)
+    {
         $validated = $request->validate([
             'status' => 'required|string|in:pending,approved,shipped,received,cancelled',
         ]);
         try {
-            $order = Order::findOrFail($id);  
+            $order = Order::findOrFail($id);
             $order->status = $validated['status'];
             $order->save();
-            
+
             return response()->json([
                 'data' => $order,
                 'status' => 200

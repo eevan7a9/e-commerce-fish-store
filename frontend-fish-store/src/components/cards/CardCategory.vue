@@ -21,9 +21,11 @@ defineProps<{ category: Category }>();
         class="tw-object-contain tw-max-w-[200px] sm:group-hover:tw-scale-150 tw-transition-all tw-ease-in-out tw-duration-300"
       />
       <div
-        class="heading-primary-text tw-uppercase tw-py-3 tw-font-anton tw-text-white tw-absolute tw-h-[80px] tw-bottom-0 tw-w-full tw-text-[28px] md:tw-text-[38px] tw-pl-3 tw-bg-black tw-bg-opacity-25"
+        class="heading-primary-text tw-flex tw-items-center tw-font-anton tw-absolute tw-h-[80px] tw-bottom-0 tw-w-full tw-pl-3 tw-bg-black tw-bg-opacity-25"
       >
-        {{ category.name }}
+        <span class="tw-uppercase tw-py-3 tw-text-[28px] md:tw-text-[38px]">
+          {{ category.name }}
+        </span>
       </div>
     </div>
 

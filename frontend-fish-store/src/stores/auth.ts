@@ -16,11 +16,14 @@ export const useAuthStore = defineStore('auth', {
   },
 
   getters: {
-    userInfo: function (state): User | null {
-      return state.user;
+    userInfo(): User | null {
+      return this.user;
     },
-    userToken: function (state): string {
-      return state.token;
+    userToken(): string {
+      return this.token;
+    },
+    authenticated(): boolean {
+      return !!(this.user && this.token);
     },
   },
 

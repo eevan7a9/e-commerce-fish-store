@@ -10,27 +10,38 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/HomePage.vue'),
       },
       {
-        path: '/products',
+        path: 'products',
         component: () => import('pages/ProductsPage.vue'),
       },
       {
-        path: '/products/:id',
+        path: 'products/:id',
         component: () => import('pages/ProductDetailsPage.vue'),
       },
       {
-        path: '/signin',
+        path: 'checkout',
+        component: () => import('pages/CheckoutPage.vue'),
+        meta: { requiresCartItem: true },
+      },
+      {
+        path: 'account',
+        component: () => import('pages/ProfilePage.vue'),
+        meta: { requiresAuth: true },
+      },
+    ],
+  },
+  {
+    path: '/auth',
+    component: () => import('layouts/CustomerAuthLayout.vue'),
+    children: [
+      {
+        path: '',
         component: () => import('pages/SigninPage.vue'),
         meta: { requiresGuest: true },
       },
       {
-        path: '/register',
+        path: 'register',
         component: () => import('pages/RegisterPage.vue'),
         meta: { requiresGuest: true },
-      },
-      {
-        path: '/profile',
-        component: () => import('pages/ProfilePage.vue'),
-        meta: { requiresAuth: true },
       },
     ],
   },

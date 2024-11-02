@@ -1,10 +1,11 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { MenuItem } from '../interface/menu';
 
 export const useNavMenu = function () {
   const { t } = useI18n();
 
-  const publicMenuList = computed(() => [
+  const publicMenuList = computed<MenuItem[]>(() => [
     {
       label: t('menu.home'),
       route: '/',
@@ -21,30 +22,30 @@ export const useNavMenu = function () {
     },
   ]);
 
-  const authMenuList = computed(() => [
+  const authMenuList = computed<MenuItem[]>(() => [
     {
       label: t('menu.signin'),
-      route: '/signin',
+      route: '/auth',
       icon: '',
       separator: false,
       show: true,
     },
     {
       label: t('menu.register'),
-      route: '/register',
+      route: '/auth/register',
       icon: '',
       separator: false,
       show: true,
     },
     {
       label: t('menu.profile'),
-      route: '/profile',
+      route: '/account',
       icon: '',
       show: true,
     },
   ]);
 
-  const menuList = computed(() => [
+  const menuList = computed<MenuItem[]>(() => [
     ...publicMenuList.value,
     ...authMenuList.value,
   ]);

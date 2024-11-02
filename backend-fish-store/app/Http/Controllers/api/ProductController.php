@@ -116,12 +116,19 @@ class ProductController extends Controller
             'weight' => 'nullable|numeric|between:0.00,9999.99',
             'units' => 'nullable|numeric',
             'description' => 'nullable|string|max:1000',
+            'phone_number' => [
+                'nullable',
+                'string',
+                'regex:/^\+?[0-9\s\-]+$/',
+                'max:15' // Adjust the max length as needed
+            ],
             'images' => 'nullable|array',
             'images.*' => 'string',
             'category_id' => 'nullable|numeric',
             'tag_id' => 'nullable|array',
             'tag_id.*' => 'exists:tags,id'
         ]);
+
         try {
             $product = Product::findOrFail($id);
             $product->update(array_filter($validated));

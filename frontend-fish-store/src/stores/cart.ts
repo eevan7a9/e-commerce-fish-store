@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { LocalStorage } from 'quasar';
 import { Product } from 'src/shared/interface/product';
 
 interface CartItem {
@@ -25,15 +26,16 @@ export const useCartStore = defineStore('cart', {
     },
   },
   actions: {
-    addItem(product: Product) {
+    addItem(product: Product): void {
       const findProduct = this.items.find(
         (item) => item.product.id === product.id
       );
       if (findProduct) {
-        return (findProduct.quantity += 1);
+        findProduct.quantity += 1;
       } else {
         this.items.push({ product, quantity: 1 });
       }
+      LocalStorage.set('cart', [...this.items]);
     },
     removeItem(id: string | number): CartItem | undefined {
       let removed!: CartItem;
@@ -43,7 +45,16 @@ export const useCartStore = defineStore('cart', {
         }
         removed = item;
       });
+      LocalStorage.set('cart', [...this.items]);
       return removed;
+    },
+    loadItems() {
+      this.items = LocalStorage.getItem('cart') || [];
+      console.log('SessionStorage.getItem', this.items);
+    },
+    clear(): void {
+      this.items = [];
+      LocalStorage.set('cart', []);
     },
   },
 });

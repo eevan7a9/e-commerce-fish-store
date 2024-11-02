@@ -3,6 +3,7 @@ import { useLogout } from 'src/shared/composables/useLogout';
 import { useAuthStore } from 'src/stores/auth';
 import { computed } from 'vue';
 import { MenuLanguage } from 'src/components/menus';
+
 defineOptions({
   name: 'MenuProfile',
 });
@@ -10,42 +11,38 @@ defineOptions({
 const { logout } = useLogout();
 const auth = useAuthStore();
 const isAuth = computed(() => !!(auth.userToken && auth.userInfo));
+const username = computed(() => auth.userInfo?.name);
+const profileImg = computed(() => auth.userInfo?.profile_img);
 </script>
 
 <template>
-  <q-btn color="light" icon="person" flat>
-    <span class="gt-xs tw-ml-2">{{ $t('menu.account') }}</span>
-    <q-menu max-width="400px" class="tw-w-[360px]">
-      <div class="row no-wrap q-pa-md">
-        <div class="column tw-w-[150px]">
-          <div class="tw-flex tw-flex-col tw-items-start">
-            {{ $t('myLanguage') }}:
-            <menu-language
-              outline
-              color="dark"
-              class="tw-w-full tw-mt-2 tw-font-normal"
-              padding="0 12px"
-            />
-          </div>
+  <q-btn color="light" flat>
+    <q-icon class="tw-mr-2">
+      <q-avatar size="32px" v-if="isAuth">
+        <img :src="profileImg" />
+      </q-avatar>
 
-          <q-separator class="tw-my-3" />
+      <q-avatar
+        size="32px"
+        color="grey-4"
+        text-color="primary"
+        icon="person"
+        v-else
+      />
+    </q-icon>
 
-          <q-btn
-            outline
-            color="primary"
-            class="tw-font-normal"
-            padding="2px 12px"
-          >
-            My Purchase
-          </q-btn>
-        </div>
+    <span class="gt-xs tw-ml-2" v-if="isAuth">{{ $t('menu.account') }}</span>
+    <span class="gt-xs tw-ml-2" v-else>Customer</span>
 
+    <q-menu max-width="400px">
+      <div class="tw-px-2 md:tw-px-3 tw-py-4 tw-flex tw-flex-col">
         <q-separator vertical inset class="q-mx-lg" />
 
-        <div class="column tw-w-[150px] tw-items-center tw-justify-center">
+        <section class="column tw-w-[150px] tw-items-center tw-justify-center">
           <q-avatar size="72px" v-if="isAuth">
-            <img src="https://avatars.githubusercontent.com/u/44322334?v=4" />
+            <img :src="profileImg" />
           </q-avatar>
+
           <q-avatar
             size="72px"
             color="teal"
@@ -54,17 +51,24 @@ const isAuth = computed(() => !!(auth.userToken && auth.userInfo));
             v-else
           />
 
-          <div class="text-subtitle1 q-mt-md q-mb-xs">
-            {{ isAuth ? 'Eevan7a9' : 'Customer' }}
-          </div>
+          <router-link
+            class="tw-w-full tw-py-3 hover:tw-underline"
+            to="/account"
+            v-close-popup
+          >
+            <div class="tw-overflow-hidden tw-text-center ellipsis">
+              {{ isAuth ? username : 'Customer' }}
+            </div>
+          </router-link>
 
           <template v-if="isAuth">
             <q-btn
               color="positive"
               label="profile"
-              to="/profile"
+              to="/account"
               size="sm"
-              class="tw-mb-2"
+              class="tw-mb-2 tw-w-full"
+              unelevated
               v-close-popup
             />
 
@@ -72,32 +76,45 @@ const isAuth = computed(() => !!(auth.userToken && auth.userInfo));
               color="negative"
               @click="logout()"
               label="Logout"
-              push
               size="sm"
+              unelevated
+              class="tw-w-full"
               v-close-popup
             />
           </template>
           <template v-else>
             <q-btn
               color="positive"
-              label="Register"
-              to="/register"
+              :label="$t('auth.signup')"
+              to="/auth/register"
               size="sm"
+              unelevated
               class="tw-mb-2 tw-w-full"
               v-close-popup
             />
 
             <q-btn
               color="primary"
-              to="/signin"
-              label="Signin"
+              to="/auth"
+              :label="$t('auth.signin')"
               class="tw-w-full"
-              push
+              unelevated
               size="sm"
               v-close-popup
             />
           </template>
-        </div>
+        </section>
+
+        <section class="column tw-w-[150px] tw-mt-4">
+          <div class="tw-flex tw-flex-col tw-items-center">
+            {{ $t('myLanguage') }}:
+            <menu-language
+              color="info"
+              class="tw-w-full tw-mt-2 tw-font-normal tw-text-[12px]"
+              padding="2px 12px"
+            />
+          </div>
+        </section>
       </div>
     </q-menu>
   </q-btn>

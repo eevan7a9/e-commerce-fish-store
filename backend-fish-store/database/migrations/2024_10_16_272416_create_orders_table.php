@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id(); // Primary key
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('email');
+            $table->string('phone', length: 15);
             $table->text('shipping_address_line1');
             $table->text('shipping_address_line2')->nullable();
             $table->string('shipping_city');

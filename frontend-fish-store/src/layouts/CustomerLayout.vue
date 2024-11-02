@@ -1,32 +1,37 @@
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { useLogout } from 'src/shared/composables/useLogout';
 import { computed, ref } from 'vue';
 import { useNavMenu } from 'src/shared/composables/useNavMenu';
+import { DrawerMobileLeft } from 'src/components/drawers';
 import {
   MenuLanguage,
-  MenuProfile,
   MenuCart,
+  MenuProfile,
 } from 'src/components/menus/index';
+import { NavbarCustomer } from 'src/components/navbars';
+import { MenuItem } from 'src/shared/interface/menu';
+import { useRoute } from 'vue-router';
 
 const $q = useQuasar();
-
-const { logout } = useLogout();
 const navMenu = useNavMenu();
+const route = useRoute();
+
 const appName = ref(process.env.VUE_APP_NAME);
 const sidebar = ref(false);
 
+const showCart = computed(() => !route.fullPath.includes('/checkout'));
+
 const mobileView = computed(() => $q.screen.lt.md);
-const menuList = computed(() =>
+const menuList = computed<MenuItem[]>(() =>
   navMenu.menuList.value.map((menu) => {
     switch (menu.route) {
-      case '/signin':
+      case '/auth':
         menu.show = mobileView.value;
         return menu;
-      case '/register':
+      case '/auth/register':
         menu.show = mobileView.value;
         return menu;
-      case '/profile':
+      case '/account':
         menu.show = mobileView.value;
         return menu;
       default:
@@ -39,91 +44,34 @@ const menuList = computed(() =>
 <template>
   <q-layout view="lHh lpR lff">
     <q-header bordered reveal class="bg-primary text-white">
-      <q-toolbar class="tw-max-w-screen-2xl tw-mx-auto">
-        <q-toolbar-title class="tw-max-w-[200px]">
-          <q-avatar class="tw-w-[60px] tw-h-[60px]">
-            <q-img src="~assets/koi-logo.webp" height="50px" width="50px" />
-          </q-avatar>
-          <span class="tw-font-anton tw-ml-2">{{ appName }} </span>
-        </q-toolbar-title>
+      <navbar-customer>
+        <template #menu-profile>
+          <menu-profile padding="2px 4px" />
+        </template>
 
-        <ul
-          class="tw-mr-auto tw-ml-0 tw-flex tw-items-center tw-text-[16px] tw-font-light tw-gap-x-5"
-          v-if="!mobileView"
-        >
-          <template v-for="menu of menuList">
-            <li class="tw-uppercase" :key="menu.label" v-if="menu.show">
-              <router-link
-                :key="menu.label"
-                exact
-                exact-active-class="!tw-text-gray-100 tw-font-bold"
-                :to="menu.route || '/'"
-              >
-                {{ menu.label }}
-              </router-link>
-            </li>
-          </template>
-        </ul>
+        <template v-if="showCart" #menu-cart>
+          |
+          <menu-cart flat size="20px" padding="4px" class="tw-ml-3" />
+        </template>
 
-        <ul class="tw-flex tw-items-center tw-mr-0 tw-ml-auto">
-          <li class="tw-px-3">
-            <menu-profile padding="2px 4px" />
-          </li>
-          <li>
-            |
-            <menu-cart flat size="20px" padding="4px" class="tw-ml-3" />
-          </li>
-        </ul>
-
-        <q-btn flat @click="sidebar = !sidebar" v-if="mobileView">
-          <q-icon name="menu"></q-icon>
-        </q-btn>
-      </q-toolbar>
+        <template #mobile-toggle>
+          <q-btn
+            class="tw-mr-0 tw-ml-auto"
+            flat
+            @click="sidebar = !sidebar"
+            v-if="mobileView"
+          >
+            <q-icon name="menu"></q-icon>
+          </q-btn>
+        </template>
+      </navbar-customer>
     </q-header>
 
-    <q-page-container>
+    <q-page-container class="tw-flex tw-flex-col tw-min-h-screen">
       <router-view />
     </q-page-container>
 
-    <q-drawer
-      v-model="sidebar"
-      :width="200"
-      :breakpoint="500"
-      overlay
-      bordered
-      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
-      v-if="mobileView"
-    >
-      <q-scroll-area class="fit tw-pt-3">
-        <div class="tw-flex tw-items-end tw-pr-3">
-          <q-btn
-            padding="4px"
-            @click="sidebar = !sidebar"
-            flat
-            icon="close"
-            class="tw-mr-0 tw-ml-auto"
-          />
-        </div>
-
-        <q-list>
-          <template v-for="menu in menuList" :key="menu.route">
-            <q-item clickable :to="menu.route" exact v-ripple v-if="menu.show">
-              <q-item-section avatar v-if="menu.icon">
-                <q-icon :name="menu.icon" />
-              </q-item-section>
-              <q-item-section class="tw-uppercase">
-                {{ menu.label }}
-              </q-item-section>
-            </q-item>
-          </template>
-          <q-item clickable @click="logout()" exact v-ripple>
-            <q-item-section class="tw-uppercase">
-              {{ $t('menu.signout') }}
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
-    </q-drawer>
+    <drawer-mobile-left v-model="sidebar" :menu-list="menuList" />
 
     <q-footer bordered class="tw-bg-slate-200 text-dark tw-min-h-[150px]">
       <q-toolbar class="tw-pt-3 tw-max-w-screen-2xl tw-mx-auto">
@@ -131,6 +79,7 @@ const menuList = computed(() =>
           <q-avatar>
             <q-img src="~assets/koi-logo.webp" />
           </q-avatar>
+
           <span class="tw-text-gray-900 tw-font-anton tw-ml-2">
             {{ appName }}
           </span>
@@ -138,7 +87,7 @@ const menuList = computed(() =>
         </q-toolbar-title>
       </q-toolbar>
       <div
-        class="tw-max-w-screen-2xl tw-mx-auto tw-text-[16px] tw-flex tw-flex-col tw-items-center"
+        class="tw-max-w-screen-2xl tw-mx-auto tw-pb-3 sm:tw-text-[16px] tw-flex tw-flex-col tw-items-center"
       >
         <h1 class="tw-py-5">
           By using this site you accept the
@@ -146,9 +95,15 @@ const menuList = computed(() =>
         </h1>
         <a
           href="https://github.com/eevan7a9/e-commerce-fish-store"
-          class="tw-text-[12px] tw-underline tw-text-primary"
-          >https://github.com/eevan7a9/e-commerce-fish-store</a
+          target="_blank"
+          class="tw-text-[12px] tw-underline tw-text-primary tw-text-center"
         >
+          <div class="gt-xs">
+            https://github.com/eevan7a9/e-commerce-fish-store
+          </div>
+
+          <q-icon name="mdi-github" class="tw-mx-auto" size="34px"
+        /></a>
       </div>
     </q-footer>
   </q-layout>

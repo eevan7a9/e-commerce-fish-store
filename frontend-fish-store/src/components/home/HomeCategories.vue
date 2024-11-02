@@ -11,12 +11,14 @@ defineOptions({
 });
 
 const categoriesStore = useCategoriesStore();
-const categories = computed(() => categoriesStore.list);
 const router = useRouter();
+
+const categories = computed(() => categoriesStore.list);
+
 function categoryShow(category: Category) {
   Dialog.create({
     color: 'primary',
-    title: category.name,
+    title: category.name.toUpperCase(),
     message: category.description,
     cancel: true,
     ok: {

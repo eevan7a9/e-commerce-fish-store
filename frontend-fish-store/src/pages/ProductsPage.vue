@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {
   ProductsList,
   ProductsTagsFilter,
@@ -32,6 +32,11 @@ const filter = ref<{
 // for Sort
 const sort = ref('');
 
+const isFilterSearch = computed(() => {
+  const { search, tags, categories } = filter.value;
+  return !!(search || tags.length || categories.length);
+});
+
 const updateParams = debounce((val) => {
   const { search, tags, categories, sort } = val;
   router.replace({
@@ -44,6 +49,10 @@ const updateParams = debounce((val) => {
   });
 }, 800);
 
+function resetFilterSearch() {
+  filter.value = structuredClone(initialFilter);
+}
+
 watch(
   [filter, sort],
   (val) => {
@@ -52,15 +61,17 @@ watch(
   },
   { deep: true }
 );
+
 watch(
   () => route.fullPath,
   (val) => {
     if (val === '/products') {
-      filter.value = structuredClone(initialFilter);
+      resetFilterSearch();
       sort.value = 'latest';
     }
   }
 );
+
 onMounted(() => {
   const { search, tags, categories, sort: sortQuery } = route.query;
 
@@ -80,6 +91,7 @@ onMounted(() => {
         <q-input
           outlined
           v-model="filter.search"
+          dense
           clearable
           :label="filter.search?.length ? 'Searching...' : 'Search something'"
         >
@@ -96,11 +108,23 @@ onMounted(() => {
       </div>
     </aside>
 
-    <section
-      class="md:tw-col-span-9 tw-bg-slate-100 tw-relative tw-py-8 md:tw-py-12"
-    >
-      <div class="tw-mb-12 tw-flex">
-        <menu-sort v-model="sort" class="tw-ml-auto tw-mr-0" />
+    <section class="md:tw-col-span-9 tw-relative tw-py-8 md:tw-py-12">
+      <div
+        class="tw-mb-12 tw-flex tw-flex-col tw-gap-y-3 tw-px-3 md:tw-px-0 md:tw-flex-row tw-justify-between"
+      >
+        <menu-sort v-model="sort" class="tw-py-2" />
+
+        <q-btn
+          color="primary"
+          dense
+          unelevated
+          outline
+          icon="mdi-cancel"
+          label="Clear Search & Filters"
+          padding="8px 12px"
+          @click="resetFilterSearch()"
+          v-if="isFilterSearch"
+        />
       </div>
 
       <products-list />

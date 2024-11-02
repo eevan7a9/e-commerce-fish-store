@@ -19,4 +19,19 @@ export default {
     categories: 'categorías',
     selected: 'seleccionado',
   },
+  auth: {
+    signup: 'Regístrate',
+    socials: 'Regístrate con cuentas sociales',
+    signupNot: '¿Aún no tienes una cuenta?',
+    signupAlready: '¿Ya tienes una cuenta?',
+    signin: 'Iniciar sesión',
+    signinHere: 'inicia sesión aquí',
+    registerHere: 'Regístrate aquí',
+  },
+  button: {
+    submit: 'Enviar',
+    reset: 'Restablecer',
+    cancel: 'Cancelar',
+    ok: 'Aceptar',
+  },
 };

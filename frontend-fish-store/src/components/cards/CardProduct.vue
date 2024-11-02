@@ -29,7 +29,7 @@ function addToCart(product: Product) {
 <template>
   <q-card class="my-card tw-pb-3 tw-relative tw-border tw-m-0" flat>
     <q-badge
-      class="tw-z-10 tw-absolute tw-text-[16px] tw-py-2 -tw-translate-y-3"
+      class="tw-z-10 tw-absolute tw-text-[16px] tw-py-2 -tw-translate-y-3 tw-capitalize"
     >
       {{ product.category_name || 'Unkown' }}
     </q-badge>
@@ -45,9 +45,9 @@ function addToCart(product: Product) {
     </q-card-section>
 
     <q-card-section class="tw-cursor-pointer hover:tw-underline">
-      <router-link :to="'/products/' + product.id">
+      <router-link class="tw-w-full" :to="'/products/' + product.id">
         <div
-          class="ellipsis tw-overflow-hidden tw-text-[16px] md:tw-text-[20px]"
+          class="ellipsis tw-overflow-hidden tw-text-[14px] sm:tw-text-[20px]"
         >
           {{ product.name }}
         </div>

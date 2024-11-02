@@ -2,7 +2,7 @@
 defineOptions({
   name: 'RainStorm',
 });
-const droplets = Array.from({ length: 50 }, () => ({
+const droplets = Array.from({ length: 30 }, () => ({
   x: Math.floor(Math.random() * 100),
   o: Math.random() * 0.7 + 0.3, // Opacity between 0.3 and 1 for variation
   s: Math.random() * 1.2 + 0.4, // Scale for stretch effect

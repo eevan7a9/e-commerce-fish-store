@@ -2,7 +2,7 @@
 import { Product } from 'src/shared/interface/product';
 import { useProductsStore } from 'src/stores/products';
 import { CardProduct } from 'src/components/cards';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCategoriesStore } from 'src/stores/categories';
 import { Category } from 'src/shared/interface/category';
@@ -48,6 +48,13 @@ function setProductCategory(id: string | number) {
   category.value = findCategory;
 }
 
+watch(
+  () => route.fullPath,
+  () => {
+    setCurrentProduct();
+  }
+);
+
 onMounted(() => {
   setCurrentProduct();
 });
@@ -55,16 +62,13 @@ onMounted(() => {
 
 <template>
   <main
-    class="tw-max-w-screen-xl tw-mx-auto tw-grid md:tw-grid-cols-12 tw-gap-5 tw-py-12"
+    class="tw-max-w-screen-xl tw-mx-auto tw-grid md:tw-grid-cols-12 tw-gap-5 tw-pt-4 tw-pb-12"
   >
     <section class="md:tw-col-span-9">
-      <nav class="tw-col-span-12 tw-py-4 md:tw-text-[20px]">
-        <q-breadcrumbs>
+      <nav class="tw-col-span-12 tw-py-5 md:tw-text-[20px] tw-pl-2">
+        <q-breadcrumbs class="tw-font-anton">
           <q-breadcrumbs-el label="Products" icon="phishing" to="/products" />
-          <q-breadcrumbs-el
-            class="tw-font-bold"
-            :label="product?.name || 'Page'"
-          />
+          <q-breadcrumbs-el :label="product?.name || 'Page'" />
         </q-breadcrumbs>
       </nav>
 
@@ -103,7 +107,9 @@ onMounted(() => {
 
           <q-card-section>
             <div class="tw-font-bold">Description:</div>
-            <p class="tw-max-w-[600px] tw-mt-2">{{ product.description }}</p>
+            <p class="tw-max-w-[600px] tw-mt-2 tw-leading-[150%]">
+              {{ product.description }}
+            </p>
           </q-card-section>
 
           <q-card-section>
@@ -124,34 +130,34 @@ onMounted(() => {
 
         <q-card class="tw-border tw-mt-8 md:tw-px-3 tw-py-5" flat>
           <q-card-section>
-            <h1 class="tw-text-[20px] tw-font-bold">Buy Now</h1>
+            <h1 class="tw-text-[20px] tw-font-anton">Buy Now</h1>
           </q-card-section>
 
           <q-card-section
             class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row md:tw-items-center tw-justify-between"
           >
-            <div class="tw-font-bold">
+            <div class="">
               Price per Unit/Order
               <p
-                class="tw-bg-slate-100 tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
+                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
               >
                 ₱{{ product.price }}
               </p>
             </div>
 
-            <div class="tw-font-bold">
+            <div class="">
               Weight per Unit/Order
               <p
-                class="tw-bg-slate-100 tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
+                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
               >
                 {{ product.weight }}lb
               </p>
             </div>
 
-            <div class="tw-font-bold">
+            <div class="">
               Available Unit/Order
               <p
-                class="tw-bg-slate-100 tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
+                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
               >
                 {{ product.units }} Left
               </p>
@@ -185,19 +191,19 @@ onMounted(() => {
 
         <div>
           <h1 class="tw-mb-2 tw-uppercase">{{ category?.name }}</h1>
-          <p>{{ category?.description }}</p>
+          <p class="tw-leading-[125%]">{{ category?.description }}</p>
         </div>
       </div>
     </section>
 
     <aside class="md:tw-col-span-3 tw-justify-items-center tw-pt-4">
       <h1
-        class="tw-pl-3 tw-max-w-[400px] tw-font-bold tw-text-[20px] md:tw-text-[22px] tw-text-center md:tw-text-left tw-mx-auto tw-mb-8 tw-capitalize"
+        class="tw-pl-3 tw-font-anton tw-max-w-[400px] tw-font-normal tw-text-[20px] md:tw-text-[22px] tw-text-center md:tw-text-left tw-mx-auto tw-mb-8 tw-capitalize"
       >
         related Products
       </h1>
       <div
-        class="tw-max-w-[400px] tw-flex tw-flex-col tw-gap-6 tw-mx-auto tw-px-3"
+        class="tw-max-w-[400px] tw-flex tw-flex-col tw-gap-6 tw-mx-auto tw-px-1"
       >
         <template v-for="other of relatedProducts" :key="other.id">
           <card-product :product="other" />

@@ -19,4 +19,19 @@ export default {
     categories: 'categories',
     selected: 'selected',
   },
+  auth: {
+    signup: 'Register',
+    socials: 'Sign up with social accounts',
+    signupNot: "Don't have an account yet?",
+    signupAlready: 'Already have an account?',
+    signin: 'Sign in',
+    signinHere: 'sign in here',
+    registerHere: 'Register here',
+  },
+  button: {
+    submit: 'Submit',
+    reset: 'Reset',
+    cancel: 'Cancel',
+    ok: 'Ok',
+  },
 };

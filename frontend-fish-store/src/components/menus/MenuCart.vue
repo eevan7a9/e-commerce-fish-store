@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { Notify } from 'quasar';
 import { useCartStore } from 'src/stores/cart';
+import { DialogCart } from 'src/components/dialogs';
+import { ref } from 'vue';
 
 defineOptions({
   name: 'MenuCart',
 });
 
 const cartStore = useCartStore();
+
+const showCart = ref(false);
 
 function removeItem(id: string | number) {
   cartStore.removeItem(id);
@@ -22,7 +26,7 @@ function removeItem(id: string | number) {
 }
 
 function viewShoppingCart() {
-  console.log('View cart');
+  showCart.value = true;
 }
 </script>
 
@@ -54,7 +58,9 @@ function viewShoppingCart() {
               class="tw-text-[18px] tw-font-bold tw-text-primary"
               side
             >
-              {{ item.quantity }}
+              <q-badge class="tw-py-1 tw-text-[14px] tw-font-anton">
+                {{ item.quantity }}
+              </q-badge>
             </q-item-section>
 
             <q-item-section>
@@ -97,17 +103,31 @@ function viewShoppingCart() {
               {{ cartStore.list.length - 2 }} More
             </span>
             <q-btn
-              class="tw-mt-2"
+              class="tw-mt-2 tw-w-full"
               color="primary"
               @click="viewShoppingCart"
-              unelevated
+              outline
+              show
+              v-close-popup
             >
               View my Shopping cart
+            </q-btn>
+
+            <q-btn
+              class="tw-mt-2 tw-w-full"
+              color="primary"
+              to="/checkout"
+              unelevated
+              v-close-popup
+            >
+              Checkout now
             </q-btn>
           </q-item>
         </q-list>
       </div>
     </q-menu>
+
+    <dialog-cart v-model="showCart" />
   </q-btn>
 </template>
 

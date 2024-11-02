@@ -1,7 +1,7 @@
 import { useAuthStore } from 'src/stores/auth';
 import { useRouter } from 'vue-router';
 import { useLang } from './useLang';
-import { Notify } from 'quasar';
+import { Loading, Notify } from 'quasar';
 
 export function useLogout() {
   const auth = useAuthStore();
@@ -12,12 +12,20 @@ export function useLogout() {
   function logout() {
     auth.clearState();
     lang.resetLanguage();
-    router.push('/signin');
-    notify.create({
-      color: 'positive',
-      message: 'You have been logged out successfully.',
-      timeout: 3000,
+
+    Loading.show({
+      message: 'Please wait, logging out...',
     });
+
+    setTimeout(() => {
+      Loading.hide();
+      router.push('/auth');
+      notify.create({
+        color: 'positive',
+        message: 'You have been logged out successfully.',
+        timeout: 3000,
+      });
+    }, 1000);
   }
 
   return {

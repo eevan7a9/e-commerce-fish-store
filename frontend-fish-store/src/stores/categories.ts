@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import categories from 'src/assets/test-data/categories';
 import { Category } from 'src/shared/interface/category';
 
 interface categoriesState {
@@ -9,7 +8,7 @@ interface categoriesState {
 export const useCategoriesStore = defineStore('categories', {
   state(): categoriesState {
     return {
-      categories: categories,
+      categories: [],
     };
   },
 
@@ -20,7 +19,7 @@ export const useCategoriesStore = defineStore('categories', {
   },
 
   actions: {
-    setCategories(categories: []): void {
+    setCategories(categories: Category[]): void {
       this.categories = categories;
     },
   },

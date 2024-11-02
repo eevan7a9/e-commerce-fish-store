@@ -13,21 +13,25 @@ class CustomerSeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = fake();
         // Generating our main test user
         User::create([
             'name' => 'Test user 1',
             'email' => 'test1@email.com',
             'password' => bcrypt('password'),
             'is_admin' => false,
+            'address' => $faker->address,          // Generates a random address
+            'phone' => $faker->regexify('\d{3}-\d{3}-\d{4}')
         ]);
         // Generating Random User
-        $faker = fake();
         for ($i = 0; $i < 3; $i++) {
             User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'password' => bcrypt('password'),
                 'is_admin' => false,
+                'address' => $faker->address,          // Generates a random address
+                'phone' => $faker->regexify('\d{3}-\d{3}-\d{4}')
             ]);
         }
     }
