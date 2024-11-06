@@ -1,27 +1,39 @@
-import { OrderStatus } from '../enums/order';
+import {
+  OrderPaymentMethod,
+  OrderPaymentStatus,
+  OrderStatus,
+} from '../enums/order';
 
 export interface Order {
   id: string | number;
   user_id?: string | number;
+  name: string;
   email: string;
-  shipping_address_line1: string;
-  shipping_address_line2?: string;
-  shipping_city?: string;
-  shipping_state?: string;
-  shipping_zip_code?: string;
-  shipping_country?: string;
+  phone?: string;
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string;
+  payment_method_id?: string;
+  payment_method: OrderPaymentMethod;
   status: OrderStatus;
+  payment_status: OrderPaymentStatus;
   order_items?: OrderItem[];
-  created_at?: string;
+  total_amount: number;
+  total_weight?: number;
+  created_at: string;
   updated_at?: string;
 }
 
-export interface OrderItem extends Order {
+export interface OrderItem {
   id: string | number;
   order_id?: string | number;
   product_id: string | number;
   quantity: number;
-  price: string;
+  weight?: number;
+  price: number;
   created_at?: string;
   updated_at?: string;
 }

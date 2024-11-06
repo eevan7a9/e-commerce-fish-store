@@ -26,7 +26,7 @@ const image = ref<File>();
 function onSubmit() {
   console.log('submit...');
 
-  if (process.env.RISTRICTED_APP_ENABLED) {
+  if (process.env.TEST_MODE) {
     Notify.create({
       message: process.env.RISTRICTED_NOTIFY_MESSAGE,
       timeout: 8000,

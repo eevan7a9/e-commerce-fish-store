@@ -1,35 +1,50 @@
 <script setup lang="ts">
-import { FormShippingAddress } from 'src/shared/interface/form';
+import {
+  FormCheckoutPayment,
+  FormShippingAddress,
+} from 'src/shared/interface/form';
 import { useCartStore } from 'src/stores/cart';
 import { computed, ref } from 'vue';
 import { Loading, Notify } from 'quasar';
+import { OrderPaymentMethod } from 'src/shared/enums/order';
+import { useCountries } from 'src/shared/composables/useCountries';
+
+const countries = useCountries();
 
 const props = defineProps<{
   contactDetails: object;
   shippingAddress: FormShippingAddress;
-  paymentMethod: { token?: string; method: string };
+  payment: FormCheckoutPayment;
 }>();
 
 const emits = defineEmits<{ done: [] }>();
-
 const cart = useCartStore();
-
 const loading = ref(false);
-const payment = computed(() => {
-  if (props.paymentMethod.method === 'card') {
-    return 'Online Card Payment (via Stripe)';
-  } else {
-    return 'Cash on Delivery (COD)';
-  }
-});
+
+const payment = computed(() => ({
+  method:
+    props.payment.method === OrderPaymentMethod.Stripe
+      ? 'Online Card Payment (via Stripe)'
+      : 'Cash on Delivery (COD)',
+  ...(props.payment.stripePaymentMethod?.card && {
+    last_4: props.payment.stripePaymentMethod
+      ? props.payment.stripePaymentMethod.card?.last4
+      : undefined,
+    brand: props.payment.stripePaymentMethod
+      ? props.payment.stripePaymentMethod.card?.brand
+      : undefined,
+  }),
+}));
 
 function placeOrder() {
+  console.log('place order...');
+
   loading.value = true;
-  console.log('place order');
   Loading.show({
     spinnerColor: 'primary',
     message: 'Processing your order... Please wait a moment.',
   });
+
   setTimeout(() => {
     cart.clear();
     Notify.create({
@@ -97,32 +112,38 @@ function placeOrder() {
         <div
           class="tw-border tw-w-full md:tw-w-[350px] tw-py-2 tw-px-3 tw tw-capitalize"
         >
-          {{ key.split('_').slice(1, key.length).join(' ') }}
+          {{ key.split('_').join(' ') }}
+        </div>
+
+        <div
+          class="tw-border tw-w-full tw-py-2 tw-px-3 tw-capitalize tw-bg-slate-100"
+        >
+          {{ key !== 'country' ? value : countries.getLabelByAlpha2(value) }}
+        </div>
+      </div>
+    </q-card-section>
+
+    <q-separator />
+
+    <q-card-section class="tw-flex tw-flex-col tw-gap-y-3 sm:tw-gap-0">
+      <h2 class="tw-text-[16px] md:tw-text-[18px] tw-font-anton tw-mb-3">
+        Payment Method
+      </h2>
+      <div
+        v-for="(value, key, i) of payment"
+        :key="i"
+        class="tw-flex tw-flex-col sm:tw-flex-row tw-w-full"
+      >
+        <div
+          class="tw-border tw-w-full md:tw-w-[350px] tw-py-2 tw-px-3 tw tw-capitalize"
+        >
+          {{ key.split('_').join(' ') }}
         </div>
 
         <div
           class="tw-border tw-w-full tw-py-2 tw-px-3 tw-capitalize tw-bg-slate-100"
         >
           {{ value }}
-        </div>
-      </div>
-    </q-card-section>
-    <q-separator />
-    <q-card-section class="tw-flex tw-flex-col tw-gap-y-3 sm:tw-gap-0">
-      <h2 class="tw-text-[16px] md:tw-text-[18px] tw-font-anton tw-mb-3">
-        Payment Method
-      </h2>
-      <div class="tw-flex tw-flex-col sm:tw-flex-row tw-w-full">
-        <div
-          class="tw-border tw-w-full md:tw-w-[350px] tw-py-2 tw-px-3 tw tw-capitalize"
-        >
-          Method
-        </div>
-
-        <div
-          class="tw-border tw-w-full tw-py-2 tw-px-3 tw-capitalize tw-bg-slate-100"
-        >
-          {{ payment }}
         </div>
       </div>
     </q-card-section>

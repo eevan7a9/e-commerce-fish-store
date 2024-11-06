@@ -14,7 +14,7 @@ defineOptions({
       round
       :size="$q.screen.gt.sm ? 'lg' : 'md'"
     >
-      <q-icon name="mdi-facebook" color="primary" />
+      <q-icon name="mdi-facebook" color="accent" />
     </q-btn>
 
     <q-btn
@@ -25,7 +25,7 @@ defineOptions({
       round
       :size="$q.screen.gt.sm ? 'lg' : 'md'"
     >
-      <q-icon name="mdi-instagram" color="primary" />
+      <q-icon name="mdi-instagram" color="accent" />
     </q-btn>
 
     <q-btn
@@ -36,7 +36,7 @@ defineOptions({
       round
       :size="$q.screen.gt.sm ? 'lg' : 'md'"
     >
-      <q-icon name="mdi-twitter" color="primary" />
+      <q-icon name="mdi-twitter" color="accent" />
     </q-btn>
 
     <q-btn
@@ -47,7 +47,7 @@ defineOptions({
       round
       :size="$q.screen.gt.sm ? 'lg' : 'md'"
     >
-      <q-icon name="mdi-linkedin" color="primary" />
+      <q-icon name="mdi-linkedin" color="accent" />
     </q-btn>
   </div>
 </template>

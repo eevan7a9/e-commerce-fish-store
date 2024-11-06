@@ -1,3 +1,4 @@
 import BadgeOrderStatus from './BadgeOrderStatus.vue';
+import BadgePaymentStatus from './BadgePaymentStatus.vue';
 
-export { BadgeOrderStatus };
+export { BadgeOrderStatus, BadgePaymentStatus };

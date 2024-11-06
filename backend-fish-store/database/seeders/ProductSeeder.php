@@ -113,7 +113,7 @@ class ProductSeeder extends Seeder
                 'price' => mt_rand(500, 9999) / 100,
                 'weight' => 2,
                 'units' => 12,
-                'category_id' => 4,
+                'category_id' => 3,
                 'images' => json_encode([]),
                 'created_at' => Carbon::create(2024, 2, 5, 10, 0, 0),
                 'updated_at' => Carbon::create(2024, 2, 5, 10, 0, 0),
@@ -153,7 +153,12 @@ class ProductSeeder extends Seeder
         // Loop through each product and attach some tags
         foreach ($insertedProducts as $product) {
             // Attach 2 random tags to each product (adjust this as needed)
-            $product->tags()->attach($tags->random(2));
+            if($product->category_id === 3) {
+                $product->tags()->attach([2,5]);
+            } else {
+                $product->tags()->attach($tags->random(3));
+            }
+           
         }
     }
 }

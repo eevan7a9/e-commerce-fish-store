@@ -14,15 +14,22 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id(); // Primary key
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('name');
             $table->string('email');
             $table->string('phone', length: 15);
-            $table->text('shipping_address_line1');
-            $table->text('shipping_address_line2')->nullable();
-            $table->string('shipping_city');
-            $table->string('shipping_state');
-            $table->string('shipping_zip_code');
-            $table->string('shipping_country');
+            $table->text('line1');
+            $table->text('line2')->nullable();
+            $table->string('city');
+            $table->string('state');
+            $table->string('postal_code');
+            $table->string('country');
+            $table->decimal('total_weight', 10, 2)->nullable();
+            $table->decimal('total_amount', 10, 2);
+            $table->string('payment_method_id')->nullable();           
+            $table->enum('payment_method', ['stripe', 'cod']);
+            $table->enum('payment_status', ['unpaid', 'paid', 'refunded']);
             $table->enum('status', ['pending', 'approved', 'shipped', 'received', 'cancelled']);
+ 
             $table->timestamps();
         });
     }

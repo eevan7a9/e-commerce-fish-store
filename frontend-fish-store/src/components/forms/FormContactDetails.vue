@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { FormContactDetails } from 'src/shared/interface/form';
 import {
+  minLength,
   requiredField,
   validEmail,
   validPhone,
@@ -9,16 +11,11 @@ defineOptions({
   name: 'FormShippingAddress',
 });
 
-interface ContactForm {
-  email: string;
-  phone: string;
-}
-
-const form = defineModel<ContactForm>({
+const form = defineModel<FormContactDetails>({
   required: true,
 });
 
-const emits = defineEmits<{ done: [value: ContactForm] }>();
+const emits = defineEmits<{ done: [value: FormContactDetails] }>();
 
 function save() {
   console.log('continue');
@@ -46,8 +43,19 @@ function save() {
           <q-input
             filled
             dense
+            type="text"
+            v-model="form.name"
+            name="username"
+            label="Full Name *"
+            hint="Enter your full name (at least 4 characters)"
+            :rules="[requiredField, minLength(4)]"
+          />
+          <q-input
+            filled
+            dense
             type="email"
             v-model="form.email"
+            name="email"
             label="Your email *"
             hint="Enter your email address (e.g., name@example.com)"
             :rules="[requiredField, validEmail]"
@@ -59,6 +67,7 @@ function save() {
             v-model="form.phone"
             label="Phone or Tel Number"
             autogrow
+            name="phone"
             mask="+####-####-####-####"
             hint="Enter your phone number: +#### - #### - ####"
             :rules="[requiredField, validPhone]"

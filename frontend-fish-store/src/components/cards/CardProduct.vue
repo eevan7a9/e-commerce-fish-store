@@ -11,7 +11,6 @@ defineProps<{ product: Product }>();
 const cartStore = useCartStore();
 
 function addToCart(product: Product) {
-  console.log(product);
   cartStore.addItem(product);
 
   Notify.create({

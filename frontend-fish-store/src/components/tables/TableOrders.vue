@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { Dialog, Notify, QTableColumn } from 'quasar';
 
-import { Order } from 'src/shared/interface/order';
+import { Order, OrderItem } from 'src/shared/interface/order';
 import { useOrdersStore } from 'src/stores/orders';
 import { DialogOrderDetails } from 'src/components/dialogs';
 import { BadgeOrderStatus } from 'src/components/badge';
@@ -22,15 +22,20 @@ const columns: QTableColumn[] = [
     format: (val: string) => `${val}`,
   },
   {
-    name: 'address',
+    name: 'total_amount',
     required: true,
-    label: 'Shipping Address',
+    label: 'Total Amount',
     align: 'left',
-    field: (row: Order) =>
-      row.shipping_address_line1.length > 30
-        ? row.shipping_address_line1.slice(0, 30) + '...'
-        : row.shipping_address_line1,
-    format: (val: string) => `${val}`,
+    field: (row: Order) => row.total_amount,
+    format: (val: string) => `₱${val}`,
+  },
+  {
+    name: 'total_weight',
+    required: true,
+    label: 'Total Weight',
+    align: 'left',
+    field: (row: Order) => row.total_weight,
+    format: (val: string) => `${val} lb`,
   },
   {
     name: 'status',
@@ -85,7 +90,7 @@ function cancelOrder(row: Order) {
       label: 'Keep Order',
     },
   }).onOk(() => {
-    if (process.env.RISTRICTED_APP_ENABLED) {
+    if (process.env.TEST_MODE) {
       Notify.create({
         message: process.env.RISTRICTED_NOTIFY_MESSAGE,
         timeout: 8000,
@@ -97,13 +102,30 @@ function cancelOrder(row: Order) {
     console.log('OK', row.id);
   });
 }
+
+function viewOrderItems(items: OrderItem[]) {
+  console.log('items', items);
+  if (process.env.TEST_MODE) {
+    Notify.create({
+      message: process.env.RISTRICTED_NOTIFY_MESSAGE,
+      timeout: 8000,
+      color: 'negative',
+    });
+    return;
+  }
+}
 </script>
 
 <template>
-  <dialog-order-details v-model="dialog" :order="selectedOrder" />
+  <dialog-order-details
+    @cancel="cancelOrder"
+    @view-items="viewOrderItems"
+    v-model="dialog"
+    :order="selectedOrder"
+  />
 
   <q-card flat class="tw-border">
-    <q-card-section class="tw-p-0 tw-py-4">
+    <q-card-section class="tw-p-0 tw-py-4" v-if="orders.length">
       <q-responsive :ratio="$q.screen.gt.sm ? 16 / 9 : 9 / 16">
         <q-table
           class="my-sticky-header-table"
@@ -147,6 +169,30 @@ function cancelOrder(row: Order) {
           </template>
         </q-table>
       </q-responsive>
+    </q-card-section>
+
+    <q-card-section class="tw-flex tw-flex-col tw-items-center tw-py-12" v-else>
+      <h1
+        class="tw-text-[16px] sm:tw-text-[20px] tw-leading-relaxed tw-font-normal tw-mb-8"
+      >
+        {{ $t('orders.emptyTable') }}
+      </h1>
+
+      <q-img
+        src="~assets/image-svg/empty-box.svg"
+        class="tw-my-[24px] tw-max-w-[300px] animate-float"
+        width="100%"
+        height="100%"
+      />
+      <div>
+        <q-btn
+          :label="$t('orders.startShopping')"
+          padding="8px 32px"
+          unelevated
+          to="/products"
+          color="primary"
+        />
+      </div>
     </q-card-section>
   </q-card>
 </template>

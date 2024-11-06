@@ -1,13 +1,57 @@
 <script lang="ts" setup>
+import { ref, useTemplateRef } from 'vue';
+import { StripeCardElement } from 'src/components/stripe';
+import { OrderPaymentMethod } from 'src/shared/enums/order';
+import { FormCheckoutPayment } from 'src/shared/interface/form';
+import { BillingDetails } from '@stripe/stripe-js';
+import { useCartStore } from 'src/stores/cart';
+
 defineOptions({
   name: 'CheckoutPaymentMethod',
 });
 
-const emits = defineEmits<{ done: [] }>();
+const cartStore = useCartStore();
 
-const model = defineModel({
-  default: 'card',
+const props = defineProps<{ billingDetails?: BillingDetails }>();
+
+const stripeField = useTemplateRef('stripeField');
+const selectedMethod = ref(OrderPaymentMethod.Stripe);
+
+const emits = defineEmits<{
+  done: [value: void];
+}>();
+
+const model = defineModel<FormCheckoutPayment>({
+  default: {
+    method: OrderPaymentMethod.Stripe,
+    stripePaymentMethod: undefined,
+  },
 });
+
+async function confirm() {
+  if (selectedMethod.value === OrderPaymentMethod.Cod) {
+    model.value = {
+      method: selectedMethod.value,
+      stripePaymentMethod: undefined,
+    };
+  } else {
+    stripeField.value?.check();
+    const paymentMethod = await stripeField.value?.submit(
+      props.billingDetails,
+      cartStore.list.map((cart) => ({
+        product_id: cart.product.id,
+        quantity: cart.quantity,
+      }))
+    );
+    if (!paymentMethod) return;
+    console.log(paymentMethod);
+    model.value = {
+      method: selectedMethod.value,
+      stripePaymentMethod: paymentMethod,
+    };
+  }
+  emits('done');
+}
 </script>
 
 <template>
@@ -36,8 +80,8 @@ const model = defineModel({
           <q-card-actions class="tw-p-0">
             <q-radio
               dense
-              v-model="model"
-              val="card"
+              v-model="selectedMethod"
+              :val="OrderPaymentMethod.Stripe"
               label="Online Card Payment (via Stripe)"
               class="tw-p-3 tw-w-full"
             />
@@ -48,8 +92,8 @@ const model = defineModel({
           <q-card-actions class="tw-p-0">
             <q-radio
               dense
-              v-model="model"
-              val="cod"
+              v-model="selectedMethod"
+              :val="OrderPaymentMethod.Cod"
               label="Cash on Delivery (COD)"
               class="tw-p-3 tw-w-full"
             />
@@ -62,7 +106,7 @@ const model = defineModel({
       >
         <article
           class="tw-cursor-pointer tw-bg-slate-400 tw-bg-opacity-10 tw-h-[300px] tw-w-[300px] tw-rounded-full tw-border tw-border-dashed tw-border-primary"
-          v-if="model === 'card'"
+          v-if="selectedMethod === OrderPaymentMethod.Stripe"
         >
           <h2 class="tw-text-[20px] tw-font-anton tw-bg-white tw-bg-opacity-15">
             Online Payment (via Stripe)
@@ -96,23 +140,28 @@ const model = defineModel({
 
   <q-card class="tw-border tw-mt-3" flat>
     <q-card-section class="tw-pb-0">
-      <div v-if="model === 'cod'">
+      <div v-if="selectedMethod === OrderPaymentMethod.Cod">
         Pay in cash when your order is delivered. Please ensure you have the
         exact amount as the delivery personnel may not carry change.
       </div>
-      <div v-if="model === 'card'">
+      <div v-else>
         Securely pay online using your debit or credit card through Stripe. Your
         payment details are encrypted and protected for safe transactions.
       </div>
+    </q-card-section>
+
+    <q-card-section v-if="selectedMethod === OrderPaymentMethod.Stripe">
+      <stripe-card-element ref="stripeField" lass="tw-mt-3" />
     </q-card-section>
 
     <q-card-section class="md:tw-text-center">
       <q-btn
         color="primary"
         class="tw-w-full md:tw-w-auto"
-        padding="8px 24px"
-        label="Confirm"
-        @click="emits('done')"
+        padding="8px 62px"
+        :label="$t('button.confirm')"
+        unelevated
+        @click="confirm()"
       />
     </q-card-section>
   </q-card>

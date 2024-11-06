@@ -56,6 +56,7 @@ function signin() {
       :dense="$q.screen.lt.md"
       type="email"
       v-model="email"
+      name="useremail"
       label="Your email *"
       hint="Enter your email address (e.g., name@example.com)"
       :rules="[requiredField, validEmail]"
@@ -65,6 +66,7 @@ function signin() {
       v-model="password"
       filled
       :dense="$q.screen.lt.md"
+      name="userpassword"
       label="Password"
       :type="isPasswordHidden ? 'password' : 'text'"
       hint="Enter your account password"

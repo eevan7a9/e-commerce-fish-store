@@ -6,11 +6,14 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCategoriesStore } from 'src/stores/categories';
 import { Category } from 'src/shared/interface/category';
+import { useCartStore } from 'src/stores/cart';
+import { Notify } from 'quasar';
 
 const productsStore = useProductsStore();
 const categoriesStore = useCategoriesStore();
 const route = useRoute();
 const router = useRouter();
+const cartStore = useCartStore();
 
 const paramId = computed(() => route.params['id']);
 const relatedProducts = computed(() =>
@@ -48,6 +51,19 @@ function setProductCategory(id: string | number) {
   category.value = findCategory;
 }
 
+function addToCart() {
+  if (!product.value) return;
+
+  cartStore.addItem(product.value);
+  Notify.create({
+    message: 'Item has been added to your cart.',
+    color: 'positive',
+    icon: 'shopping_cart',
+    position: 'bottom-right',
+    progress: true,
+    group: false,
+  });
+}
 watch(
   () => route.fullPath,
   () => {
@@ -181,6 +197,7 @@ onMounted(() => {
               unelevated
               color="primary"
               icon="add_shopping_cart"
+              @click="addToCart()"
               label="Add to Cart"
               padding="16px 24px"
             />

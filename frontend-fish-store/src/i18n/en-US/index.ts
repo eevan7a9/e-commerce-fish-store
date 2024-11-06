@@ -28,10 +28,16 @@ export default {
     signinHere: 'sign in here',
     registerHere: 'Register here',
   },
+  orders: {
+    emptyTable:
+      "You haven't placed any orders yet. Start shopping to see them here!",
+    startShopping: 'Start Shopping',
+  },
   button: {
     submit: 'Submit',
     reset: 'Reset',
     cancel: 'Cancel',
+    confirm: 'Confirm',
     ok: 'Ok',
   },
 };

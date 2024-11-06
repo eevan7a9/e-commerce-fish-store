@@ -1,20 +1,49 @@
 <script lang="ts" setup>
-import { computed, reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { FormShippingAddress, FormContactDetails } from 'src/components/forms';
 import {
-  OrderSummary,
+  CheckoutStepper,
+  CheckoutOrderSummary,
   CheckoutPaymentMethod,
   CheckoutSuccess,
 } from 'src/components/checkout';
+import { OrderPaymentMethod } from 'src/shared/enums/order';
+import { FormCheckout } from 'src/shared/interface/form';
 import { DialogCart } from 'src/components/dialogs';
 import { useCartStore } from 'src/stores/cart';
 
 const cartStore = useCartStore();
 
+const initialValues = {
+  contactDetails: {
+    name: '',
+    email: '',
+    phone: '',
+  },
+  shippingAddress: {
+    line1: '',
+    line2: '',
+    city: '',
+    state: '',
+    postal_code: '',
+    country: '',
+  },
+  payment: {
+    method: OrderPaymentMethod.Stripe,
+    stripePaymentMethod: undefined,
+  },
+};
+
+const currStep = ref(1);
+const checkoutInfo = reactive<FormCheckout>(structuredClone(initialValues));
+
+const showCart = ref(false);
 const cart = computed(() => {
   return {
-    total_quantity:
-      cartStore.list.reduce((prev, curr) => prev + curr.quantity, 0) + ' Item',
+    total_quantity: cartStore.list.reduce(
+      (prev, curr) => prev + curr.quantity,
+      0
+    ),
     total_weight:
       cartStore.list.reduce(
         (prev, curr) => prev + Number(curr.product.weight) * curr.quantity,
@@ -28,121 +57,21 @@ const cart = computed(() => {
           0
         )
         .toFixed(2),
-    hasContent: cartStore.list.length,
   };
 });
 
-const showCart = ref(false);
-const currStep = ref(1);
-
-const contactDetails = reactive({
-  email: '',
-  phone: '',
-});
-
-const shippingAddress = reactive({
-  shipping_address_line1: '',
-  shipping_address_line2: '',
-  shipping_city: '',
-  shipping_state: '',
-  shipping_zip_code: '',
-  shipping_country: '',
-});
-
-const paymentMethod = reactive({
-  token: '',
-  method: 'card',
-});
-
-const steps = ref([
-  {
-    step: 1,
-    title: 'Contact Details',
-    icon: 'mdi-pencil',
-    caption: 'Email and Phone Information',
-    description: `Enter your personal contact details so we can reach you if needed and
-          keep you informed about your purchase.`,
-    hidePrevBtn: true,
-  },
-  {
-    step: 2,
-    title: 'Fill Shipping Address',
-    icon: 'mdi-map-marker',
-    caption: 'For your order and delivery location',
-    description: ` Enter your billing address and delivery information to ensure your
-          order is sent to the correct location.`,
-  },
-  {
-    step: 3,
-    title: 'Payment Method',
-    icon: 'mdi-card-account-details',
-    caption: 'Card Payment or Cash',
-    description:
-      'Provide your payment information to securely process your order.',
-  },
-  {
-    step: 4,
-    title: 'Order Summary',
-    icon: 'mdi-text-account',
-    aciveIcon: 'mdi-eye-outline',
-    caption: 'Review Your Order',
-    description: `Confirm your order details, payment, and address information before
-          completing the checkout.`,
-  },
-  {
-    step: 5,
-    hidePrevBtn: true,
-    title: 'Order Complete',
-    icon: 'mdi-party-popper',
-    aciveIcon: 'mdi-party-popper',
-    caption: 'Thank You for Your Order!',
-    description: 'Your order has been successfully placed!.',
-  },
-]);
-
-function prevStep() {
-  if (currStep.value <= 1) {
-    return;
-  }
-  currStep.value--;
+function checkoutComplete() {
+  Object.assign(checkoutInfo, structuredClone(initialValues));
+  currStep.value = 5;
 }
 </script>
 
 <template>
   <main
-    class="tw-max-w-screen-xl tw-w-full tw-mx-auto tw-z-10 tw-grid md:tw-grid-cols-12 tw-gap-2 tw-px-2 md:tw-px-4 tw-py-2 md:tw-py-8"
+    class="tw-max-w-screen-xl tw-w-full tw-mx-auto tw-z-10 tw-grid md:tw-grid-cols-12 tw-gap-2 md:tw-gap-5 tw-px-2 md:tw-px-4 tw-py-2 md:tw-py-8"
   >
-    <aside class="md:tw-col-span-4 md:tw-pr-8">
-      <q-stepper
-        class="tw-border"
-        flat
-        v-model="currStep"
-        vertical
-        color="primary"
-        animated
-      >
-        <template v-for="step of steps" :key="step.step">
-          <q-step
-            :name="step.step"
-            :title="step.title"
-            :icon="step.icon"
-            :active-icon="step.aciveIcon || 'mdi-pencil-outline'"
-            :caption="step.caption"
-            :done="currStep > step.step"
-          >
-            {{ step.description }}
-
-            <q-stepper-navigation v-if="!step.hidePrevBtn">
-              <q-btn
-                @click="prevStep()"
-                color="primary"
-                outline
-                label="Previous Step"
-              />
-            </q-stepper-navigation>
-          </q-step>
-        </template>
-      </q-stepper>
+    <aside class="md:tw-col-span-4 md:tw-pl-8">
+      <checkout-stepper v-model="currStep" />
 
       <q-card flat class="tw-border tw-mt-4">
         <q-card-section>
@@ -159,13 +88,13 @@ function prevStep() {
               dense
               padding="2px 8px"
               @click="showCart = true"
-              v-if="cart.hasContent"
+              v-if="cart.total_quantity"
             />
           </div>
           <dialog-cart hide-action v-model="showCart" />
         </q-card-section>
 
-        <q-card-section class="tw-pt-0" v-if="cart.hasContent">
+        <q-card-section class="tw-pt-0" v-if="cart.total_quantity">
           <template v-for="(value, name, i) of cart" :key="i">
             <div class="tw-flex tw-flex-col sm:tw-flex-row tw-w-full">
               <div class="tw-border tw-w-full tw-py-2 tw-px-3 tw tw-capitalize">
@@ -197,27 +126,33 @@ function prevStep() {
     <section class="md:tw-col-span-8">
       <form-contact-details
         @done="currStep = 2"
-        v-model="contactDetails"
+        v-model="checkoutInfo.contactDetails"
         v-if="currStep === 1"
       />
 
       <form-shipping-address
         @done="currStep = 3"
-        v-model="shippingAddress"
+        v-model="checkoutInfo.shippingAddress"
         v-if="currStep === 2"
       />
 
       <checkout-payment-method
-        v-model="paymentMethod.method"
+        v-model="checkoutInfo.payment"
+        :billing-details="{
+          ...checkoutInfo.contactDetails,
+          address: {
+            ...checkoutInfo.shippingAddress,
+          },
+        }"
         @done="currStep = 4"
         v-if="currStep === 3"
       />
 
-      <order-summary
-        :contact-details="contactDetails"
-        :shipping-address="shippingAddress"
-        :payment-method="paymentMethod"
-        @done="currStep = 5"
+      <checkout-order-summary
+        :contact-details="checkoutInfo.contactDetails"
+        :shipping-address="checkoutInfo.shippingAddress"
+        :payment="checkoutInfo.payment"
+        @done="checkoutComplete()"
         v-if="currStep === 4"
       />
 

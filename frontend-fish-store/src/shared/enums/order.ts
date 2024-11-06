@@ -5,3 +5,14 @@ export enum OrderStatus {
   Shipped = 'shipped',
   Received = 'received',
 }
+
+export enum OrderPaymentMethod {
+  Stripe = 'stripe',
+  Cod = 'cod',
+}
+
+export enum OrderPaymentStatus {
+  Unpaid = 'unpaid',
+  Paid = 'paid',
+  Refunded = 'refunded',
+}

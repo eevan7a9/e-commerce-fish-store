@@ -28,10 +28,16 @@ export default {
     signinHere: 'inicia sesión aquí',
     registerHere: 'Regístrate aquí',
   },
+  orders: {
+    emptyTable:
+      'Aún no has realizado ningún pedido. ¡Comienza a comprar para verlos aquí!',
+    startShopping: 'Comenzar a comprar',
+  },
   button: {
     submit: 'Enviar',
     reset: 'Restablecer',
     cancel: 'Cancelar',
+    confirm: 'Confirmar',
     ok: 'Aceptar',
   },
 };

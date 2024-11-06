@@ -93,7 +93,7 @@ function sortByDate(list: Product[]) {
 }
 
 function sortByPrice(list: Product[]) {
-  return list.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+  return list.sort((a, b) => b.price - a.price);
 }
 
 function setParamsToState(query: LocationQuery) {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useCountries } from 'src/shared/composables/useCountries';
 import { FormShippingAddress } from 'src/shared/interface/form';
 import { requiredField } from 'src/shared/utils/form-rules';
 
@@ -6,14 +7,16 @@ defineOptions({
   name: 'FormShippingAddress',
 });
 
+const countries = useCountries();
+const countryOpts = countries.list();
+
 const form = defineModel<FormShippingAddress>({
   required: true,
 });
-
 const emits = defineEmits<{ done: [value: FormShippingAddress] }>();
 
 function save() {
-  console.log('continue');
+  // console.log('continue');
   emits('done', form.value);
 }
 </script>
@@ -39,8 +42,9 @@ function save() {
             filled
             dense
             type="text"
-            v-model="form.shipping_address_line1"
+            v-model="form.line1"
             label="shipping address line 1 *"
+            name="address"
             hint="Street address, P.O. box, company name, c/o"
             autogrow
             :rules="[requiredField]"
@@ -49,8 +53,9 @@ function save() {
             filled
             dense
             type="text"
-            v-model="form.shipping_address_line2"
+            v-model="form.line2"
             label="shipping address line 2 (optional)"
+            name="address-line-2"
             hint="Apartment, suite, unit, building, floor, etc."
             autogrow
           />
@@ -58,25 +63,29 @@ function save() {
             filled
             dense
             type="text"
-            v-model="form.shipping_city"
+            v-model="form.city"
             label="City *"
+            name="city"
             hint="City"
             :rules="[requiredField]"
           />
-          <q-input
+          <q-select
             filled
             dense
-            type="text"
-            v-model="form.shipping_country"
-            label="Country *"
+            option-value="value"
+            v-model="form.country"
+            :options="countryOpts"
             hint="Enter your Country"
+            label="Country"
             :rules="[requiredField]"
+            emit-value
+            map-options
           />
           <q-input
             filled
             dense
             type="text"
-            v-model="form.shipping_state"
+            v-model="form.state"
             label="State *"
             hint="State/Province/Region"
             :rules="[requiredField]"
@@ -85,8 +94,9 @@ function save() {
             filled
             dense
             type="text"
-            v-model="form.shipping_zip_code"
+            v-model="form.postal_code"
             label="Your Zip Code *"
+            name="zip-code"
             hint="ZIP or Postal Code"
             :rules="[requiredField]"
           />

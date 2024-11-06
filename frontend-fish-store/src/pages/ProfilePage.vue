@@ -11,13 +11,18 @@ defineOptions({
   name: 'ProfilePage',
 });
 
+const tabList = [
+  { label: 'Orders', value: 'orders' },
+  { label: 'Profile', value: 'profile' },
+  { label: 'Change password', value: 'change password' },
+];
+
 const router = useRouter();
 const route = useRoute();
 
-const activeTab = ref('profile');
+const activeTab = ref('orders');
 
 const orders = useOrdersStore();
-orders.setOrders(ordersTestData);
 
 function changeTab(tab: string) {
   router.push({
@@ -30,6 +35,7 @@ function changeTab(tab: string) {
 }
 
 onMounted(() => {
+  orders.setOrders(ordersTestData);
   const { tab } = route.query;
 
   if (tab !== 'orders' && tab !== 'profile') {
@@ -59,29 +65,18 @@ onMounted(() => {
       <q-card class="tw-border tw-rounded-md" flat>
         <q-card-section class="tw-py-2 tw-px-0">
           <q-list separator class="tw-bg-white">
-            <q-item
-              class="tw-pl-8"
-              clickable
-              @click="changeTab('profile')"
-              v-ripple
-            >
-              <q-item-section class="tw-text-[14px]"> Profile </q-item-section>
-            </q-item>
-
-            <q-item
-              class="tw-pl-8"
-              clickable
-              @click="changeTab('orders')"
-              v-ripple
-            >
-              <q-item-section class="tw-text-[14px]"> Orders </q-item-section>
-            </q-item>
-
-            <q-item class="tw-pl-8" clickable v-ripple>
-              <q-item-section class="tw-text-[14px]">
-                Change Password
-              </q-item-section>
-            </q-item>
+            <template v-for="tab of tabList" :key="tab.label">
+              <q-item
+                class="tw-pl-8"
+                clickable
+                @click="changeTab(tab.value)"
+                v-ripple
+              >
+                <q-item-section class="tw-text-[14px]">
+                  {{ tab.label }}
+                </q-item-section>
+              </q-item>
+            </template>
           </q-list>
         </q-card-section>
       </q-card>
