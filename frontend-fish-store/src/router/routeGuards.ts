@@ -26,6 +26,14 @@ export default function beforeEachGuards(
     }
   }
 
+  // Check if the user is customer
+  if (to.matched.some((record) => record.meta.customerOnly)) {
+    if (authStore.isAdmin) {
+      console.log('redirecting... \nRequires Non-Admin...');
+      return next({ path: '/admin' }); // Redirect to login if not authenticated
+    }
+  }
+
   // Check if the user is an admin
   if (to.matched.some((record) => record.meta.requiresAdmin)) {
     if (!authStore?.userInfo?.is_admin) {

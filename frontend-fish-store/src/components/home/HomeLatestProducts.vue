@@ -8,7 +8,7 @@ defineOptions({
 });
 const productsStore = useProductsStore();
 const products = computed<Product[]>(() => productsStore.list.slice(0, 6));
-
+const productsLoading = computed(() => productsStore.loading);
 const scrollContainer = ref<HTMLDivElement | null>(null);
 let isDown = false;
 let startX: number;
@@ -76,12 +76,24 @@ onBeforeUnmount(() => {
   <section
     class="tw-max-w-screen-2xl tw-overflow-visible tw-mx-auto tw-relative"
   >
+    <div class="tw-w-full tw-py-[300px] tw-text-center" v-if="productsLoading">
+      <h1 class="tw-text-[28px] tw-font-anton tw-font-normal">
+        Fetching Products...
+      </h1>
+      <q-spinner-hourglass
+        color="primary"
+        size="4em"
+        class="tw-mx-auto tw-mt-3"
+      />
+    </div>
+
     <q-btn
       icon="double_arrow"
       size="20px"
       round
       class="tw-absolute tw-right-0 tw-bottom-[40%] tw-z-10"
       color="primary"
+      aria-label="forward-latest-products"
       @click="toForward()"
     ></q-btn>
     <h1

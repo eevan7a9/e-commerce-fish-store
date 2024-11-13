@@ -149,9 +149,7 @@ function checkoutComplete() {
       />
 
       <checkout-order-summary
-        :contact-details="checkoutInfo.contactDetails"
-        :shipping-address="checkoutInfo.shippingAddress"
-        :payment="checkoutInfo.payment"
+        :checkout="checkoutInfo"
         @done="checkoutComplete()"
         v-if="currStep === 4"
       />

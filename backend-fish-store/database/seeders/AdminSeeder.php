@@ -20,6 +20,7 @@ class AdminSeeder extends Seeder
                     'name' => 'Default Admin Name',
                     'email' => env('SEEDER_ADMIN_EMAIL', 'admin@email.com'),
                     'password' => bcrypt(env('SEEDER_ADMIN_PASSWORD', 'password')),
+                    'profile_img' => 'https://placehold.co/200x200/EEE/31343C',
                     'is_admin' => true
                 ]);
                 $this->command->info('Admin user created.');

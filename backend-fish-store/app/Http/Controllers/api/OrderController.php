@@ -3,33 +3,16 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\IsAdmin;
 use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Routing\Controllers\Middleware;
-use Ramsey\Uuid\Type\Decimal;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 
-class OrderController extends Controller implements HasMiddleware
+class OrderController extends Controller
 {
-    public static function middleware(): array
-    {
-        return [
-            // Only Authenticated can view their Orders
-            new Middleware(['auth:sanctum'], only: ['show', 'index']),
-            // Only Admin can delete or update
-            new Middleware([
-                'auth:sanctum',
-                IsAdmin::class
-            ], only: ['destroy', 'update']),
-        ];
-    }
     /**
      * Display a listing of the resource.
      */
@@ -83,7 +66,7 @@ class OrderController extends Controller implements HasMiddleware
         $totalAmount = 0;
         $totalWeight = 0;
         foreach ($validated['order_items'] as $item) {
-       
+
             $product = $products->get($item['product_id']);
             if ($product) {
                 $totalAmount += $product->price * $item['quantity'];
@@ -95,11 +78,11 @@ class OrderController extends Controller implements HasMiddleware
 
         if ($validated['payment_method'] === 'stripe') {
             $result = $this->handleStripePayment($validated['payment_method_id'], $totalAmount);
-          
-            if($result['error']) {
+
+            if ($result['error']) {
                 return response()->json([
                     'error' => true,
-                    'message' =>  $result['message'],
+                    'message' => $result['message'],
                     'data' => $result['data'],
                     'status' => 400
                 ], 400);
@@ -148,28 +131,57 @@ class OrderController extends Controller implements HasMiddleware
 
     public function updateStatus(Request $request, string $id)
     {
-        $validated = $request->validate([
+        return $this->updateOrderField($request, $id, 'status', [
             'status' => 'required|string|in:pending,approved,shipped,received,cancelled',
+        ]);
+    }
+
+    public function updatePaymentStatus(Request $request, string $id)
+    {
+        return $this->updateOrderField($request, $id, 'payment_status', [
             'payment_status' => 'required|string|in:unpaid,paid,refunded',
         ]);
-        try {
-            $order = Order::findOrFail($id);
-            $order->status = $validated['status'];
-            $order->payment_status = $validated['payment_status'];
-            $order->save();
+    } 
+    /**
+    * Cancel the order if the request is from the order owner (customer).
+    */
+   public function cancelOrder(Request $request, string $id)
+   {
+       try {
+           $order = Order::findOrFail($id);
 
-            return response()->json([
-                'data' => $order,
-                'status' => 200
-            ], 200);
-        } catch (ModelNotFoundException $err) {
-            return response()->json([
-                'error' => $err,
-                'message' => $err->getMessage(),
-                'status' => 404
-            ], 404);
-        }
-    }
+           // Ensure the authenticated user is the owner of the order
+           if ($order->user_id !== $request->user()->id) {
+               return response()->json([
+                   'message' => 'Unauthorized: Only the order owner can cancel this order.',
+                   'status' => 403,
+               ], 403);
+           }
+
+           // Check if the order status allows for cancellation
+           if (in_array($order->status, ['received', 'cancelled'])) {
+               return response()->json([
+                   'message' => 'Order cannot be cancelled at this stage.',
+                   'status' => 400,
+               ], 400);
+           }
+
+           // Set the status to 'cancelled'
+           $order->status = 'cancelled';
+           $order->save();
+
+           return response()->json([
+               'data' => $order,
+               'message' => 'Order has been successfully cancelled.',
+               'status' => 200,
+           ], 200);
+       } catch (ModelNotFoundException $err) {
+           return response()->json([
+               'message' => 'Order not found.',
+               'status' => 404,
+           ], 404);
+       }
+   }
 
     /**
      * Update the specified resource in storage.
@@ -222,11 +234,33 @@ class OrderController extends Controller implements HasMiddleware
         } catch (\Stripe\Exception\ApiErrorException $e) {
             return [
                 "error" => true,
-                "message" =>$e->getMessage(),
+                "message" => $e->getMessage(),
                 "data" => $e->getJsonBody()
             ];
         }
     }
 
-    
+    private function updateOrderField(Request $request, string $id, string $field, array $rules)
+    {
+        $validated = $request->validate($rules);
+
+        try {
+            $order = Order::findOrFail($id);
+            $order->{$field} = $validated[$field];
+            $order->save();
+
+            return response()->json([
+                'data' => $order,
+                'status' => 200,
+            ], 200);
+        } catch (ModelNotFoundException $err) {
+            return response()->json([
+                'error' => $err,
+                'message' => 'Order not found',
+                'status' => 404,
+            ], 404);
+        }
+    }
+
+
 }

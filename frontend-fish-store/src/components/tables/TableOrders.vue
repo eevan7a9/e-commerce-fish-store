@@ -7,6 +7,7 @@ import { useOrdersStore } from 'src/stores/orders';
 import { DialogOrderDetails } from 'src/components/dialogs';
 import { BadgeOrderStatus } from 'src/components/badge';
 import { OrderStatus } from 'src/shared/enums/order';
+import { useAuthStore } from 'src/stores/auth';
 
 defineOptions({
   name: 'TableOrders',
@@ -64,6 +65,7 @@ const columns: QTableColumn[] = [
 ];
 
 const ordersStore = useOrdersStore();
+const auth = useAuthStore();
 
 const dialog = ref(false);
 const selectedOrder = ref<Order>();
@@ -89,8 +91,8 @@ function cancelOrder(row: Order) {
     cancel: {
       label: 'Keep Order',
     },
-  }).onOk(() => {
-    if (process.env.TEST_MODE) {
+  }).onOk(async () => {
+    if (process.env.ENABLE_STATIC_MODE === 'true') {
       Notify.create({
         message: process.env.RISTRICTED_NOTIFY_MESSAGE,
         timeout: 8000,
@@ -98,8 +100,15 @@ function cancelOrder(row: Order) {
       });
       return;
     }
+    const res = await ordersStore.cancelOrder(row.id, auth.userToken);
 
-    console.log('OK', row.id);
+    Notify.create({
+      color: res?.success ? 'positive' : 'negative',
+      message: res?.message || 'Order has been canceled',
+      timeout: 6000,
+    });
+
+    console.log(res?.message);
   });
 }
 

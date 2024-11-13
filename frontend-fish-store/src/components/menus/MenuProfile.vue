@@ -16,10 +16,11 @@ const profileImg = computed(() => auth.userInfo?.profile_img);
 </script>
 
 <template>
-  <q-btn color="light" flat>
+  <q-btn color="light" aria-label="profile-menu" flat>
     <q-icon class="tw-mr-2">
       <q-avatar size="32px" v-if="isAuth">
-        <img :src="profileImg" />
+        <img :src="profileImg" v-if="profileImg" />
+        <q-img src="~assets/avatar.png" v-else />
       </q-avatar>
 
       <q-avatar
@@ -40,7 +41,8 @@ const profileImg = computed(() => auth.userInfo?.profile_img);
 
         <section class="column tw-w-[150px] tw-items-center tw-justify-center">
           <q-avatar size="72px" v-if="isAuth">
-            <img :src="profileImg" />
+            <img :src="profileImg" v-if="profileImg" />
+            <q-img src="~assets/avatar.png" v-else />
           </q-avatar>
 
           <q-avatar
@@ -70,6 +72,7 @@ const profileImg = computed(() => auth.userInfo?.profile_img);
               class="tw-mb-2 tw-w-full"
               unelevated
               v-close-popup
+              aria-label="go-to-profile"
             />
 
             <q-btn
@@ -79,6 +82,7 @@ const profileImg = computed(() => auth.userInfo?.profile_img);
               size="sm"
               unelevated
               class="tw-w-full"
+              aria-label="logout-user"
               v-close-popup
             />
           </template>
@@ -89,6 +93,7 @@ const profileImg = computed(() => auth.userInfo?.profile_img);
               to="/auth/register"
               size="sm"
               unelevated
+              aria-label="register-user"
               class="tw-mb-2 tw-w-full"
               v-close-popup
             />
@@ -98,6 +103,7 @@ const profileImg = computed(() => auth.userInfo?.profile_img);
               to="/auth"
               :label="$t('auth.signin')"
               class="tw-w-full"
+              aria-label="signin-user"
               unelevated
               size="sm"
               v-close-popup

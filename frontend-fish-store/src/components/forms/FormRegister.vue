@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Loading, Notify } from 'quasar';
+import { FormRegister } from 'src/shared/interface/form';
 import {
   minLength,
   passwordsMatch,
@@ -7,6 +8,7 @@ import {
   requiredField,
   validEmail,
 } from 'src/shared/utils/form-rules';
+import { useAuthStore } from 'src/stores/auth';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -15,6 +17,7 @@ defineOptions({
 });
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const isPasswordHidden = ref(true);
 const isConfirmHidden = ref(true);
@@ -26,29 +29,33 @@ const initialForm = {
   name: '',
   email: '',
   password: '',
-  passwordConfirm: '',
+  password_confirmation: '',
 };
-const form = reactive({ ...initialForm });
+const form = reactive<FormRegister>({ ...initialForm });
 
-function onSubmit() {
+async function onSubmit() {
   submitted.value = true;
   Loading.show();
 
-  setTimeout(() => {
-    console.table(form);
+  let res =
+    process.env.ENABLE_STATIC_MODE === 'true'
+      ? { success: true }
+      : await authStore.register(form);
 
-    Loading.hide();
+  const message = res?.success
+    ? res?.message || 'Registration successful! Welcome aboard.'
+    : res?.message || 'Registration failed! try again later.';
 
-    Notify.create({
-      color: 'positive',
-      iconColor: 'white',
-      message: 'Registration successful! Welcome aboard.',
-      icon: 'check',
-      timeout: 5000,
-    });
+  Notify.create({
+    message,
+    color: res?.success ? 'positive' : 'negative',
+    iconColor: 'white',
+    icon: res?.success ? 'check' : 'error',
+    timeout: 5000,
+  });
 
-    router.push('/auth');
-  }, 1000);
+  Loading.hide();
+  router.push('/auth');
 }
 
 function onReset() {
@@ -97,7 +104,7 @@ function onReset() {
     </q-input>
 
     <q-input
-      v-model="form.passwordConfirm"
+      v-model="form.password_confirmation"
       filled
       :dense="$q.screen.lt.md"
       label="Confirm Password"

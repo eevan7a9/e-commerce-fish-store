@@ -1,43 +1,45 @@
 <script setup lang="ts">
-import {
-  FormCheckoutPayment,
-  FormShippingAddress,
-} from 'src/shared/interface/form';
+import { FormCheckout } from 'src/shared/interface/form';
 import { useCartStore } from 'src/stores/cart';
 import { computed, ref } from 'vue';
 import { Loading, Notify } from 'quasar';
 import { OrderPaymentMethod } from 'src/shared/enums/order';
 import { useCountries } from 'src/shared/composables/useCountries';
+import { useOrdersStore } from 'src/stores/orders';
+import { useAuthStore } from 'src/stores/auth';
 
 const countries = useCountries();
 
 const props = defineProps<{
-  contactDetails: object;
-  shippingAddress: FormShippingAddress;
-  payment: FormCheckoutPayment;
+  checkout: FormCheckout;
 }>();
 
 const emits = defineEmits<{ done: [] }>();
+
+const ordersStore = useOrdersStore();
 const cart = useCartStore();
+const auth = useAuthStore();
+
 const loading = ref(false);
 
-const payment = computed(() => ({
-  method:
-    props.payment.method === OrderPaymentMethod.Stripe
+const payment = computed(() => {
+  const { method, stripePaymentMethod } = props.checkout.payment;
+  const isStripe = method === OrderPaymentMethod.Stripe;
+
+  return {
+    method: isStripe
       ? 'Online Card Payment (via Stripe)'
       : 'Cash on Delivery (COD)',
-  ...(props.payment.stripePaymentMethod?.card && {
-    last_4: props.payment.stripePaymentMethod
-      ? props.payment.stripePaymentMethod.card?.last4
-      : undefined,
-    brand: props.payment.stripePaymentMethod
-      ? props.payment.stripePaymentMethod.card?.brand
-      : undefined,
-  }),
-}));
+    ...(isStripe && { last_4: stripePaymentMethod?.card?.last4 }),
+    ...(isStripe && { brand: stripePaymentMethod?.card?.brand }),
+  };
+});
 
-function placeOrder() {
-  console.log('place order...');
+async function placeOrder() {
+  const items = cart.list.map((item) => ({
+    product_id: item.product.id,
+    quantity: item.quantity,
+  }));
 
   loading.value = true;
   Loading.show({
@@ -45,16 +47,20 @@ function placeOrder() {
     message: 'Processing your order... Please wait a moment.',
   });
 
-  setTimeout(() => {
-    cart.clear();
-    Notify.create({
-      message: 'Order has been created',
-      color: 'positive',
-      timeout: 4000,
-    });
-    Loading.hide();
-    emits('done');
-  }, 2000);
+  const res =
+    process.env.ENABLE_STATIC_MODE === 'true'
+      ? await ordersStore.createMockOrder()
+      : await ordersStore.createOrder(props.checkout, items, auth.userToken);
+
+  Notify.create({
+    message: res?.message,
+    color: res?.success ? 'positive' : 'negative',
+    timeout: 4000,
+  });
+
+  Loading.hide();
+  cart.clear();
+  emits('done');
 }
 </script>
 
@@ -73,14 +79,12 @@ function placeOrder() {
 
     <q-separator />
 
-    <q-separator />
-
     <q-card-section class="tw-flex tw-flex-col tw-gap-y-3 sm:tw-gap-0">
       <h2 class="tw-text-[16px] md:tw-text-[18px] tw-font-anton tw-mb-3">
         Contact Details
       </h2>
       <div
-        v-for="(value, key, i) of props.contactDetails"
+        v-for="(value, key, i) of checkout.contactDetails"
         :key="i"
         class="tw-flex tw-flex-col sm:tw-flex-row tw-w-full"
       >
@@ -105,7 +109,7 @@ function placeOrder() {
         Shipping Address
       </h2>
       <div
-        v-for="(value, key, i) of props.shippingAddress"
+        v-for="(value, key, i) of checkout.shippingAddress"
         :key="i"
         class="tw-flex tw-flex-col sm:tw-flex-row tw-w-full"
       >
@@ -156,6 +160,7 @@ function placeOrder() {
         Order" to confirm. We’ll send a confirmation email with your order
         summary and delivery information shortly after completion.
       </div>
+
       <q-btn
         color="primary"
         unelevated

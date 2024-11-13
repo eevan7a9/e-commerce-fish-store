@@ -1,4 +1,5 @@
 <script setup lang="tsx">
+import { QCarousel } from 'quasar';
 import { ref } from 'vue';
 
 defineOptions({
@@ -8,19 +9,19 @@ defineOptions({
 const slide = ref('first');
 const slidesList = ref([
   {
-    imgSrc: 'https://cdn.quasar.dev/img/mountains.jpg',
+    imgSrc: 'sunset-fishing_ENeY4TPEe.webp',
     name: 'first',
     title: 'ethical fishing',
     subTitle: 'Sustainable, Responsible, and the welfare of marine ecosystems.',
   },
   {
-    imgSrc: 'https://cdn.quasar.dev/img/parallax1.jpg',
+    imgSrc: 'aqua-organism_ah76g_lb1.webp',
     name: 'second',
     title: 'Organic Aquaculture',
     subTitle: 'Avoid synthetic chemicals, pesticides, and antibiotics.',
   },
   {
-    imgSrc: 'https://cdn.quasar.dev/img/parallax2.jpg',
+    imgSrc: 'majestic-marine_KwuULseRZ.webp',
     name: 'third',
     title: 'Majestic Marine Beauties',
     subTitle: 'Graceful and vibrant aquatic wonders',
@@ -33,15 +34,49 @@ const slidesList = ref([
     class="tw-max-w-screen-2xl tw-mx-auto tw-grid tw-grid-cols-1 tw-grid-rows-2 md:tw-grid-rows-1 md:tw-grid-cols-5 tw-h-[800px] md:tw-h-[450px]"
   >
     <q-carousel
+      ref="homeCarousel"
       class="tw-col-span-3 tw-h-full"
       navigation
-      arrows
-      control-color="white"
       animated
+      infinite
+      keep-alive
       v-model="slide"
+      autoplay
     >
+      <template v-slot:navigation-icon="{ active, onClick }">
+        <q-btn
+          v-if="active"
+          class="tw-bg-primary tw-bg-opacity-50"
+          round
+          icon="mdi-image"
+          color="white"
+          flat
+          dense
+          aria-label="home-carousel-active-navigator"
+          @click="onClick"
+          size="sm"
+        >
+        </q-btn>
+        <q-btn
+          v-else
+          class="tw-bg-white tw-bg-opacity-25"
+          round
+          icon="mdi-circle"
+          color="white"
+          flat
+          dense
+          aria-label="home-carousel-inactive-navigator"
+          @click="onClick"
+          size="sm"
+        >
+        </q-btn>
+      </template>
+
       <template v-for="item of slidesList" :key="item.name">
-        <q-carousel-slide :name="item.name" :img-src="item.imgSrc">
+        <q-carousel-slide
+          :name="item.name"
+          :img-src="`https://ik.imagekit.io/wr5lnrww0q8/fishstore/carousel/${item.imgSrc}`"
+        >
           <div
             class="tw-bg-black tw-bg-opacity-65 tw-w-full tw-absolute tw-top-0 tw-left-0 tw-flex tw-flex-col tw-items-center"
           >

@@ -32,6 +32,7 @@ function selectCategory(name: string) {
       padding="4px"
       unelevated
       color="primary"
+      aria-label="reset-filter-category"
       @click="model = []"
       v-if="model.length"
     />
@@ -44,7 +45,7 @@ function selectCategory(name: string) {
     :outline="model.includes(category.name)"
     color="primary"
     text-color="white"
-    class="tw-min-w-[180px]"
+    class="sm:tw-min-w-[180px]"
   >
     <div class="tw-flex tw-w-full tw-justify-between tw-items-center">
       <span class="tw-capitaliz">

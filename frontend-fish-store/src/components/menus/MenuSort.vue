@@ -10,7 +10,13 @@ const sortOptions = ref(['latest', 'price', 'name']);
 </script>
 
 <template>
-  <q-btn :label="`sort by: ${model}`" color="primary" unelevated icon="sort">
+  <q-btn
+    :label="`sort by: ${model}`"
+    aria-label="sort-menu"
+    color="primary"
+    unelevated
+    icon="sort"
+  >
     <q-menu>
       <q-list separator style="min-width: 200px">
         <q-item

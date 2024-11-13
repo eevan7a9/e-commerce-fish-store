@@ -3,9 +3,9 @@ import { FormProfile } from 'src/components/forms';
 import { TableOrders } from 'src/components/tables';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-
-import ordersTestData from 'src/assets/test-data/orders';
 import { useOrdersStore } from 'src/stores/orders';
+import { useAuthStore } from 'src/stores/auth';
+import { Loading } from 'quasar';
 
 defineOptions({
   name: 'ProfilePage',
@@ -19,10 +19,10 @@ const tabList = [
 
 const router = useRouter();
 const route = useRoute();
+const auth = useAuthStore();
+const orders = useOrdersStore();
 
 const activeTab = ref('orders');
-
-const orders = useOrdersStore();
 
 function changeTab(tab: string) {
   router.push({
@@ -34,10 +34,20 @@ function changeTab(tab: string) {
   activeTab.value = tab;
 }
 
-onMounted(() => {
-  orders.setOrders(ordersTestData);
+onMounted(async () => {
+  Loading.show({
+    message: 'Fetching Data...',
+    spinnerColor: 'primary',
+  });
+  if (process.env.ENABLE_STATIC_MODE === 'true') {
+    console.log('Loading mock data...');
+    await orders.loadMockOrders();
+  } else {
+    console.log('Fetching data from server...');
+    await orders.fetchOrders(auth.userToken);
+  }
+  Loading.hide();
   const { tab } = route.query;
-
   if (tab !== 'orders' && tab !== 'profile') {
     return;
   }
@@ -85,8 +95,13 @@ onMounted(() => {
     <section
       class="md:tw-col-span-9 tw-relative tw-pb-8 md:tw-pb-12 tw-px-3 tw-mt-4"
     >
-      <form-profile v-if="activeTab === 'profile'" />
-      <table-orders v-if="activeTab === 'orders'" />
+      <div v-if="activeTab === 'profile'">
+        <form-profile />
+      </div>
+
+      <div v-if="activeTab === 'orders'">
+        <table-orders />
+      </div>
     </section>
   </main>
 </template>

@@ -7,6 +7,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useCategoriesStore } from 'src/stores/categories';
 import { Category } from 'src/shared/interface/category';
 import { useCartStore } from 'src/stores/cart';
+import { ProductsCarousel } from 'src/components/products';
 import { Notify } from 'quasar';
 
 const productsStore = useProductsStore();
@@ -27,7 +28,6 @@ const relatedProducts = computed(() =>
 );
 const product = ref<Product>();
 const category = ref<Category>();
-const slide = ref(1);
 const quantity = ref(1);
 
 function setCurrentProduct() {
@@ -89,24 +89,7 @@ onMounted(() => {
       </nav>
 
       <div class="tw-px-3" v-if="product">
-        <q-carousel swipeable animated v-model="slide" thumbnails infinite>
-          <q-carousel-slide
-            :name="1"
-            img-src="https://cdn.quasar.dev/img/mountains.jpg"
-          />
-          <q-carousel-slide
-            :name="2"
-            img-src="https://cdn.quasar.dev/img/parallax1.jpg"
-          />
-          <q-carousel-slide
-            :name="3"
-            img-src="https://cdn.quasar.dev/img/parallax2.jpg"
-          />
-          <q-carousel-slide
-            :name="4"
-            img-src="https://cdn.quasar.dev/img/quasar.jpg"
-          />
-        </q-carousel>
+        <products-carousel :images="product?.images || []" />
 
         <q-card class="tw-mt-10 tw-border tw-relative md:tw-px-3" flat>
           <q-card-section class="tw-pb-0">
@@ -146,34 +129,36 @@ onMounted(() => {
 
         <q-card class="tw-border tw-mt-8 md:tw-px-3 tw-py-5" flat>
           <q-card-section>
-            <h1 class="tw-text-[20px] tw-font-anton">Buy Now</h1>
+            <h1 class="tw-text-[20px] md:tw-text-[32px] tw-font-anton">
+              Buy Now
+            </h1>
           </q-card-section>
 
           <q-card-section
             class="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row md:tw-items-center tw-justify-between"
           >
-            <div class="">
+            <div class="tw-w-full">
               Price per Unit/Order
               <p
-                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
+                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
               >
                 ₱{{ product.price }}
               </p>
             </div>
 
-            <div class="">
+            <div class="tw-w-full">
               Weight per Unit/Order
               <p
-                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
+                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
               >
                 {{ product.weight }}lb
               </p>
             </div>
 
-            <div class="">
+            <div class="tw-w-full">
               Available Unit/Order
               <p
-                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-max-w-[200px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
+                class="tw-bg-slate-100 tw-font-anton tw-min-w-[150px] tw-border tw-p-3 tw-font-normal tw-text-[16px] md:tw-text-[24px] tw-mt-2"
               >
                 {{ product.units }} Left
               </p>
@@ -190,6 +175,7 @@ onMounted(() => {
               type="number"
               filled
               label="Quantity"
+              class="md:tw-text-[18px]"
               style="max-width: 200px"
               :max="product.units"
             />

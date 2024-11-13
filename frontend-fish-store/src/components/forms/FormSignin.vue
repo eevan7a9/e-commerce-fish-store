@@ -2,7 +2,6 @@
 import { LoadingBar, Notify } from 'quasar';
 import { requiredField, validEmail } from 'src/shared/utils/form-rules';
 import { useAuthStore } from 'src/stores/auth';
-import userTestData from 'src/assets/test-data/user';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -26,29 +25,33 @@ function onReset() {
   password.value = '';
 }
 
-function signin() {
+async function signin() {
+  LoadingBar.start();
   submitted.value = true;
 
-  LoadingBar.start();
-  LoadingBar.increment(80);
+  let res =
+    process.env.ENABLE_STATIC_MODE === 'true'
+      ? await authStore.signinMockUser()
+      : await authStore.signin(email.value, password.value);
 
-  setTimeout(() => {
-    LoadingBar.increment();
-
-    authStore.setUser(userTestData);
-    authStore.setToken('secret');
-
-    router.push('/account');
+  if (res?.success) {
     notify.create({
       color: 'positive',
-      message: 'You have signed in successfully.',
+      message: res?.message || 'Sign in successful',
       timeout: 3000,
     });
-
-    LoadingBar.stop();
-  }, 1000);
+  } else {
+    notify.create({
+      color: 'negative',
+      message: res?.message || 'Sign in failed',
+      timeout: 3000,
+    });
+  }
+  router.push('/account');
+  LoadingBar.stop();
 }
 </script>
+
 <template>
   <q-form @submit="signin" @reset="onReset" class="q-gutter-md">
     <q-input

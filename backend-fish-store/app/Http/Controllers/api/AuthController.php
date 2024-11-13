@@ -48,11 +48,16 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $expiresAt = now()->utc()->addHours(48);
+        $token = $user->createToken('auth_token', [], $expiresAt);
+
         return response()->json([
             'message' => 'Signin successful',
-            'data' => $user,
-            'token' => $token,
+            'data' => [
+                'user' => $user,
+                'token' => $token->plainTextToken,
+                'expires' => $expiresAt->toISOString()
+            ],
             'status' => 200
         ], 200);
     }

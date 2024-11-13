@@ -10,6 +10,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/HomePage.vue'),
       },
       {
+        path: 'dashboard',
+        component: () => import('pages/DashboardPage.vue'),
+      },
+      {
         path: 'products',
         component: () => import('pages/ProductsPage.vue'),
       },
@@ -28,6 +32,7 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true },
       },
     ],
+    meta: { customerOnly: true },
   },
   {
     path: '/auth',

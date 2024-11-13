@@ -1,0 +1,196 @@
+[
+  {
+    "id": 5,
+    "name": "Test Yellowfin Tuna (Thunnus albacares)",
+    "price": 11.62,
+    "weight": 10.0,
+    "units": 50,
+    "description": "Yellowfin tuna is a favorite for sushi and sashimi, and it’s excellent grilled or seared due to its firm, meaty texture.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/tuna/tuna3_ld4yJcpvU.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/tuna/tuna2_iSQi3F9pm.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/tuna/tuna_EAeYciJENs.jpg"
+    ],
+    "category_id": 1,
+    "category_name": "culinary",
+    "tags": ["tuna", "farm raised", "tropical"],
+    "created_at": "2024-03-15T12:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 3,
+    "name": "Test Mackerel (Scomberomorus spp.)",
+    "price": 15.04,
+    "weight": 2.0,
+    "units": 33,
+    "description": " Mackerel is often grilled, smoked, or canned and is popular in dishes like mackerel salad, fish tacos, or served with rice.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/mackerel/mackerel_TX-7XQHH2.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/mackerel/mackerel2_bkAPEo1_2.jpeg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/mackerel/mackerel3_HO8qOCckN.jpeg"
+    ],
+    "category_id": 1,
+    "category_name": "culinary",
+    "tags": ["clothing", "crustaceans", "mussel"],
+    "created_at": "2024-03-13T05:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 6,
+    "name": "Test Clownfish (Amphiprioninae)",
+    "price": 55.76,
+    "weight": 2.0,
+    "units": 15,
+    "description": "Clownfish are striking saltwater fish famous for their bright orange color with white bands. They are often associated with sea anemones, which provide protection for the clownfish while the clownfish helps the anemone by keeping it clean and defending it from predators.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/clown/clown2_b1g6RPda8.webp",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/clown/clown_H1CkJ-QFQ.webp"
+    ],
+    "category_id": 2,
+    "category_name": "ornamental",
+    "tags": ["farm raised", "sea", "tropical"],
+    "created_at": "2024-02-23T10:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 2,
+    "name": "Test Barramundi (Lates calcarifer)",
+    "price": 89.41,
+    "weight": 2.0,
+    "units": 33,
+    "description": "Barramundi can be grilled, steamed, or pan-fried, and is popular in dishes like fish curry, tacos, or served with sauces.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/barramundi/barramundi3_72Wx9j5VEf.webp",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/barramundi/barramundi_j09003WLN.webp",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/barramundi/barramundi2_ZGmdoBXu1.webp"
+    ],
+    "category_id": 1,
+    "category_name": "culinary",
+    "tags": ["farm raised", "rivers", "mussel"],
+    "created_at": "2024-02-08T10:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 9,
+    "name": "Test Channel Catfish (Ictalurus punctatus)",
+    "price": 13.29,
+    "weight": 2.0,
+    "units": 12,
+    "description": "This is the most commonly farmed catfish species in the U.S. and is known for its mild flavor and firm texture.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/catfish/catfish3_kNyaRCFo6.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/catfish/catfish_yDbq9InTgV.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/catfish/catfish2_U_04IVo7W.jpg"
+    ],
+    "category_id": 3,
+    "category_name": "farming",
+    "tags": ["farm raised", "rivers"],
+    "created_at": "2024-02-05T10:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 4,
+    "name": "Test Pacific Halibut (Hippoglossus stenolepis)",
+    "price": 11.01,
+    "weight": 15.0,
+    "units": 80,
+    "description": "Pacific halibut has a mild, sweet flavor with a firm texture, perfect for grilling, roasting, and baking.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/halibut/halibut_OTLU6svPh.webp",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/halibut/halibut2_mLf1u8tt2.webp",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/halibut/halibut3_JMG1BCsmN.webp"
+    ],
+    "category_id": 1,
+    "category_name": "culinary",
+    "tags": ["sea", "tropical", "mussel"],
+    "created_at": "2024-01-06T10:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 7,
+    "name": "Test Betta Fish (Betta splendens)",
+    "price": 80.05,
+    "weight": 2.0,
+    "units": 12,
+    "description": "Betta fish, also known as Siamese fighting fish, are popular freshwater aquarium fish known for their vibrant colors and flowing fins.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/betta/betta2_qEN4ThEO_.webp",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/betta/betta_opEV3_qzb.webp"
+    ],
+    "category_id": 2,
+    "category_name": "ornamental",
+    "tags": ["clothing", "rivers", "mussel"],
+    "created_at": "2024-01-05T10:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 11,
+    "name": "Test Shad",
+    "price": 84.52,
+    "weight": 2.0,
+    "units": 12,
+    "description": "Shad are often used for targeting larger game fish, such as striped bass and catfish. They can be used live, cut, or as part of a chum mixture.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/shad/shad_w_yC-AJFup.webp",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/shad/shad2_AnPWQJKol.webp"
+    ],
+    "category_id": 4,
+    "category_name": "bait",
+    "tags": ["crustaceans", "sea", "tropical"],
+    "created_at": "2024-01-02T11:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 1,
+    "name": "Test Atlantic Salmon (Salmo salar)",
+    "price": 55.97,
+    "weight": 12.0,
+    "units": 100,
+    "description": "Atlantic salmon is versatile in cooking and can be grilled, baked, or pan-seared. It’s also popular in sushi and sashimi.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/salmon/salmon2_m4tIkHBL_.webp",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/salmon/salmon_EqpI2W-sTn.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/salmon/salmon3_jX7IVuvump.jpg"
+    ],
+    "category_id": 1,
+    "category_name": "culinary",
+    "tags": ["tuna", "farm raised", "tropical"],
+    "created_at": "2024-01-02T10:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 8,
+    "name": "Test Nile Tilapia (Oreochromis niloticus)",
+    "price": 41.91,
+    "weight": 2.0,
+    "units": 15,
+    "description": "This is the most widely farmed species globally and is known for its rapid growth and adaptability to various farming conditions.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/tilapia/tilapia2_DUHYWp1ATd.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/tilapia/tilapia_u3HBS9B90P.jpg"
+    ],
+    "category_id": 3,
+    "category_name": "farming",
+    "tags": ["farm raised", "rivers"],
+    "created_at": "2024-01-02T08:00:00.000000Z",
+    "updated_at": ""
+  },
+  {
+    "id": 10,
+    "name": "Test Minnows",
+    "price": 51.31,
+    "weight": 2.0,
+    "units": 15,
+    "description": "Minnows are effective bait because they are a natural food source for larger predatory fish, such as bass, pike, and trout.",
+    "images": [
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/minnows/minnows_seeggwpuu.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/minnows/minnows3_c0-HOVA4z.jpg",
+      "https://ik.imagekit.io/wr5lnrww0q8/fishstore/products/minnows/minnows2_026CBKTjM.jpg"
+    ],
+    "category_id": 4,
+    "category_name": "bait",
+    "tags": ["rivers", "sea", "mussel"],
+    "created_at": "2024-01-01T10:00:00.000000Z",
+    "updated_at": ""
+  }
+]

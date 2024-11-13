@@ -14,6 +14,7 @@ const categoriesStore = useCategoriesStore();
 const router = useRouter();
 
 const categories = computed(() => categoriesStore.list);
+const categoriesLoading = computed(() => categoriesStore.loading);
 
 function categoryShow(category: Category) {
   Dialog.create({
@@ -38,9 +39,27 @@ function categoryShow(category: Category) {
     <div
       class="tw-grid sm:tw-grid-cols-2 lg:tw-grid-cols-4 tw-justify-items-center tw-gap-5 -tw-translate-y-[60px]"
     >
-      <template v-for="item of categories" :key="item.name">
-        <card-category @click="categoryShow(item)" :category="item" />
+      <template v-for="(item, i) of categories" :key="item.name">
+        <card-category
+          @click="categoryShow(item)"
+          :index="i"
+          :category="item"
+        />
       </template>
+    </div>
+
+    <div
+      class="tw-w-full tw-py-[200px] tw-text-center"
+      v-if="categoriesLoading"
+    >
+      <h1 class="tw-text-[28px] tw-font-anton tw-font-normal">
+        Fetching Categories...
+      </h1>
+      <q-spinner-hourglass
+        color="primary"
+        size="4em"
+        class="tw-mx-auto tw-mt-3"
+      />
     </div>
   </div>
 </template>

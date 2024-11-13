@@ -1,9 +1,7 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CustomerSeeder extends Seeder
@@ -21,7 +19,8 @@ class CustomerSeeder extends Seeder
             'password' => bcrypt('password'),
             'is_admin' => false,
             'address' => $faker->address,          // Generates a random address
-            'phone' => $faker->regexify('\d{3}-\d{3}-\d{4}')
+            'phone' => $faker->regexify('\d{3}-\d{3}-\d{4}'),
+            'profile_img' => 'https://placehold.co/150x150/EEE/31343C'
         ]);
         // Generating Random User
         for ($i = 0; $i < 3; $i++) {

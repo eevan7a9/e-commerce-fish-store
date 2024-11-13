@@ -10,6 +10,7 @@ defineOptions({
       href="https://github.com/eevan7a9"
       target="_blank"
       color="white"
+      aria-label="facebook"
       glossy
       round
       :size="$q.screen.gt.sm ? 'lg' : 'md'"
@@ -23,6 +24,7 @@ defineOptions({
       glossy
       target="_blank"
       round
+      aria-label="instagram"
       :size="$q.screen.gt.sm ? 'lg' : 'md'"
     >
       <q-icon name="mdi-instagram" color="accent" />
@@ -34,6 +36,7 @@ defineOptions({
       glossy
       target="_blank"
       round
+      aria-label="twitter"
       :size="$q.screen.gt.sm ? 'lg' : 'md'"
     >
       <q-icon name="mdi-twitter" color="accent" />
@@ -44,6 +47,7 @@ defineOptions({
       color="white"
       glossy
       target="_blank"
+      aria-label="linkedin"
       round
       :size="$q.screen.gt.sm ? 'lg' : 'md'"
     >

@@ -31,7 +31,7 @@ function viewShoppingCart() {
 </script>
 
 <template>
-  <q-btn icon="shopping_cart">
+  <q-btn icon="shopping_cart" aria-label="shopping-cart-btn">
     <Transition name="bounce">
       <q-badge v-if="cartStore.total" color="red" class="shake" floating>
         {{ cartStore.total }}
@@ -107,6 +107,7 @@ function viewShoppingCart() {
               color="primary"
               @click="viewShoppingCart"
               outline
+              aria-label="view-shopping-cart"
               show
               v-close-popup
             >
@@ -117,6 +118,7 @@ function viewShoppingCart() {
               class="tw-mt-2 tw-w-full"
               color="primary"
               to="/checkout"
+              aria-label="go-checkout"
               unelevated
               v-close-popup
             >

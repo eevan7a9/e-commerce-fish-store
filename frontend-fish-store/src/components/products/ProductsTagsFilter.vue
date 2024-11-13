@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { usetagsStore } from 'src/stores/tags';
+import { useTagsStore } from 'src/stores/tags';
 import { computed } from 'vue';
 
 const model = defineModel<string[]>({
   default: [],
 });
 
-const tagsStore = usetagsStore();
+const tagsStore = useTagsStore();
 
 const tags = computed(() => tagsStore.list);
 
@@ -33,6 +33,7 @@ function selectTags(name: string) {
         padding="4px"
         unelevated
         color="primary"
+        aria-label="reset-filter-tags"
         @click="model = []"
         v-if="model.length"
       />

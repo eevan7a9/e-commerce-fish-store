@@ -29,7 +29,12 @@ function selectLang(t: string) {
 </script>
 
 <template>
-  <q-btn padding="4px 8px" color="primary" unelevated>
+  <q-btn
+    padding="4px 8px"
+    color="primary"
+    aria-label="change-language"
+    unelevated
+  >
     <q-menu>
       <q-list style="min-width: 100px">
         <q-item

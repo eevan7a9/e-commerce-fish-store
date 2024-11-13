@@ -50,7 +50,6 @@ export const useCartStore = defineStore('cart', {
     },
     loadItems() {
       this.items = LocalStorage.getItem('cart') || [];
-      console.log('SessionStorage.getItem', this.items);
     },
     clear(): void {
       this.items = [];

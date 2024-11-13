@@ -1,4 +1,4 @@
-import countries from 'src/assets/test-data/countries';
+import countries from 'src/assets/data/countries';
 
 export const useCountries = function () {
   function list(): { label: string; value: string }[] {

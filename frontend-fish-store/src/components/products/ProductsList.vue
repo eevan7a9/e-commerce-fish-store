@@ -23,6 +23,8 @@ const filter = reactive<{
 });
 const sort = ref('');
 
+const productsLoading = computed(() => productsSore.loading);
+
 const products = computed(() => {
   let temp = productsSore.list;
 
@@ -131,10 +133,22 @@ onMounted(() => {
     />
   </div>
 
+  <div class="tw-w-full tw-py-[300px] tw-text-center" v-if="productsLoading">
+    <h1 class="tw-text-[28px] tw-font-anton tw-font-normal">
+      Fetching Products...
+    </h1>
+    <q-spinner-hourglass
+      color="primary"
+      size="4em"
+      class="tw-mx-auto tw-mt-3"
+    />
+  </div>
+
   <products-list-empty
     :empty="!products.length"
     :filtered="
       !!(filter.tags?.length || filter.search || filter.categories?.length)
     "
+    v-else
   />
 </template>

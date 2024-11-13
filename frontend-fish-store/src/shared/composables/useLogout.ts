@@ -9,23 +9,25 @@ export function useLogout() {
   const lang = useLang();
   const notify = Notify;
 
-  function logout() {
-    auth.clearState();
-    lang.resetLanguage();
-
+  async function logout(opts = { message: '', color: '' }) {
     Loading.show({
       message: 'Please wait, logging out...',
     });
 
-    setTimeout(() => {
-      Loading.hide();
-      router.push('/auth');
-      notify.create({
-        color: 'positive',
-        message: 'You have been logged out successfully.',
-        timeout: 3000,
-      });
-    }, 1000);
+    const res =
+      process.env.ENABLE_STATIC_MODE === 'true'
+        ? await auth.signoutMockUser()
+        : await auth.signout();
+
+    notify.create({
+      color: opts.color || (res?.success ? 'positive' : 'negative'),
+      message: opts.message || res?.message || 'You have been logged out.',
+      timeout: 5000,
+    });
+    lang.resetLanguage();
+
+    Loading.hide();
+    router.push('/auth');
   }
 
   return {

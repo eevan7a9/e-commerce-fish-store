@@ -5,7 +5,7 @@ defineOptions({
   name: 'CardCategorty',
 });
 
-defineProps<{ category: Category }>();
+defineProps<{ category: Category; index: number }>();
 </script>
 
 <template>
@@ -14,11 +14,18 @@ defineProps<{ category: Category }>();
     flat
   >
     <div
-      class="image-category tw-bg-slate-100 tw-h-[200px] sm:tw-h-[280px] tw-relative tw-overflow-hidden tw-pt-3 tw-flex tw-items-center tw-justify-center"
+      class="image-category tw-h-[200px] sm:tw-h-[280px] tw-relative tw-overflow-hidden tw-pt-3 tw-flex tw-items-center tw-justify-center"
+      :class="[
+        { 'image-1': index === 0 },
+        { 'image-2': [1, 2].includes(index) },
+        { 'image-3': index === 3 },
+        { 'flip-bg': index % 2 === 0 },
+      ]"
     >
       <img
         :src="category.imgSrc"
-        class="tw-object-contain tw-max-w-[200px] sm:group-hover:tw-scale-150 tw-transition-all tw-ease-in-out tw-duration-300"
+        alt="category_img"
+        class="tw-object-contain tw-z-20 tw-max-w-[200px] sm:group-hover:tw-scale-150 tw-transition-all tw-ease-in-out tw-duration-300"
       />
       <div
         class="heading-primary-text tw-flex tw-items-center tw-font-anton tw-absolute tw-h-[80px] tw-bottom-0 tw-w-full tw-pl-3 tw-bg-black tw-bg-opacity-25"
@@ -38,16 +45,42 @@ defineProps<{ category: Category }>();
 </template>
 
 <style lang="scss" scoped>
-// .image-category {
-// background-image: url('/images/svg/block-a.svg');
-// &::after {
-//   content: '';
-//   position: absolute;
-//   background-color: rgba(5, 5, 5, 0.253);
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-// }
-// }
+.image-category {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    // opacity: 0.8;
+  }
+  &.image-1::before {
+    background-image: url('/images/fish-bg-category.png');
+  }
+  &.image-2::before {
+    background-image: url('/images/fish-bg-category-2.png');
+  }
+  &.image-3::before {
+    background-image: url('/images/fish-bg-category-3.png');
+  }
+  // Flip the background when .flip-bg class is added
+  &.flip-bg::before {
+    transform: scaleX(-1);
+  }
+}
+
+@media (max-width: 600px) {
+  .image-category {
+    &::before {
+      background-size: cover;
+    }
+  }
+}
 </style>

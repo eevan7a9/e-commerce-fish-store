@@ -35,10 +35,18 @@ function addToCart(product: Product) {
 
     <q-card-section class="tw-p-0 tw-overflow-hidden">
       <router-link :to="'/products/' + product.id">
-        <img
+        <q-img
           src="https://cdn.quasar.dev/img/mountains.jpg"
           class="tw-h-[260px] tw-cursor-pointer hover:tw-scale-150 tw-transition-all tw-duration-300 tw-ease-in-out"
+          :alt="product.name"
+          v-if="!product.images?.length"
+        />
+        <img
+          :src="product.images[0]"
+          class="tw-h-[260px] tw-cursor-pointer hover:tw-scale-150 tw-transition-all tw-duration-300 tw-ease-in-out"
           draggable="false"
+          alt="product_name"
+          v-else
         />
       </router-link>
     </q-card-section>
@@ -102,6 +110,7 @@ function addToCart(product: Product) {
         class="tw-ml-auto tw-mr-[24px] tw-text-[16px]"
         round
         color="primary"
+        aria-label="add-to-cart-btn"
         @click.stop="addToCart(product)"
       >
       </q-btn>

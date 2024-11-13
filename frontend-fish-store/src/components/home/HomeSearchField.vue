@@ -30,6 +30,7 @@ function submit() {
     <button
       v-ripple
       @click="submit()"
+      aria-label="home-search-btn"
       class="tw-bg-primary tw-relative tw-h-full tw-px-3 tw-rounded-tr-full tw-rounded-br-full"
     >
       <q-icon name="search" color="white" class="" size="30px" />
