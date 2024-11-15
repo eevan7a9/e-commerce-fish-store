@@ -23,6 +23,7 @@ function categoryShow(category: Category) {
     message: category.description,
     cancel: true,
     ok: {
+      icon: 'search',
       label: 'FIND Products',
     },
   }).onOk(() => {

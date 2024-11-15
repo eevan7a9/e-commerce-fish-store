@@ -18,7 +18,7 @@ defineOptions({
         class="tw-h-full tw-pt-12 md:tw-col-span-2 tw-flex tw-flex-col tw-items-center tw-justify-center"
       >
         <h1
-          class="heading-primary-text animate-float tw-text-center md:tw-text-left tw-w-full tw-font-anton tw-font-bold tw-text-[32px] sm:tw-text-[38px] xl:tw-text-[42px] tw-leading-[150%]"
+          class="heading-gradient-primary animate-float tw-text-center md:tw-text-left tw-w-full tw-font-anton tw-font-bold tw-text-[32px] sm:tw-text-[38px] xl:tw-text-[58px] tw-leading-[150%]"
         >
           Cast Your Net <br />
           On Our Top Selections!

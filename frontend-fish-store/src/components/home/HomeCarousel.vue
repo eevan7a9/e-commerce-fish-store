@@ -41,7 +41,6 @@ const slidesList = ref([
       infinite
       keep-alive
       v-model="slide"
-      autoplay
     >
       <template v-slot:navigation-icon="{ active, onClick }">
         <q-btn
@@ -78,14 +77,16 @@ const slidesList = ref([
           :img-src="`https://ik.imagekit.io/wr5lnrww0q8/fishstore/carousel/${item.imgSrc}`"
         >
           <div
-            class="tw-bg-black tw-bg-opacity-65 tw-w-full tw-absolute tw-top-0 tw-left-0 tw-flex tw-flex-col tw-items-center"
+            class="tw-bg-black tw-bg-opacity-15 sm:tw-bg-opacity-65 tw-w-full tw-absolute tw-top-0 tw-left-0 tw-flex tw-flex-col tw-items-center"
           >
             <div
               class="tw-font-anton tw-text-[40px] tw-text-white tw-py-2 tw-capitalize"
             >
               {{ item.title }}
             </div>
-            <div class="tw-text-[18px] tw-text-white">{{ item.subTitle }}</div>
+            <div class="tw-text-[18px] tw-text-white tw-px-3 tw-pb-3">
+              {{ item.subTitle }}
+            </div>
           </div>
         </q-carousel-slide>
       </template>
