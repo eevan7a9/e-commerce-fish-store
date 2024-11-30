@@ -1,13 +1,19 @@
 import ProductsList from './ProductsList.vue';
-import ProductsTagsFilter from './ProductsTagsFilter.vue';
-import ProductsCategoryFilter from './ProductsCategoryFilter.vue';
+import ProductsTagsSelection from './ProductsTagsSelection.vue';
+import ProductsCategorySelection from './ProductsCategorySelection.vue';
 import ProductsListEmpty from './ProductsListEmpty.vue';
 import ProductsCarousel from './ProductsCarousel.vue';
+import ProductsFilter from './ProductsFilter.vue';
+import ProductsSort from './ProductsSort.vue';
+import ProductsLatestSlide from './ProductsLatestSlide.vue';
 
 export {
   ProductsList,
   ProductsListEmpty,
-  ProductsTagsFilter,
-  ProductsCategoryFilter,
+  ProductsTagsSelection,
+  ProductsCategorySelection,
   ProductsCarousel,
+  ProductsFilter,
+  ProductsSort,
+  ProductsLatestSlide,
 };

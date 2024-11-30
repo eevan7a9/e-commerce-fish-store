@@ -2,7 +2,7 @@ import { boot } from 'quasar/wrappers';
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { Notify } from 'quasar';
 import { useAuthStore } from 'src/stores/auth';
-import { ApiResponse } from 'src/shared/interface/api';
+import { RequestResponse } from 'src/shared/interface/api';
 
 declare module 'vue' {
   interface ComponentCustomProperties {
@@ -25,7 +25,7 @@ export default boot(({ app, redirect, router }) => {
     (response: AxiosResponse) => {
       return response;
     },
-    (error: AxiosError<ApiResponse>) => {
+    (error: AxiosError<RequestResponse>) => {
       // Unauthorized
       if (error.response && error.response.status === 401) {
         console.log('Token expired or invalid, redirecting to login...');

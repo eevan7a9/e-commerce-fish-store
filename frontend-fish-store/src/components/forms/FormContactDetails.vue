@@ -18,7 +18,6 @@ const form = defineModel<FormContactDetails>({
 const emits = defineEmits<{ done: [value: FormContactDetails] }>();
 
 function save() {
-  console.log('continue');
   emits('done', form.value);
 }
 </script>
@@ -83,6 +82,7 @@ function save() {
           label="Continue"
           color="primary"
           unelevated
+          class="tw-w-full md:tw-w-auto"
           padding="8px 24px"
         />
       </q-card-section>

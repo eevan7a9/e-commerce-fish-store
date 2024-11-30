@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { api, staticData } from 'src/boot/axios';
-import { ApiResponse, RequestStatus } from 'src/shared/interface/api';
+import { RequestResponse } from 'src/shared/interface/api';
 import { Tag } from 'src/shared/interface/tags';
 
 interface tagsState {
@@ -25,9 +25,9 @@ export const useTagsStore = defineStore('tags', {
       this.tags = tags;
     },
 
-    async fetchTags(): Promise<RequestStatus | void> {
+    async fetchTags(): Promise<RequestResponse | void> {
       try {
-        const { data } = await api.get<ApiResponse<Tag[]>>('/tags');
+        const { data } = await api.get<RequestResponse<Tag[]>>('/tags');
         if (data.status === 200 && data.data) {
           this.setTags(data.data);
           return { success: true };
@@ -40,7 +40,7 @@ export const useTagsStore = defineStore('tags', {
     /**
      * PROTOTYPING & MOCKING DATA
      */
-    async loadMockTags(): Promise<RequestStatus | void> {
+    async fetchJsonTags(): Promise<RequestResponse | void> {
       const { data } = await staticData.get('/tags.json');
       this.setTags(data);
       return { success: true };

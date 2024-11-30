@@ -1,6 +1,8 @@
+import { ProductCategory } from '../enums/product';
+
 export interface Category {
   id: string | number;
-  name: string;
+  name: ProductCategory;
   description: string;
   imgSrc?: string;
   created_at?: string;

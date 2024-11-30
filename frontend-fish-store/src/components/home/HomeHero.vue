@@ -10,7 +10,7 @@ import { RainStorm } from 'src/components/illustrations';
     >
       <div class="tw-font-anton tw-mb-4">
         <h1
-          class="tw-text-[42px] tw-font-black xl:tw-text-[72px] heading-gradient-primary"
+          class="tw-text-[42px] lg:tw-text-[60px] tw-font-black 2xl:tw-text-[72px] heading-gradient-primary"
         >
           Hooked on Quality!
         </h1>
@@ -26,9 +26,16 @@ import { RainStorm } from 'src/components/illustrations';
           padding="8px "
           color="accent"
           push
+          glossy
+          unelevated
+          square
         >
-          <q-icon name="mdi-shopping" size="36px" class="tw-mr-2" />
-          <span class="tw-font-black tw-text-[20px] sm:tw-text-[28px]">
+          <q-icon
+            name="mdi-shopping"
+            :size="$q.screen.gt.sm ? '36px' : '24px'"
+            class="tw-mr-2"
+          />
+          <span class="shop-now-btn tw-text-[20px] sm:tw-text-[28px]">
             Shop Now
           </span>
         </q-btn>
@@ -48,6 +55,7 @@ import { RainStorm } from 'src/components/illustrations';
   background-position: top center;
   background-repeat: no-repeat;
   height: 70vh;
+  max-height: 800px;
   min-height: 400px;
   position: relative;
   &::before {
@@ -59,6 +67,12 @@ import { RainStorm } from 'src/components/illustrations';
     right: 0;
     bottom: 0;
     z-index: 0;
+  }
+  .shop-now-btn {
+    color: white;
+    text-shadow: 2px 2px 0 #c00fec, -2px 2px 0 #c00fec, 2px -2px 0 #c00fec,
+      -2px -2px 0 #c00fec; /* Adds a shadow to all sides */
+    letter-spacing: 2px;
   }
 }
 </style>

@@ -7,8 +7,8 @@ export enum ProductStatus {
 }
 
 export enum ProductCategory {
-  Culinary = 'Culinary',
-  Ornamental = 'Ornamental',
-  Farming = 'Farming',
-  Bait = 'Bait',
+  Culinary = 'culinary',
+  Ornamental = 'ornamental',
+  Farming = 'farming',
+  Bait = 'bait',
 }

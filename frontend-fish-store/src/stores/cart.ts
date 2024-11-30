@@ -1,11 +1,7 @@
 import { defineStore } from 'pinia';
 import { LocalStorage } from 'quasar';
+import { CartItem } from 'src/shared/interface/cart';
 import { Product } from 'src/shared/interface/product';
-
-interface CartItem {
-  product: Product;
-  quantity: number;
-}
 
 interface CartState {
   items: CartItem[];
@@ -37,8 +33,18 @@ export const useCartStore = defineStore('cart', {
       }
       LocalStorage.set('cart', [...this.items]);
     },
+    reduceItemCount(id: string | number, count: number): void {
+      const item = this.items.find((item) => item.product.id === id);
+      if (!item) return;
+      if (item?.quantity <= count) {
+        this.removeItem(id);
+        return;
+      }
+      item.quantity -= count;
+    },
     removeItem(id: string | number): CartItem | undefined {
       let removed!: CartItem;
+
       this.items = this.items.filter((item) => {
         if (String(item.product.id) !== String(id)) {
           return item;

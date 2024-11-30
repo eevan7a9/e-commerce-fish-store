@@ -1,12 +1,7 @@
-export interface ApiResponse<T = unknown> {
-  data?: T;
-  status: number;
-  message?: string;
-  error?: string;
-}
-
-export interface RequestStatus<T = unknown> {
+export interface RequestResponse<T = unknown> {
   success: boolean;
   data?: T;
   message?: string;
+  error?: boolean;
+  status?: number;
 }

@@ -4,7 +4,6 @@ defineOptions({
 });
 import { useProductsStore } from 'src/stores/products';
 import { computed, onMounted, reactive, ref, watch } from 'vue';
-import { CardProduct } from 'src/components/cards';
 import { Product } from 'src/shared/interface/product';
 import { ProductsListEmpty } from 'src/components/products';
 import { LocationQuery, useRoute } from 'vue-router';
@@ -122,33 +121,36 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="tw-grid sm:tw-grid-cols-2 xl:tw-grid-cols-3 tw-justify-items-center tw-gap-y-6 tw-gap-x-3"
-  >
-    <card-product
-      v-for="product of products"
-      :key="product.id"
-      class="tw-max-w-[350px]"
-      :product="product"
+  <div>
+    <div
+      class="tw-flex tw-flex-wrap tw-justify-center lg:tw-justify-start tw-gap-y-6 tw-gap-x-3"
+    >
+      <div v-for="product of products" :key="product.id">
+        <!-- <card-product
+          class="tw-max-w-[350px]"
+          :product="product"
+        /> -->
+        <slot :product="product"></slot>
+      </div>
+    </div>
+
+    <div class="tw-w-full tw-py-[300px] tw-text-center" v-if="productsLoading">
+      <h1 class="tw-text-[28px] tw-font-anton tw-font-normal">
+        Fetching Products...
+      </h1>
+      <q-spinner-hourglass
+        color="primary"
+        size="4em"
+        class="tw-mx-auto tw-mt-3"
+      />
+    </div>
+
+    <products-list-empty
+      :empty="!products.length"
+      :filtered="
+        !!(filter.tags?.length || filter.search || filter.categories?.length)
+      "
+      v-else
     />
   </div>
-
-  <div class="tw-w-full tw-py-[300px] tw-text-center" v-if="productsLoading">
-    <h1 class="tw-text-[28px] tw-font-anton tw-font-normal">
-      Fetching Products...
-    </h1>
-    <q-spinner-hourglass
-      color="primary"
-      size="4em"
-      class="tw-mx-auto tw-mt-3"
-    />
-  </div>
-
-  <products-list-empty
-    :empty="!products.length"
-    :filtered="
-      !!(filter.tags?.length || filter.search || filter.categories?.length)
-    "
-    v-else
-  />
 </template>

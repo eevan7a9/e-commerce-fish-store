@@ -5,6 +5,7 @@ use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\api\ProductController;
 use App\Http\Controllers\api\TagController;
+use App\Http\Controllers\api\UserController;
 use App\Http\Middleware\DeleteExpiredSanctumToken;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -19,12 +20,6 @@ Route::apiResource('orders', controller: OrderController::class)->only('store');
 
 // AUTHENTICATED ONLY
 Route::middleware(["auth:sanctum"])->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/change-password', [AuthController::class, 'changePassword']);
-    Route::get('/user', [AuthController::class, 'user']);
-
-    Route::post('/orders/{id}/cancel', [OrderController::class, 'cancelOrder']);
-    Route::apiResource('orders', controller: OrderController::class)->only('index', 'show');
     // ADMIN ONLY
     Route::middleware([IsAdmin::class])->group(function () {
         Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
@@ -32,9 +27,22 @@ Route::middleware(["auth:sanctum"])->group(function () {
         Route::apiResource('tags', TagController::class)->except(['index']);
 
         // ORDERS
-        Route::patch('orders/{order}/status', [OrderController::class, 'updateStatus']);
-        Route::patch('orders/{order}/payment-status', [OrderController::class, 'updatePaymentStatus']);
+        Route::get('/orders/customers', [OrderController::class, 'customers']);
+        Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus']);
+        Route::patch('/orders/{order}/payment-status', [OrderController::class, 'updatePaymentStatus']);
         Route::apiResource('orders', OrderController::class)->only('destroy', 'update');
 
+        // USER
+        Route::get('/users', [UserController::class, 'users']);
+        Route::get('/user/{id}', [UserController::class, 'getUserByID']);
     });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
+
+    Route::get('/user', [UserController::class, 'user']);
+
+    Route::get('/orders/{id}/products', [OrderController::class, 'orderProducts']);
+    Route::post('/orders/{id}/cancel', [OrderController::class, 'cancelOrder']);
+    Route::apiResource('orders', OrderController::class)->only('index', 'show');
 });

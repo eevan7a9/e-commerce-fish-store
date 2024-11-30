@@ -12,6 +12,9 @@ export default {
     register: 'register',
     signout: 'signout',
     account: 'account',
+    dashboard: 'dashboard',
+    orders: 'orders',
+    customers: 'customers',
   },
   myLanguage: 'My Language',
   products: {
@@ -39,5 +42,11 @@ export default {
     cancel: 'Cancel',
     confirm: 'Confirm',
     ok: 'Ok',
+  },
+  categories: {
+    culinary: 'culinary',
+    ornamental: 'ornamental',
+    farming: 'farming',
+    bait: 'bait',
   },
 };

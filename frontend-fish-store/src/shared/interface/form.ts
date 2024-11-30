@@ -33,3 +33,21 @@ export interface FormRegister {
   password: string;
   password_confirmation: string;
 }
+
+export interface FormChangePassword {
+  password_current: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export interface FormProductCreate {
+  name: string;
+  price: number;
+  weight: number;
+  units: number;
+  description: string;
+  category_id: number | string;
+  category_name?: string;
+  images?: string[];
+  tag_id: (string | number)[];
+}

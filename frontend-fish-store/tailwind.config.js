@@ -7,6 +7,9 @@ export const theme = {
       primary: '#6e02b1',
       secondary: '#26a69a',
       accent: '#9c27b0',
+      dark: '#333',
+      success: '#19a53a',
+      shade: '#230a43',
     },
   },
   fontFamily: {

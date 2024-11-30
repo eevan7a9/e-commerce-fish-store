@@ -3,7 +3,7 @@ import { Notify } from 'quasar';
 import { computed } from 'vue';
 
 import { useCartStore } from 'src/stores/cart';
-
+import { ExpansionCartItem } from 'src/components/expansion-item';
 defineOptions({
   name: 'DialogCart',
 });
@@ -82,73 +82,12 @@ function emptyCart() {
 
       <q-card-section class="tw-p-0" v-else>
         <q-list separator>
-          <q-expansion-item
+          <expansion-cart-item
             v-for="(item, i) of cartItems"
-            :key="item.product.id"
-            icon="mdi-fish"
-            :label="item.product.name"
+            :key="i"
             :default-opened="i === 0"
-            :caption="item.product.category_name"
-          >
-            <template v-slot:header>
-              <q-item-section side>
-                <q-badge class="tw-p-2 tw-text-[14px] tw-font-semibold">
-                  {{ item.quantity }}
-                </q-badge>
-              </q-item-section>
-
-              <q-item-section class="tw-text-[16px]">
-                <small class="tw-text-dark tw-capitalize">
-                  {{ item.product.category_name }}
-                </small>
-                <div
-                  class="tw-overflow-x-hidden ellipsis tw-w-full tw-text-primary"
-                >
-                  {{ item.product.name }}
-                </div>
-              </q-item-section>
-
-              <q-item-section side>
-                <span class="tw-font-bold text-dark">
-                  ₱{{ (Number(item.product.price) * item.quantity).toFixed(2) }}
-                </span>
-              </q-item-section>
-            </template>
-
-            <q-card class="tw-border-t">
-              <q-card-section class="tw-px-0 sm:tw-px-3">
-                <div
-                  class="tw-px-2 tw-mb-3 tw-font-semibold"
-                  v-if="$q.screen.lt.sm"
-                >
-                  {{ item.product.name }}
-                </div>
-
-                <div class="tw-p-2 tw-bg-slate-200">
-                  {{ item.product.description }}
-                </div>
-
-                <div
-                  class="tw-mt-2 tw-flex tw-flex-col tw-px-3 sm:tw-flex-row sm:tw-items-center sm:tw-justify-between"
-                >
-                  <div class="">
-                    Unit/Order: ₱{{ item.product.price }} lb
-                    {{ item.product.weight }}
-                  </div>
-                  <q-btn
-                    flat
-                    color="primary"
-                    dense
-                    class="tw-text-[14px]"
-                    :to="'/products/' + item.product.id"
-                    v-close-popup
-                  >
-                    More Details
-                  </q-btn>
-                </div>
-              </q-card-section>
-            </q-card>
-          </q-expansion-item>
+            :item="item"
+          />
         </q-list>
       </q-card-section>
 
@@ -156,19 +95,17 @@ function emptyCart() {
 
       <q-card-section class="tw-text-right">
         <div class="tw-text-[14px] tw-mb-2">
-          Total Weight: lb
-          <span
-            class="tw-font-bold tw-bg-gray-200 tw-px-3 tw-mx-1 tw-text-[16px]"
-          >
-            {{ cartTotalWeight }}
+          Total Weight:
+          <span class="tw-font-semibold tw-px-3 tw-mx-1 tw-text-[16px]">
+            {{ cartTotalWeight }} lb
           </span>
         </div>
         <div class="tw-text-[16px]">
-          Total Price: ₱
+          Total Price:
           <span
-            class="tw-font-bold tw-bg-gray-200 tw-px-3 tw-mx-1 tw-text-[20px]"
+            class="tw-font-anton tw-bg-gray-200 tw-px-3 tw-mx-1 tw-text-[20px]"
           >
-            {{ cartTotalPrice }}
+            ₱{{ cartTotalPrice }}
           </span>
         </div>
       </q-card-section>
@@ -186,15 +123,16 @@ function emptyCart() {
           unelevated
           @click="emptyCart()"
         >
-          Empty Cart
+          <q-icon name="mdi-cart-remove" class="tw-mr-2" /> Empty Cart
         </q-btn>
         <q-btn
           color="primary"
           :disable="!cartItems.length"
           unelevated
+          glossy
           to="/checkout"
         >
-          Checkout now
+          <q-icon name="mdi-cart-arrow-up" class="tw-mr-2" /> Checkout now
         </q-btn>
       </q-card-section>
     </q-card>

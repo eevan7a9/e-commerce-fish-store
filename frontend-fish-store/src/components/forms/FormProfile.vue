@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Notify } from 'quasar';
-import { User } from 'src/shared/interface/auth';
+import { User } from 'src/shared/interface/user';
 import { useAuthStore } from 'src/stores/auth';
 import { computed, onMounted, reactive, ref } from 'vue';
 
@@ -51,14 +51,17 @@ onMounted(() => {
 <template>
   <q-form @submit="onSubmit" @reset="onReset">
     <q-card flat class="tw-border tw-w-full tw-mx-auto">
-      <q-card-section class="tw-pt-8">
-        <h1 class="tw-text-[24px] tw-font-anton">Profile</h1>
+      <q-card-section
+        class="tw-bg-primary tw-text-white tw-flex tw-items-center tw-justify-between"
+      >
+        <h1 class="tw-text-[24px] tw-font-anton tw-py-1">Profile</h1>
+        <q-icon name="person" size="32px" />
       </q-card-section>
 
       <q-separator />
 
       <q-card-section
-        class="tw-flex tw-flex-col-reverse md:tw-flex-row tw-pb-0"
+        class="tw-flex tw-flex-col-reverse md:tw-flex-row tw-pb-0 md:tw-pt-8"
       >
         <div class="tw-flex tw-flex-col tw-gap-y-3 tw-w-full md:tw-pr-3">
           <q-input
@@ -139,7 +142,7 @@ onMounted(() => {
         class="tw-flex tw-gap-3 tw-flex-col-reverse md:tw-flex-row md:tw-justify-end"
       >
         <q-btn
-          class="tw-font-bold"
+          class="tw-font-semibold md:tw-text-[18px]"
           label="cancel"
           outline
           color="primary"
@@ -147,7 +150,7 @@ onMounted(() => {
           padding="8px 24px"
         />
         <q-btn
-          class="tw-font-bold"
+          class="tw-font-semibold md:tw-text-[18px]"
           label="save"
           color="primary"
           unelevated

@@ -11,7 +11,10 @@ export default {
     signin: 'iniciar sesión',
     register: 'registrarse',
     signout: 'cerrar sesión',
-    account: 'mi cuenta',
+    account: 'cuenta',
+    dashboard: 'tablero',
+    orders: 'pedidos',
+    customers: 'clientes',
   },
   myLanguage: 'Mi Idioma',
   products: {
@@ -39,5 +42,11 @@ export default {
     cancel: 'Cancelar',
     confirm: 'Confirmar',
     ok: 'Aceptar',
+  },
+  categories: {
+    culinary: 'culinario',
+    ornamental: 'ornamental',
+    farming: 'agricultura',
+    bait: 'cebo',
   },
 };

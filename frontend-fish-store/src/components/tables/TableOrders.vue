@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { Dialog, Notify, QTableColumn } from 'quasar';
+import { Dialog, Loading, Notify, QTableColumn, useQuasar } from 'quasar';
 
-import { Order, OrderItem } from 'src/shared/interface/order';
+import { Order } from 'src/shared/interface/order';
 import { useOrdersStore } from 'src/stores/orders';
 import { DialogOrderDetails } from 'src/components/dialogs';
 import { BadgeOrderStatus } from 'src/components/badge';
@@ -13,18 +13,24 @@ defineOptions({
   name: 'TableOrders',
 });
 
+const $q = useQuasar();
+
+const visibleColumns = computed(() =>
+  $q.screen.gt.sm
+    ? ['id', 'total_amount', 'total_weight', 'status', 'created_at', 'action']
+    : ['id', 'total_amount', 'status']
+);
+
 const columns: QTableColumn[] = [
   {
     name: 'id',
-    required: true,
     label: 'Order Id',
-    align: 'left',
+    align: 'center',
     field: (row: Order) => row.id,
-    format: (val: string) => `${val}`,
+    format: (val: string) => `0${val}`,
   },
   {
     name: 'total_amount',
-    required: true,
     label: 'Total Amount',
     align: 'left',
     field: (row: Order) => row.total_amount,
@@ -32,7 +38,6 @@ const columns: QTableColumn[] = [
   },
   {
     name: 'total_weight',
-    required: true,
     label: 'Total Weight',
     align: 'left',
     field: (row: Order) => row.total_weight,
@@ -40,7 +45,6 @@ const columns: QTableColumn[] = [
   },
   {
     name: 'status',
-    required: true,
     label: 'Order Status',
     align: 'left',
     field: 'status',
@@ -49,7 +53,6 @@ const columns: QTableColumn[] = [
   },
   {
     name: 'created_at',
-    required: true,
     label: 'Created Date',
     align: 'left',
     field: (row: Order) => new Date(row.created_at || '').toDateString(),
@@ -69,6 +72,7 @@ const auth = useAuthStore();
 
 const dialog = ref(false);
 const selectedOrder = ref<Order>();
+const filter = ref('');
 
 const orders = computed(() => ordersStore.list);
 
@@ -87,33 +91,43 @@ function cancelOrder(row: Order) {
     ok: {
       label: 'Cancel Order',
       color: 'negative',
+      unelevated: true,
+      icon: 'mdi-trash-can',
     },
     cancel: {
-      label: 'Keep Order',
+      label: 'cancel',
+      color: 'accent',
+      outline: true,
     },
   }).onOk(async () => {
     if (process.env.ENABLE_STATIC_MODE === 'true') {
-      Notify.create({
+      return Notify.create({
         message: process.env.RISTRICTED_NOTIFY_MESSAGE,
         timeout: 8000,
         color: 'negative',
       });
-      return;
     }
+
+    Loading.show({
+      message: 'Updating Order, please wait...',
+      messageColor: 'white',
+      spinnerColor: 'white',
+    });
+
     const res = await ordersStore.cancelOrder(row.id, auth.userToken);
+
+    Loading.hide();
 
     Notify.create({
       color: res?.success ? 'positive' : 'negative',
       message: res?.message || 'Order has been canceled',
       timeout: 6000,
     });
-
-    console.log(res?.message);
   });
 }
 
-function viewOrderItems(items: OrderItem[]) {
-  console.log('items', items);
+function viewOrderItems() {
+  console.log('viewOrderItems');
   if (process.env.TEST_MODE) {
     Notify.create({
       message: process.env.RISTRICTED_NOTIFY_MESSAGE,
@@ -133,21 +147,42 @@ function viewOrderItems(items: OrderItem[]) {
     :order="selectedOrder"
   />
 
-  <q-card flat class="tw-border">
-    <q-card-section class="tw-p-0 tw-py-4" v-if="orders.length">
+  <q-card square flat class="tw-border">
+    <q-card-section
+      class="tw-bg-primary tw-flex tw-flex-col sm:tw-flex-row sm:tw-items-center tw-gap-3 tw-justify-between"
+    >
+      <h1 class="tw-text-[24px] tw-font-anton tw-text-white">Orders List</h1>
+
+      <div class="tw-flex tw-items-center tw-gap-3">
+        <q-icon name="mdi-shopping" size="32px" color="white" />
+        <q-input
+          borderless
+          dense
+          debounce="300"
+          v-model="filter"
+          placeholder="Search"
+          class="tw-bg-white tw-px-3 tw-rounded-full"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+    </q-card-section>
+
+    <q-card-section class="tw-p-0" v-if="orders.length">
       <q-responsive :ratio="$q.screen.gt.sm ? 16 / 9 : 9 / 16">
         <q-table
           class="my-sticky-header-table"
           flat
+          :visible-columns="visibleColumns"
           :rows="orders"
+          :filter="filter"
           :columns="columns"
           row-key="name"
           @row-click="rowClicked"
+          :rows-per-page-options="[15, 50, 100]"
         >
-          <template v-slot:top>
-            <h1 class="tw-text-[24px] tw-font-anton">Orders List</h1>
-          </template>
-
           <template v-slot:body-cell-status="props">
             <q-td :props="props">
               <div>
@@ -163,6 +198,7 @@ function viewOrderItems(items: OrderItem[]) {
                 unelevated
                 color="negative"
                 dense
+                glossy
                 padding="4px 8px"
                 v-if="
                   props.row.status !== OrderStatus.Cancelled &&

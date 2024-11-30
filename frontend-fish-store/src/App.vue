@@ -29,11 +29,12 @@ const logout = useLogout();
 
 function checkTokenExpiration() {
   const currentTime = new Date();
-  const expirationTime = new Date(SessionStorage.getItem('expires') || '');
+  const expirationTime =
+    SessionStorage.getItem('expires') &&
+    new Date(SessionStorage.getItem('expires') || '');
 
-  console.log(expirationTime);
   // If the current time is past the expiration time
-  if (currentTime >= expirationTime) {
+  if (expirationTime && currentTime >= expirationTime) {
     logout.logout({
       color: 'negative',
       message: 'Session expired or invalid',
@@ -45,18 +46,9 @@ onMounted(() => {
   // Fetch initial data
   console.log('set initial data...');
   if (process.env.ENABLE_STATIC_MODE === 'true') {
-    // check for 'true' in the TEST_DATA env variable
-    console.log('Load mock data...');
-    products.loadMockProducts();
-    categories.loadMockCategories();
-    tags.loadMockTags();
-
-    console.log({
-      mode: process.env.NODE_ENV,
-      appName: process.env.VUE_APP_NAME,
-      port: process.env.VUE_APP_DEV_PORT,
-      server: process.env.SERVER_API_URL,
-    });
+    products.fetchJsonProducts();
+    categories.fetchJsonCategories();
+    tags.fetchJsonTags();
   } else {
     // fetch Data from Server
     console.log('Fetch data from server...');

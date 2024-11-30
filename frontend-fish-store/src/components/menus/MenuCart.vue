@@ -9,14 +9,13 @@ defineOptions({
 });
 
 const cartStore = useCartStore();
-
 const showCart = ref(false);
 
 function removeItem(id: string | number) {
   cartStore.removeItem(id);
   Notify.create({
     message: 'Item has been removed from your cart.',
-    color: 'negative',
+    color: 'info',
     // avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
     icon: 'shopping_cart',
     position: 'bottom-right',
@@ -108,10 +107,9 @@ function viewShoppingCart() {
               @click="viewShoppingCart"
               outline
               aria-label="view-shopping-cart"
-              show
               v-close-popup
             >
-              View my Shopping cart
+              <q-icon name="mdi-eye-check" class="tw-mr-2" /> View my cart
             </q-btn>
 
             <q-btn
@@ -120,9 +118,10 @@ function viewShoppingCart() {
               to="/checkout"
               aria-label="go-checkout"
               unelevated
+              glossy
               v-close-popup
             >
-              Checkout now
+              <q-icon name="mdi-cart-arrow-up" class="tw-mr-2" /> Checkout now
             </q-btn>
           </q-item>
         </q-list>

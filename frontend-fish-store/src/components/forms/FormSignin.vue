@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { LoadingBar, Notify } from 'quasar';
 import { requiredField, validEmail } from 'src/shared/utils/form-rules';
+import { generateMockUser, mockSigninRequest } from 'src/shared/utils/mock';
 import { useAuthStore } from 'src/stores/auth';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 defineOptions({
@@ -31,7 +32,14 @@ async function signin() {
 
   let res =
     process.env.ENABLE_STATIC_MODE === 'true'
-      ? await authStore.signinMockUser()
+      ? await mockSigninRequest(
+          generateMockUser({ email: email.value, isAdmin: false }),
+          (res) => {
+            authStore.setUser(res.user);
+            authStore.setToken(res.token);
+            authStore.setExpires(res.expires);
+          }
+        )
       : await authStore.signin(email.value, password.value);
 
   if (res?.success) {
@@ -50,6 +58,18 @@ async function signin() {
   router.push('/account');
   LoadingBar.stop();
 }
+
+onMounted(
+  () =>
+    process.env.ENABLE_STATIC_MODE === 'true' &&
+    Notify.create({
+      color: 'negative',
+      message: process.env.NOTIFY_STATIC_MODE,
+      icon: 'mdi-information',
+      timeout: 12000,
+      closeBtn: true,
+    })
+);
 </script>
 
 <template>

@@ -1,3 +1,5 @@
+import { Order } from './order';
+
 export interface User {
   id: string | number;
   name: string;
@@ -9,4 +11,11 @@ export interface User {
   is_admin?: boolean;
   created_at: string;
   updated_at?: string;
+  orders_made?: number;
+  has_stripe?: boolean;
+}
+
+export interface UserDetails extends User {
+  orders: Order[];
+  has_stripe: boolean;
 }

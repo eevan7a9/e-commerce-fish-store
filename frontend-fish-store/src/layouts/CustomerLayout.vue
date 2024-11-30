@@ -11,6 +11,8 @@ import {
 import { NavbarCustomer } from 'src/components/navbars';
 import { MenuItem } from 'src/shared/interface/menu';
 import { useRoute } from 'vue-router';
+import { useAuthStore } from 'src/stores/auth';
+import { FloatingBtnCart } from 'src/components/fab';
 
 const $q = useQuasar();
 const navMenu = useNavMenu();
@@ -19,20 +21,27 @@ const route = useRoute();
 const appName = ref(process.env.VUE_APP_NAME);
 const sidebar = ref(false);
 
-const showCart = computed(() => !route.fullPath.includes('/checkout'));
+const showNavCart = computed(
+  () => !route.fullPath.includes('/checkout') && $q.screen.gt.sm
+);
+const showFabCart = computed(
+  () => !route.fullPath.includes('/checkout') && $q.screen.lt.md
+);
 
 const mobileView = computed(() => $q.screen.lt.md);
+const auth = useAuthStore();
+
 const menuList = computed<MenuItem[]>(() =>
   navMenu.menuList.value.map((menu) => {
     switch (menu.route) {
       case '/auth':
-        menu.show = mobileView.value;
+        menu.show = !auth.authenticated;
         return menu;
       case '/auth/register':
-        menu.show = mobileView.value;
+        menu.show = !auth.authenticated;
         return menu;
       case '/account':
-        menu.show = mobileView.value;
+        menu.show = auth.authenticated;
         return menu;
       default:
         return menu;
@@ -49,7 +58,7 @@ const menuList = computed<MenuItem[]>(() =>
           <menu-profile padding="2px 4px" />
         </template>
 
-        <template v-if="showCart" #menu-cart>
+        <template v-if="showNavCart" #menu-cart>
           |
           <menu-cart flat size="20px" padding="4px" class="tw-ml-3" />
         </template>
@@ -68,6 +77,7 @@ const menuList = computed<MenuItem[]>(() =>
     </q-header>
 
     <q-page-container class="tw-flex tw-flex-col tw-min-h-screen">
+      <floating-btn-cart v-if="showFabCart" />
       <router-view />
     </q-page-container>
 

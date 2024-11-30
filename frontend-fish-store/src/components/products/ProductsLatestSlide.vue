@@ -4,10 +4,10 @@ import { Product } from 'src/shared/interface/product';
 import { useProductsStore } from 'src/stores/products';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 defineOptions({
-  name: 'HomeLatestProducts',
+  name: 'ProductsLatestSlide',
 });
 const productsStore = useProductsStore();
-const products = computed<Product[]>(() => productsStore.list.slice(0, 6));
+const products = computed<Product[]>(() => productsStore.list.slice(0, 7));
 const productsLoading = computed(() => productsStore.loading);
 const scrollContainer = ref<HTMLDivElement | null>(null);
 let isDown = false;
@@ -43,10 +43,10 @@ function mouseMoveHandler(e: MouseEvent) {
   scrollContainer.value.scrollLeft = scrollLeft - walk;
 }
 
-function toForward() {
+function toMove(number: number) {
   if (!scrollContainer.value) return;
   scrollContainer.value.scrollBy({
-    left: 200, // Adjust the scroll amount here (200px to the right)
+    left: number, // Adjust the scroll amount here (200px to the right)
     behavior: 'smooth',
   });
 }
@@ -88,16 +88,27 @@ onBeforeUnmount(() => {
     </div>
 
     <q-btn
-      icon="double_arrow"
+      icon="mdi-chevron-double-left"
+      size="20px"
+      round
+      class="tw-absolute tw-left-8 tw-bottom-[40%] tw-z-10"
+      color="primary"
+      aria-label="forward-latest-products"
+      @click="toMove(-200)"
+    ></q-btn>
+
+    <q-btn
+      icon="mdi-chevron-double-right"
       size="20px"
       round
       class="tw-absolute tw-right-0 tw-bottom-[40%] tw-z-10"
       color="primary"
       aria-label="forward-latest-products"
-      @click="toForward()"
+      @click="toMove(200)"
     ></q-btn>
+
     <h1
-      class="tw-font-anton tw-mb-8 tw-text-[28px] md:tw-text-[38px] xl:tw-text-[48px]"
+      class="tw-font-anton tw-mb-8 tw-text-[28px] md:tw-text-[38px] xl:tw-text-[42px] 2xl:tw-text-[48px]"
     >
       Recently Added Products:
     </h1>
@@ -107,9 +118,15 @@ onBeforeUnmount(() => {
       class="products-scroll-container tw-flex tw-overflow-x-auto tw-gap-x-4 tw-py-3 tw-cursor-grabbing"
     >
       <template v-for="product of products" :key="product.id">
-        <card-product :product="product" class="tw-min-w-[380px]" />
+        <card-product
+          :product="product"
+          :view-redirect="'/products/' + product.id"
+          class="tw-min-w-[300px] xl:tw-min-w-[350px]"
+        />
       </template>
     </div>
+
+    <slot></slot>
   </section>
 </template>
 

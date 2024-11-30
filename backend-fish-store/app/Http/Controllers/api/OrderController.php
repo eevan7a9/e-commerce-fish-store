@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -114,8 +115,14 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
+        $user = Auth::user();
         try {
-            $order = Order::with('orderItems')->findOrFail($id);
+            $order = $user->is_admin
+                ? Order::with(['orderItems.product', 'user'])->findOrFail($id)
+                : Order::with('orderItems.product')
+                ->where('user_id', $user->id)
+                ->findOrFail($id);
+
             return response()->json([
                 'data' => $order,
                 'status' => 200
@@ -129,59 +136,6 @@ class OrderController extends Controller
         }
     }
 
-    public function updateStatus(Request $request, string $id)
-    {
-        return $this->updateOrderField($request, $id, 'status', [
-            'status' => 'required|string|in:pending,approved,shipped,received,cancelled',
-        ]);
-    }
-
-    public function updatePaymentStatus(Request $request, string $id)
-    {
-        return $this->updateOrderField($request, $id, 'payment_status', [
-            'payment_status' => 'required|string|in:unpaid,paid,refunded',
-        ]);
-    } 
-    /**
-    * Cancel the order if the request is from the order owner (customer).
-    */
-   public function cancelOrder(Request $request, string $id)
-   {
-       try {
-           $order = Order::findOrFail($id);
-
-           // Ensure the authenticated user is the owner of the order
-           if ($order->user_id !== $request->user()->id) {
-               return response()->json([
-                   'message' => 'Unauthorized: Only the order owner can cancel this order.',
-                   'status' => 403,
-               ], 403);
-           }
-
-           // Check if the order status allows for cancellation
-           if (in_array($order->status, ['received', 'cancelled'])) {
-               return response()->json([
-                   'message' => 'Order cannot be cancelled at this stage.',
-                   'status' => 400,
-               ], 400);
-           }
-
-           // Set the status to 'cancelled'
-           $order->status = 'cancelled';
-           $order->save();
-
-           return response()->json([
-               'data' => $order,
-               'message' => 'Order has been successfully cancelled.',
-               'status' => 200,
-           ], 200);
-       } catch (ModelNotFoundException $err) {
-           return response()->json([
-               'message' => 'Order not found.',
-               'status' => 404,
-           ], 404);
-       }
-   }
 
     /**
      * Update the specified resource in storage.
@@ -208,10 +162,109 @@ class OrderController extends Controller
         } catch (ModelNotFoundException $err) {
             return response()->json([
                 'error' => $err,
-                'message' => 'Order not Found!!!',
+                'message' => 'No order found with the provided information.',
                 'status' => 404
             ], 404);
         }
+    }
+
+    public function orderProducts(Request $request, $id)
+    {
+
+        $order = $request->user()->is_admin ?
+            Order::findOrFail($id) :
+            Order::where('user_id', $request->user()->id)->find($id);
+
+        if (!$order) {
+            return response()->json([
+                'message' => 'No order found with the provided information.',
+                'status' => 404
+            ]);
+        }
+
+        $items = OrderItem::with('product')->where('order_id', $id)->get();
+
+        return response()->json([
+            'data' => $items,
+            'status' => 200
+        ], 200);
+    }
+
+    public function updateStatus(Request $request, string $id)
+    {
+        return $this->updateOrderField($request, $id, 'status', [
+            'status' => 'required|string|in:pending,approved,shipped,received,cancelled',
+        ]);
+    }
+
+    public function updatePaymentStatus(Request $request, string $id)
+    {
+        return $this->updateOrderField($request, $id, 'payment_status', [
+            'payment_status' => 'required|string|in:unpaid,paid,refunded',
+        ]);
+    }
+    /**
+     * Cancel the order if the request is from the order owner (customer).
+     */
+    public function cancelOrder(Request $request, string $id)
+    {
+        try {
+            $order = Order::findOrFail($id);
+
+            // Ensure the authenticated user is the owner of the order
+            if ($order->user_id !== $request->user()->id) {
+                return response()->json([
+                    'message' => 'Unauthorized: Only the order owner can cancel this order.',
+                    'status' => 403,
+                ], 403);
+            }
+
+            // Check if the order status allows for cancellation
+            if (in_array($order->status, ['received', 'cancelled'])) {
+                return response()->json([
+                    'message' => 'Order cannot be cancelled at this stage.',
+                    'status' => 400,
+                ], 400);
+            }
+
+            // Set the status to 'cancelled'
+            $order->status = 'cancelled';
+            $order->save();
+
+            return response()->json([
+                'data' => $order,
+                'message' => 'Order has been successfully cancelled.',
+                'status' => 200,
+            ], 200);
+        } catch (ModelNotFoundException $err) {
+            return response()->json([
+                'message' => 'Order not found.',
+                'status' => 404,
+            ], 404);
+        }
+    }
+
+    /**
+     * Returns list of customers who made order grouped by Email
+     */
+    public function customers()
+    {
+        $customers = Order::selectRaw("
+        name,
+        email,
+        phone,
+        CONCAT(line1, ', ', city, ', ', state, ', ', country, ' ', postal_code) AS address,
+        COUNT(id) AS orders_made,
+        MAX(payment_method = 'stripe') AS has_stripe,
+        user_id")
+            ->groupBy('email', 'name', 'phone', 'line1', 'city', 'state', 'country', 'postal_code', 'user_id')
+            ->orderBy('name')
+            ->get();
+
+        return response()->json([
+            'data' => $customers,
+            'status' => 200
+        ], 200);
     }
 
     private function handleStripePayment(string $id, $amount)
@@ -250,6 +303,7 @@ class OrderController extends Controller
             $order->save();
 
             return response()->json([
+                'message' => 'Order status updated successfully!',
                 'data' => $order,
                 'status' => 200,
             ], 200);
@@ -261,6 +315,4 @@ class OrderController extends Controller
             ], 404);
         }
     }
-
-
 }

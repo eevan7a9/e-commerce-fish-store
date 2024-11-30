@@ -2,12 +2,12 @@ import { useAuthStore } from 'src/stores/auth';
 import { useRouter } from 'vue-router';
 import { useLang } from './useLang';
 import { Loading, Notify } from 'quasar';
+import { mockRequest } from '../utils/mock';
 
 export function useLogout() {
   const auth = useAuthStore();
   const router = useRouter();
   const lang = useLang();
-  const notify = Notify;
 
   async function logout(opts = { message: '', color: '' }) {
     Loading.show({
@@ -16,10 +16,10 @@ export function useLogout() {
 
     const res =
       process.env.ENABLE_STATIC_MODE === 'true'
-        ? await auth.signoutMockUser()
+        ? await mockRequest({}, {}, () => auth.clearState())
         : await auth.signout();
 
-    notify.create({
+    Notify.create({
       color: opts.color || (res?.success ? 'positive' : 'negative'),
       message: opts.message || res?.message || 'You have been logged out.',
       timeout: 5000,

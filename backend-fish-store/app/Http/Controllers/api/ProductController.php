@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -14,27 +15,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('tags')->with('category')->orderBy('created_at', 'desc')->get();
-        $products = $products->map(function ($product) {
-            return [
-                "id" => $product->id,
-                "name" => $product->name,
-                "price" => $product->price,
-                "weight" => $product->weight,
-                "units" => $product->units,
-                "description" => $product->description,
-                "images" => $product->images,
-                "category_id" => $product->category_id,
-                // get and include category name
-                "category_name" => $product->category()->value('name'),
-                // get and include array of tags by name
-                "tags" => $product->tags()->pluck('name'),
-                "created_at" => $product->created_at,
-                "updated_at" => $product->updated_at,
-            ];
-        });
+        $products = Product::with(['tags', 'category'])->orderBy('created_at', 'desc')->get();
+
         return response()->json([
-            'data' => $products,
+            'data' => ProductResource::collection($products),
             'status' => 200
         ], 200);
     }
@@ -63,7 +47,7 @@ class ProductController extends Controller
         }
         return response()->json([
             'message' => 'Product has been created.',
-            'data' => $product,
+            'data' => new ProductResource($product),
             'status' => 200
         ], 200);
     }
@@ -81,19 +65,7 @@ class ProductController extends Controller
             $product->tags->makeHidden('pivot');
 
             return response()->json([
-                'data' => [
-                    "id" => $product->id,
-                    "name" => $product->name,
-                    "price" => $product->price,
-                    "weight" => $product->weight,
-                    "units" => $product->units,
-                    "description" => $product->description,
-                    "images" => $product->images,
-                    "category_id" => $product->category_id,                    // get and include array of tags by name
-                    "tags" => $product->tags()->pluck('name'),
-                    "created_at" => $product->created_at,
-                    "updated_at" => $product->updated_at,
-                ],
+                'data' => new ProductResource($product),
                 'status' => 200
             ], 200);
         } catch (ModelNotFoundException $err) {
@@ -130,14 +102,21 @@ class ProductController extends Controller
         ]);
 
         try {
-            $product = Product::findOrFail($id);
+            $product = Product::with(['category', 'tags'])->findOrFail($id);
             $product->update(array_filter($validated));
-            if (isset($validated['tag_id'])) {
+
+            if (isset($validated['category_id'])) {
+                // reload latest categories if it was updated
+                $product->load('category');
+            }
+            if (isset($validated['tag_id']) && $validated['tag_id'] !== $product->tags->pluck('id')->toArray()) {
                 $product->tags()->sync($validated['tag_id']);
+                // reload latest tags if it was updated
+                $product->load('tags');
             }
             return response()->json([
                 'message' => 'Product has been updated.',
-                'data' => $product,
+                'data' => new ProductResource($product),
                 'status' => 200
             ], 200);
         } catch (ModelNotFoundException $err) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -69,15 +70,6 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json([
             'message' => 'Logout successful',
-            'status' => 200
-        ], 200);
-    }
-
-    // Get the authenticated user's information
-    public function user(Request $request)
-    {
-        return response()->json([
-            'data' => $request->user(),
             'status' => 200
         ], 200);
     }

@@ -209,7 +209,10 @@ onMounted(() => {
         class="tw-max-w-[400px] tw-flex tw-flex-col tw-gap-6 tw-mx-auto tw-px-1"
       >
         <template v-for="other of relatedProducts" :key="other.id">
-          <card-product :product="other" />
+          <card-product
+            :product="other"
+            :view-redirect="'/products/' + other.id"
+          />
         </template>
       </div>
     </aside>

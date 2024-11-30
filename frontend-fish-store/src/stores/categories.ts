@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { api, staticData } from 'src/boot/axios';
-import { ApiResponse, RequestStatus } from 'src/shared/interface/api';
+import { RequestResponse } from 'src/shared/interface/api';
 import { Category } from 'src/shared/interface/category';
 
 interface categoriesState {
@@ -27,15 +27,17 @@ export const useCategoriesStore = defineStore('categories', {
       this.categories = categories;
     },
 
-    async fetchCategories(): Promise<RequestStatus | void> {
+    async fetchCategories(): Promise<RequestResponse | void> {
       try {
         this.loading = true;
-        const { data } = await api.get<ApiResponse<Category[]>>('/categories');
+        const { data } = await api.get<RequestResponse<Category[]>>(
+          '/categories'
+        );
         if (data.status === 200 && data.data) {
-          this.setCategories(data.data);
-          return { success: true };
+          return this.setCategories(data.data);
         }
         console.warn('Unexpected response', data);
+        return { success: data.status === 200, message: data.message };
       } catch (err) {
         console.error('Failed to fetch categories:', err);
       } finally {
@@ -46,7 +48,7 @@ export const useCategoriesStore = defineStore('categories', {
     /**
      * PROTOTYPING & MOCKING DATA
      */
-    async loadMockCategories(): Promise<RequestStatus | void> {
+    async fetchJsonCategories(): Promise<RequestResponse | void> {
       this.loading = true;
       const { data } = await staticData.get('/categories.json');
       this.setCategories(data);

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { FormCheckout } from 'src/shared/interface/form';
 import { useCartStore } from 'src/stores/cart';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { Loading, Notify } from 'quasar';
 import { OrderPaymentMethod } from 'src/shared/enums/order';
 import { useCountries } from 'src/shared/composables/useCountries';
 import { useOrdersStore } from 'src/stores/orders';
 import { useAuthStore } from 'src/stores/auth';
+import { mockRequest } from 'src/shared/utils/mock';
 
 const countries = useCountries();
 
@@ -20,7 +21,7 @@ const ordersStore = useOrdersStore();
 const cart = useCartStore();
 const auth = useAuthStore();
 
-const loading = ref(false);
+const loading = computed(() => ordersStore.loading);
 
 const payment = computed(() => {
   const { method, stripePaymentMethod } = props.checkout.payment;
@@ -41,7 +42,6 @@ async function placeOrder() {
     quantity: item.quantity,
   }));
 
-  loading.value = true;
   Loading.show({
     spinnerColor: 'primary',
     message: 'Processing your order... Please wait a moment.',
@@ -49,11 +49,13 @@ async function placeOrder() {
 
   const res =
     process.env.ENABLE_STATIC_MODE === 'true'
-      ? await ordersStore.createMockOrder()
+      ? await mockRequest({}, {}, () => ordersStore.setLoading(false))
       : await ordersStore.createOrder(props.checkout, items, auth.userToken);
 
   Notify.create({
-    message: res?.message,
+    message:
+      res?.message ||
+      '🚀 Order placed! Hang tight while we prepare your items.',
     color: res?.success ? 'positive' : 'negative',
     timeout: 4000,
   });

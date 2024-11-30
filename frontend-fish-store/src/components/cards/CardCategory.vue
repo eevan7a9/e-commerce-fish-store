@@ -38,9 +38,9 @@ defineProps<{ category: Category; index: number }>();
         class="heading-primary-text tw-flex tw-items-center tw-font-anton tw-absolute tw-h-[80px] tw-bottom-0 tw-w-full tw-pl-3 sm:tw-bg-accent sm:tw-bg-opacity-15"
       >
         <span
-          class="tw-uppercase tw-py-3 tw-text-[28px] sm:tw-text-[34px] xl:tw-text-[42px]"
+          class="tw-uppercase tw-py-3 tw-text-[28px] sm:tw-text-[34px] xl:tw-text-[38px]"
         >
-          {{ category.name }}
+          {{ $t(`categories.${category.name}`) }}
         </span>
       </div>
     </div>
