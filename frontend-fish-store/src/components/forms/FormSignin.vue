@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { LoadingBar, Notify } from 'quasar';
+import { Loading, Notify } from 'quasar';
 import { requiredField, validEmail } from 'src/shared/utils/form-rules';
 import { generateMockUser, mockSigninRequest } from 'src/shared/utils/mock';
 import { useAuthStore } from 'src/stores/auth';
@@ -27,7 +27,9 @@ function onReset() {
 }
 
 async function signin() {
-  LoadingBar.start();
+  Loading.show({
+    message: 'Signing in... Please wait.',
+  });
   submitted.value = true;
 
   let res =
@@ -55,8 +57,8 @@ async function signin() {
       timeout: 3000,
     });
   }
-  router.push('/account');
-  LoadingBar.stop();
+  await router.push('/account');
+  Loading.hide();
 }
 
 onMounted(
