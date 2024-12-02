@@ -8,8 +8,15 @@ import { Product } from 'src/shared/interface/product';
 import { ProductsListEmpty } from 'src/components/products';
 import { LocationQuery, useRoute } from 'vue-router';
 
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 const route = useRoute();
 const productsSore = useProductsStore();
+
+const props = defineProps<{ enableAnimation?: boolean }>();
 
 const filter = reactive<{
   search: string;
@@ -117,6 +124,16 @@ watch(
 
 onMounted(() => {
   setParamsToState(route.query);
+  if (props.enableAnimation) {
+    gsap.from('[gsap="products-card"]', {
+      y: 300,
+      opacity: 0,
+      scale: 0,
+      stagger: 0.2,
+      duration: 0.5,
+      ease: 'sine.inOut',
+    });
+  }
 });
 </script>
 
@@ -125,7 +142,7 @@ onMounted(() => {
     <div
       class="tw-flex tw-flex-wrap tw-justify-center lg:tw-justify-start tw-gap-y-6 tw-gap-x-3"
     >
-      <div v-for="product of products" :key="product.id">
+      <div v-for="product of products" :key="product.id" gsap="products-card">
         <!-- <card-product
           class="tw-max-w-[350px]"
           :product="product"

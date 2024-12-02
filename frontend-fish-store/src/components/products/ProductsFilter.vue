@@ -14,6 +14,8 @@ defineOptions({
 const router = useRouter();
 const route = useRoute();
 
+const props = defineProps<{ enableAnimation?: boolean }>();
+
 // for Filter
 const initialFilter = {
   search: '',
@@ -81,11 +83,18 @@ onMounted(() => {
 
     <q-separator class="tw-my-6" />
 
-    <products-tags-selection v-model="filter.tags" />
+    <products-tags-selection
+      :enable-animation="props.enableAnimation"
+      v-model="filter.tags"
+    />
 
     <q-separator class="tw-my-6" />
 
-    <products-category-selection multiple v-model="filter.categories" />
+    <products-category-selection
+      :enable-animation="props.enableAnimation"
+      multiple
+      v-model="filter.categories"
+    />
 
     <q-separator class="tw-my-6" />
 

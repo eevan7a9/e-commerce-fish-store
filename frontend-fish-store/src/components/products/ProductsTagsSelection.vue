@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { useTagsStore } from 'src/stores/tags';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
+
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const model = defineModel<string[]>({
   default: [],
 });
 
 const tagsStore = useTagsStore();
+
+const props = defineProps<{ enableAnimation?: boolean }>();
 
 const tags = computed(() => tagsStore.list);
 
@@ -17,10 +24,23 @@ function selectTags(name: string) {
   }
   model.value.push(name);
 }
+
+onMounted(() => {
+  if (props.enableAnimation) {
+    gsap.from('[gsap="products-filter-tag"]', {
+      y: -300,
+      x: 300,
+      opacity: 0,
+      stagger: 0.1,
+      duration: 0.5,
+      ease: 'sine.inOut',
+    });
+  }
+});
 </script>
 
 <template>
-  <div class="">
+  <div gsap="products-filter-tags-container">
     <h1
       class="tw-py-3 tw-text-[18px] tw-font-semibold tw-relative tw-capitalize"
     >
@@ -47,6 +67,7 @@ function selectTags(name: string) {
       color="primary"
       text-color="white"
       icon="tag"
+      gsap="products-filter-tag"
     >
       <span class="tw-capitalize">
         {{ tag.name }}

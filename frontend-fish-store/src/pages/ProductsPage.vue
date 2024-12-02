@@ -15,7 +15,7 @@ defineOptions({
     class="tw-max-w-screen-xl tw-relative tw-mx-auto tw-grid md:tw-grid-cols-12 tw-min-h-screen"
   >
     <aside class="md:tw-col-span-3 tw-pt-12 tw-px-3 md:tw-px-6">
-      <products-filter class="md:tw-sticky md:tw-top-[80px]" />
+      <products-filter enable-animation class="md:tw-sticky md:tw-top-[80px]" />
     </aside>
 
     <section class="md:tw-col-span-9 tw-relative tw-py-8 md:tw-py-12">
@@ -25,7 +25,7 @@ defineOptions({
         <products-sort class="tw-py-2 tw-w-full tw-max-w-[300px]" />
       </div>
 
-      <products-list>
+      <products-list enable-animation>
         <template #default="{ product }">
           <card-product
             class="tw-max-w-[350px]"

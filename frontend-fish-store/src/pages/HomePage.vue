@@ -7,6 +7,12 @@ import {
   HomePaymentSupport,
 } from 'src/components/home';
 import { ProductsLatestSlide } from 'src/components/products';
+
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 defineOptions({
   name: 'HomePage',
 });
@@ -20,7 +26,10 @@ defineOptions({
     <home-payment-support />
     <home-fishing-banner class="tw-z-0" />
 
-    <products-latest-slide class="tw-pl-2 lg:tw-pl-12 tw-mt-[80px]">
+    <products-latest-slide
+      enable-animation
+      class="tw-pl-2 lg:tw-pl-12 tw-mt-[80px]"
+    >
       <div class="tw-text-center tw-pt-6">
         <q-btn
           to="/products"

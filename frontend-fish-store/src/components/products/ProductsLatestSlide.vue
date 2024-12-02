@@ -3,13 +3,24 @@ import { CardProduct } from 'src/components/cards';
 import { Product } from 'src/shared/interface/product';
 import { useProductsStore } from 'src/stores/products';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
 defineOptions({
   name: 'ProductsLatestSlide',
 });
+
 const productsStore = useProductsStore();
+
+const props = defineProps<{ enableAnimation?: boolean }>();
+
 const products = computed<Product[]>(() => productsStore.list.slice(0, 7));
 const productsLoading = computed(() => productsStore.loading);
+
 const scrollContainer = ref<HTMLDivElement | null>(null);
+
 let isDown = false;
 let startX: number;
 let scrollLeft: number;
@@ -59,6 +70,24 @@ onMounted(() => {
   container.addEventListener('mouseup', mouseUpHandler);
   container.addEventListener('mouseleave', mouseLeaveHandler);
   container.addEventListener('mousemove', mouseMoveHandler);
+
+  if (props.enableAnimation) {
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: '[gsap="latest-products-title"]',
+          start: 'top-=100 center',
+          toggleActions: 'play none none reverse',
+        },
+      })
+      .from('[gsap="latest-products-card"]', {
+        y: 500,
+        opacity: 0,
+        stagger: 0.3,
+        duration: 1,
+        ease: 'power2.out',
+      });
+  }
 });
 
 // Clean up event listeners before the component is unmounted
@@ -108,6 +137,7 @@ onBeforeUnmount(() => {
     ></q-btn>
 
     <h1
+      gsap="latest-products-title"
       class="tw-font-anton tw-mb-8 tw-text-[28px] md:tw-text-[38px] xl:tw-text-[42px] 2xl:tw-text-[48px]"
     >
       Recently Added Products:
@@ -115,13 +145,14 @@ onBeforeUnmount(() => {
 
     <div
       ref="scrollContainer"
-      class="products-scroll-container tw-flex tw-overflow-x-auto tw-gap-x-4 tw-py-3 tw-cursor-grabbing"
+      class="products-scroll-container tw-flex tw-overflow-y-hidden tw-overflow-x-auto tw-gap-x-4 tw-py-3 tw-cursor-grabbing"
     >
       <template v-for="product of products" :key="product.id">
         <card-product
           :product="product"
           :view-redirect="'/products/' + product.id"
           class="tw-min-w-[300px] xl:tw-min-w-[350px]"
+          gsap="latest-products-card"
         />
       </template>
     </div>
