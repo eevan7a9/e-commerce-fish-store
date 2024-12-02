@@ -1,77 +1,67 @@
 <template>
-  <div id="app">
-    <Navbar />
-    <transition name="fade" mode="out-in">
-      <router-view class="view" v-if="!appLoader" />
-    </transition>
-    <!-- application Loader -->
-    <AppLoader class="vh-100" v-if="appLoader" />
-  </div>
+  <router-view class="tw-bg-slate-100" />
 </template>
-<script>
-import Navbar from "./components/Navbar";
-import AppLoader from "./components/AppLoader";
-import { mapGetters, mapActions } from "vuex";
-export default {
-  components: {
-    Navbar,
-    AppLoader,
-  },
-  computed: mapGetters(["user", "token", "appLoader"]),
-  methods: {
-    ...mapActions(["getProducts", "getUser", "toggleLoader"]),
-  },
-  async created() {
-    this.toggleLoader(); // we load app loader
-    await this.getProducts();
-    if (!this.token) {
-      setTimeout(() => {
-        this.toggleLoader(); // disable app loader
-      }, 1000);
-      return;
-    }
-    await this.getUser();
-    this.toggleLoader(); // disable app loader
-  },
-};
+
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import { useAuthStore } from './stores/auth';
+import { useLang } from './shared/composables/useLang';
+import { useProductsStore } from './stores/products';
+import { useCategoriesStore } from './stores/categories';
+
+import { useCartStore } from './stores/cart';
+import { useTagsStore } from './stores/tags';
+import { SessionStorage } from 'quasar';
+import { useLogout } from './shared/composables/useLogout';
+
+defineOptions({
+  name: 'App',
+});
+
+const auth = useAuthStore();
+const lang = useLang();
+const products = useProductsStore();
+const categories = useCategoriesStore();
+const tags = useTagsStore();
+const carts = useCartStore();
+
+const logout = useLogout();
+
+function checkTokenExpiration() {
+  const currentTime = new Date();
+  const expirationTime =
+    SessionStorage.getItem('expires') &&
+    new Date(SessionStorage.getItem('expires') || '');
+
+  // If the current time is past the expiration time
+  if (expirationTime && currentTime >= expirationTime) {
+    logout.logout({
+      color: 'negative',
+      message: 'Session expired or invalid',
+    });
+  }
+}
+
+onMounted(() => {
+  // Fetch initial data
+  console.log('set initial data...');
+  if (process.env.ENABLE_STATIC_MODE === 'true') {
+    products.fetchJsonProducts();
+    categories.fetchJsonCategories();
+    tags.fetchJsonTags();
+  } else {
+    // fetch Data from Server
+    console.log('Fetch data from server...');
+    products.fetchProducts();
+    categories.fetchCategories();
+    tags.fetchTags();
+  }
+
+  auth.loadUser();
+  lang.loadLanguage();
+  carts.loadItems();
+  console.log('loading user...');
+
+  checkTokenExpiration();
+});
 </script>
-<style>
-@import url("./assets/css/custom.css");
-@import url("https://fonts.googleapis.com/css?family=Anton&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Cabin&display=swap");
-
-body,
-html {
-  height: 100%;
-  background-image: radial-gradient(
-    circle farthest-corner at 18.7% 37.8%,
-    rgba(250, 250, 250, 1) 0%,
-    rgba(225, 234, 238, 1) 90%
-  );
-}
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100%;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-</style>

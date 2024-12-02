@@ -1,44 +1,48 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\CategoryController;
+use App\Http\Controllers\api\OrderController;
+use App\Http\Controllers\api\ProductController;
+use App\Http\Controllers\api\TagController;
+use App\Http\Controllers\api\UserController;
+use App\Http\Middleware\DeleteExpiredSanctumToken;
+use App\Http\Middleware\IsAdmin;
+use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
- */
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
+Route::apiResource('products', ProductController::class)->only(['index', 'show']);
+Route::apiResource('tags', TagController::class)->only(['index']);
+Route::apiResource('orders', controller: OrderController::class)->only('store');
 
-Route::prefix('v1')->group(function () { // domain/api/v1/
+// AUTHENTICATED ONLY
+Route::middleware(["auth:sanctum"])->group(function () {
+    // ADMIN ONLY
+    Route::middleware([IsAdmin::class])->group(function () {
+        Route::apiResource('categories', CategoryController::class)->except(['index', 'show']);
+        Route::apiResource('products', ProductController::class)->except(['index', 'show']);
+        Route::apiResource('tags', TagController::class)->except(['index']);
 
-    Route::post('/register', 'Api\AuthController@register');
-    Route::post('/login', 'Api\AuthController@login');
+        // ORDERS
+        Route::get('/orders/customers', [OrderController::class, 'customers']);
+        Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus']);
+        Route::patch('/orders/{order}/payment-status', [OrderController::class, 'updatePaymentStatus']);
+        Route::apiResource('orders', OrderController::class)->only('destroy', 'update');
 
-    Route::post('product/{id}', 'Api\ProductController@update')->name("product_update");
-    Route::resource('product', 'Api\ProductController');
-
-    Route::post('/order', 'Api\OrderController@store')->name("order.store");
-
-    Route::group(['middleware' => ['auth:api']], function () { // Authenticated Users Only
-        Route::get('/user', 'Api\AuthController@userInfo');
-        Route::get('/user/lists', 'Api\AuthController@usersList');
-        Route::post('/user/delete', 'Api\AuthController@destroy');
-
-        Route::get('/logout', 'Api\AuthController@logout');
-
-        Route::get('/order', 'Api\OrderController@index')->name("order.index");
-        Route::get('/order/{id}', 'Api\OrderController@show')->name("order.show");
-        // Route::post('/order', 'Api\OrderController@store')->name("order.store");
-        Route::post('/order/{id}', 'Api\OrderController@update')->name("order.update");
-        Route::delete('/order/{id}', 'Api\OrderController@destroy')->name("order.destroy");
-
+        // USER
+        Route::get('/users', [UserController::class, 'users']);
+        Route::get('/user/{id}', [UserController::class, 'getUserByID']);
     });
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/change-password', [AuthController::class, 'changePassword']);
+
+    Route::get('/user', [UserController::class, 'user']);
+
+    Route::get('/orders/{id}/products', [OrderController::class, 'orderProducts']);
+    Route::post('/orders/{id}/cancel', [OrderController::class, 'cancelOrder']);
+    Route::apiResource('orders', OrderController::class)->only('index', 'show');
 });

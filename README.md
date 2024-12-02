@@ -1,77 +1,94 @@
-# e-commerce-fish-store
+# Single-Vendor E-Commerce Fish Store
 
-Online-store with Stripe that facilitate online transactions of koi(s) and services through means of the transfer of information and funds over the Internet.
+This project is a single-vendor e-commerce platform designed for selling fish and seafood products. The application is built with a Laravel API backend and a Quasar Vue.js frontend, using TypeScript for type safety and Pinia for state management.
 
-- FULLSTACK
-- SPA
-- Vue js vue-cli
-- Laravel 6
-- Stripe API
-- Passport
-- Mysql
+With flexible architecture that separates frontend and backend services, making it suitable for future enhancements and third-party integrations.
+
+| Admin Products | Checkout | 
+|---------|---------|
+| ![Admin Products](screenshot/products-page.webp) | ![Checkout](screenshot/checkout.webp) | 
+
+## Tech Stack
+- **Frontend**: [Quasar (Vue 3)](https://quasar.dev/)
+- **Backend**: [Laravel 11+](https://laravel.com/)
+- **Language**: Typescript 5.7+, Javascript & PHP 8.2 
+- **Database**: Mysql, Postgress.
+
+## Technologies & Tools
+- Web SPA & Android/IOS - [Vite](https://vite.dev/) & [Capacitor](https://capacitorjs.com/)
+- State Management [Pinia](https://pinia.vuejs.org/)
+- internationalization [i18next](https://www.i18next.com/)
+- CSS framework [TailwindCss](https://tailwindcss.com/)
+- Card Payment [Stripe API](https://docs.stripe.com/)
+- Charts [Google Charts](https://developers.google.com/chart) 
+- Icons [MDI](https://pictogrammers.com/library/mdi/) & [Google Icons](https://fonts.google.com/icons)
+- Illustrations [Freepik](https://www.freepik.com/) & [Undraw](https://undraw.co/)
+- Animation [GSAP](https://gsap.com/)
 
 ## Configure Frontend:
+navigate to **frontend-fish-store/** open terminal and 
 
-- install dependencies
+- install [Quasar CLI](https://quasar.dev/start/quasar-cli)
 
-  navigate to **frontend-fish-store/** open terminal and run :
+- install dependencies run `npm install`
 
-  `npm install`
+#### Setup Frontend Environment
 
-- setup backend url
+  1. Create `.env` use `.env.example` as reference.
 
-  1.  Navigate and open **frontend-fish-store/src/store/index.js**
+  2. Set server api url on `.env`.
 
-  2.  Set backend-api url.
+          SERVER_API_URL='http://localhost:8000/api'
 
-          eg. axios.defaults.baseURL = "http://localhost:8000/public/api/";
+  3. Add stripe publish_key on `.env`
 
-- add stripe publish_key
+          STRIPE_PK="publish-key"
 
-  1.  Navigate and open **frontend-fish-store/src/views/CheckoutStripe.vue**
-
-  2.  Set Stripe publish key.(line 84)
-
-          eg.
-          let stripe = Stripe(`pk_test_7nk...`)
-
-### Initialize Frontend
+#### Initialize Frontend
 
 - run to serve
 
-  `npm run serve`
+  `quasar dev`
+
+- the default URL would be http://localhost:8888/
+  
 
 ## Configure Backend:
+navigate to **backend-fish-store/** open terminal and 
+- install requirements:
+  
+  1. [PHP 8.3+](https://www.php.net/manual/en/install.php) 
+  2. [Composer](https://getcomposer.org/) 
+  3. [Mysql Server](https://www.mysql.com/downloads/)
 
-- requirements:
 
-  1. Php Composer
-  2. Mysql Server
+#### Setup Backend Environment
 
-- add Database info and Stripe Info
+  1. Create `.env` use `.env.example` as reference.
 
-  Navigate **backend-fish-store/**:
+  2. Add Database and Stripe Keys.
 
-  `Copy .env.example as .env`
+      ```
+      DB_CONNECTION=mysql
+      DB_HOST=127.0.0.1
+      DB_PORT=3306
+      DB_DATABASE=database_name
+      DB_USERNAME=root
+      DB_PASSWORD=database_password
+      ```
 
-  add database info:
+      Add Stripe [STRIPE SECRET](https://dashboard.stripe.com/apikeys)
 
-  ```
-  DB_CONNECTION=mysql
-  DB_HOST=127.0.0.1
-  DB_PORT=3306
-  DB_DATABASE=database_name
-  DB_USERNAME=root
-  DB_PASSWORD=database_password
-  ```
-
-  add Stripe secret_key
-
-  ```
-  STRIPE_SK='secret_key'
-  ```
-
-Navigate **backend-fish-store/** open terminal and run:
+      ```
+      STRIPE_SECRET='secret_key'
+      ```
+  3. Add Initial Admin Credentials (Update the Password after):
+      ```
+      SEEDER_ADMIN_EMAIL=admin@email.com
+      SEEDER_ADMIN_PASSWORD=password
+      ```
+#### Install Dependencies
+open terminal and run
 
 - install dependencies:
 
@@ -81,18 +98,19 @@ Navigate **backend-fish-store/** open terminal and run:
 
   `php artisan migrate`
 
-- Add database dummies
-
-  `php artisan db:seed`
-
-- Install Laravel Passport
-
-  `php artisan passport:install`
-
 - generate key
 
   `php artisan key:generate`
 
-### Initialize backend
+#### Seed Admin
+  - Run to seed Admin `php artisan db:seed --class=AdminSeeder`
+
+#### Initialize backend
 
 `php artisan serve`
+
+#### Add Dummy Data (Optional):
+
+- Add database dummies
+
+  `php artisan db:seed`
