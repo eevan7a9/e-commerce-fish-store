@@ -22,14 +22,16 @@ export const useCartStore = defineStore('cart', {
     },
   },
   actions: {
-    addItem(product: Product): void {
+    addItem(product: Product, count = 1): void {
       const findProduct = this.items.find(
         (item) => item.product.id === product.id
       );
       if (findProduct) {
-        findProduct.quantity += 1;
+        const total = findProduct.quantity + count;
+        findProduct.quantity = total > product.units ? product.units : total;
       } else {
-        this.items.push({ product, quantity: 1 });
+        const quantity = count > product.units ? product.units : count || 1;
+        this.items.push({ product, quantity });
       }
       LocalStorage.set('cart', [...this.items]);
     },

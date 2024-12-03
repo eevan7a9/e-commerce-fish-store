@@ -54,7 +54,7 @@ function setProductCategory(id: string | number) {
 function addToCart() {
   if (!product.value) return;
 
-  cartStore.addItem(product.value);
+  cartStore.addItem(product.value, quantity.value);
   Notify.create({
     message: 'Item has been added to your cart.',
     color: 'positive',
@@ -63,6 +63,11 @@ function addToCart() {
     progress: true,
     group: false,
   });
+}
+
+function validateQuantity(v: number) {
+  const units = product.value?.units || 1;
+  quantity.value = v < 1 ? 1 : v > units ? units : v;
 }
 watch(
   () => route.fullPath,
@@ -177,7 +182,9 @@ onMounted(() => {
               label="Quantity"
               class="md:tw-text-[18px]"
               style="max-width: 200px"
+              min="1"
               :max="product.units"
+              @change="validateQuantity"
             />
             <q-btn
               unelevated
