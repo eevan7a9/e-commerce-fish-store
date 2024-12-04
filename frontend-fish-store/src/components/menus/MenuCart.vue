@@ -89,7 +89,7 @@ function viewShoppingCart() {
               >
                 <span>Your cart is empty.</span>
                 <div class="tw-h-[200px] tw-w-[200px]">
-                  <q-img src="/src//assets//image-svg/empty_cart.svg"></q-img>
+                  <q-img src="~assets/image-svg/empty_cart.svg"></q-img>
                 </div>
               </div>
             </q-item-section>
