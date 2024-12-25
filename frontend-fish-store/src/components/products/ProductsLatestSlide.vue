@@ -102,58 +102,29 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section
-    class="tw-max-w-screen-2xl tw-overflow-visible tw-mx-auto tw-relative"
-  >
+  <section class="tw-max-w-screen-2xl tw-overflow-visible tw-mx-auto tw-relative">
     <div class="tw-w-full tw-py-[300px] tw-text-center" v-if="productsLoading">
       <h1 class="tw-text-[28px] tw-font-anton tw-font-normal">
         Fetching Products...
       </h1>
-      <q-spinner-hourglass
-        color="primary"
-        size="4em"
-        class="tw-mx-auto tw-mt-3"
-      />
+      <q-spinner-hourglass color="primary" size="4em" class="tw-mx-auto tw-mt-3" />
     </div>
 
-    <q-btn
-      icon="mdi-chevron-double-left"
-      size="20px"
-      round
-      class="tw-absolute tw-left-8 tw-bottom-[40%] tw-z-10"
-      color="primary"
-      aria-label="forward-latest-products"
-      @click="toMove(-200)"
-    ></q-btn>
+    <q-btn icon="mdi-chevron-double-left" size="20px" round class="tw-absolute tw-left-8 tw-bottom-[40%] tw-z-10"
+      color="primary" aria-label="forward-latest-products" @click="toMove(-200)"></q-btn>
 
-    <q-btn
-      icon="mdi-chevron-double-right"
-      size="20px"
-      round
-      class="tw-absolute tw-right-0 tw-bottom-[40%] tw-z-10"
-      color="primary"
-      aria-label="forward-latest-products"
-      @click="toMove(200)"
-    ></q-btn>
+    <q-btn icon="mdi-chevron-double-right" size="20px" round class="tw-absolute tw-right-0 tw-bottom-[40%] tw-z-10"
+      color="primary" aria-label="forward-latest-products" @click="toMove(200)"></q-btn>
 
-    <h1
-      gsap="latest-products-title"
-      class="tw-font-anton tw-mb-8 tw-text-[28px] md:tw-text-[38px] xl:tw-text-[42px] 2xl:tw-text-[48px]"
-    >
-      Recently Added Products:
+    <h1 gsap="latest-products-title" class="tw-font-anton tw-mb-8 tw-text-[28px] md:tw-text-[38px]">
+      Newest Arrivals
     </h1>
 
-    <div
-      ref="scrollContainer"
-      class="products-scroll-container tw-flex tw-overflow-y-hidden tw-overflow-x-auto tw-gap-x-4 tw-py-3 tw-cursor-grabbing"
-    >
+    <div ref="scrollContainer"
+      class="products-scroll-container tw-flex tw-overflow-y-hidden tw-overflow-x-auto tw-gap-x-4 tw-py-3 tw-cursor-grabbing">
       <template v-for="product of products" :key="product.id">
-        <card-product
-          :product="product"
-          :view-redirect="'/products/' + product.id"
-          class="tw-min-w-[300px] xl:tw-min-w-[350px]"
-          gsap="latest-products-card"
-        />
+        <card-product :product="product" :view-redirect="'/products/' + product.id"
+          class="tw-min-w-[300px] xl:tw-min-w-[350px]" gsap="latest-products-card" />
       </template>
     </div>
 
@@ -164,21 +135,21 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 .products-scroll-container {
   overflow-x: auto;
-  padding-right: 20px; /* Add space to ensure scroll */
+  padding-right: 20px;
+  /* Add space to ensure scroll */
   scrollbar-width: none;
+
   &::after {
     content: '';
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
-    width: 90px; /* Width of the fade effect */
+    width: 90px;
     pointer-events: none;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0) 10%,
-      #f4f7fa 70%
-    );
+    background: linear-gradient(to right,
+        rgba(255, 255, 255, 0) 10%,
+        #fff 70%);
   }
 }
 </style>

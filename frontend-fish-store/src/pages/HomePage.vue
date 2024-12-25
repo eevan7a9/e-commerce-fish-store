@@ -24,28 +24,23 @@ defineOptions({
     <home-categories />
 
     <home-payment-support />
-    <home-fishing-banner class="tw-z-0" />
+    <home-fishing-banner class="tw-z-0 tw-mb-12 md:tw-mb-16" />
 
-    <products-latest-slide
-      enable-animation
-      class="tw-pl-2 lg:tw-pl-12 tw-mt-[80px]"
-    >
-      <div class="tw-text-center tw-pt-6">
-        <q-btn
-          to="/products"
-          color="primary"
-          unelevated
-          glossy
-          padding="14px 24px"
-        >
-          <q-icon name="mdi-shopping" />
-          <span class="tw-ml-2 md:tw-text-[18px] tw-font-anton">
-            View All Products
-          </span>
-        </q-btn>
+    <section class="tw-max-w-screen-xl tw-mx-auto tw-bg-white">
+      <div class="tw-py-[3px] tw-px-3 md:tw-px-8">
+        <products-latest-slide enable-animation class="tw-pl-2 lg:tw-pl-12 tw-mt-[80px]">
+          <div class="tw-text-center tw-py-6">
+            <q-btn to="/products" color="primary" unelevated glossy padding="14px 24px">
+              <q-icon name="mdi-shopping" />
+              <span class="tw-ml-2 md:tw-text-[18px] tw-font-anton">
+                View All Products
+              </span>
+            </q-btn>
+          </div>
+        </products-latest-slide>
       </div>
-    </products-latest-slide>
+    </section>
 
-    <home-carousel class="tw-mt-[100px] xl:tw-mt-[150px] md:tw-px-12" />
+    <home-carousel class="tw-mt-[50px] xl:tw-mt-[80px] md:tw-px-12" />
   </main>
 </template>

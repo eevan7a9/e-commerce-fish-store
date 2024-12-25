@@ -39,7 +39,7 @@ function viewShoppingCart() {
 
     <q-menu max-width="320px" class="tw-w-[320px]">
       <div class="">
-        <h1 class="tw-text-[16px] tw-font-normal tw-p-3">
+        <h1 class="tw-text-[16px] tw-font-normal tw-p-3 md:tw-py-5">
           Cart Items:
           <small>({{ cartStore.total }})</small>
         </h1>
@@ -47,16 +47,8 @@ function viewShoppingCart() {
         <q-separator />
 
         <q-list separator>
-          <q-item
-            v-for="item of cartStore.list.slice(0, 2)"
-            :key="item.product.name"
-            clickable
-            v-ripple
-          >
-            <q-item-section
-              class="tw-text-[18px] tw-font-bold tw-text-primary"
-              side
-            >
+          <q-item v-for="item of cartStore.list.slice(0, 2)" :key="item.product.name" clickable v-ripple>
+            <q-item-section class="tw-text-[18px] tw-font-bold tw-text-primary" side>
               <q-badge class="tw-py-1 tw-text-[14px] tw-font-anton">
                 {{ item.quantity }}
               </q-badge>
@@ -71,22 +63,13 @@ function viewShoppingCart() {
             </q-item-section>
 
             <q-item-section side>
-              <q-btn
-                size="16px"
-                flat
-                dense
-                round
-                icon="delete_forever"
-                @click.stop="removeItem(item.product.id)"
-              />
+              <q-btn size="16px" flat dense round icon="delete_forever" @click.stop="removeItem(item.product.id)" />
             </q-item-section>
           </q-item>
 
           <q-item v-if="!cartStore.total">
             <q-item-section>
-              <div
-                class="tw-py-3 tw-flex tw-flex-col tw-items-center tw-justify-center"
-              >
+              <div class="tw-py-3 tw-flex tw-flex-col tw-items-center tw-justify-center">
                 <span>Your cart is empty.</span>
                 <div class="tw-h-[200px] tw-w-[200px]">
                   <q-img src="~assets/image-svg/empty_cart.svg"></q-img>
@@ -94,33 +77,17 @@ function viewShoppingCart() {
               </div>
             </q-item-section>
           </q-item>
-          <q-item
-            class="tw-flex-col tw-items-center tw-justify-center tw-pt-3 tw-pb-6"
-            v-else
-          >
+          <q-item class="tw-flex-col tw-items-center tw-justify-center tw-pt-3 tw-pb-6" v-else>
             <span v-if="cartStore.list.length > 2">
               {{ cartStore.list.length - 2 }} More
             </span>
-            <q-btn
-              class="tw-mt-2 tw-w-full"
-              color="primary"
-              @click="viewShoppingCart"
-              outline
-              aria-label="view-shopping-cart"
-              v-close-popup
-            >
+            <q-btn class="tw-mt-2 tw-w-full" color="primary" @click="viewShoppingCart" outline
+              aria-label="view-shopping-cart" v-close-popup>
               <q-icon name="mdi-eye-check" class="tw-mr-2" /> View my cart
             </q-btn>
 
-            <q-btn
-              class="tw-mt-2 tw-w-full"
-              color="primary"
-              to="/checkout"
-              aria-label="go-checkout"
-              unelevated
-              glossy
-              v-close-popup
-            >
+            <q-btn class="tw-mt-2 tw-w-full" color="primary" to="/checkout" aria-label="go-checkout" unelevated glossy
+              v-close-popup>
               <q-icon name="mdi-cart-arrow-up" class="tw-mr-2" /> Checkout now
             </q-btn>
           </q-item>
@@ -136,16 +103,20 @@ function viewShoppingCart() {
 .bounce-enter-active {
   animation: bounce-in 0.5s;
 }
+
 .bounce-leave-active {
   animation: bounce-in 0.5s reverse;
 }
+
 @keyframes bounce-in {
   0% {
     transform: scale(0);
   }
+
   50% {
     transform: scale(1.25);
   }
+
   100% {
     transform: scale(1);
   }

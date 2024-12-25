@@ -12,7 +12,7 @@ const menuList = computed<MenuItem[]>(() => navMenu.publicMenuList.value);
 </script>
 
 <template>
-  <q-toolbar class="tw-max-w-screen-2xl tw-mx-auto">
+  <q-toolbar class="tw-max-w-screen-xl lg:tw-px-6 tw-mx-auto md:tw-py-2">
     <q-toolbar-title class="tw-max-w-[200px]">
       <router-link to="/">
         <q-avatar class="tw-w-[60px] tw-h-[60px]">
@@ -22,18 +22,12 @@ const menuList = computed<MenuItem[]>(() => navMenu.publicMenuList.value);
       </router-link>
     </q-toolbar-title>
 
-    <ul
-      class="tw-mr-auto tw-ml-0 tw-flex tw-items-center tw-text-[16px] tw-font-light tw-gap-x-5"
-      v-if="!mobileView"
-    >
+    <ul class="tw-mr-auto tw-ml-0 tw-flex tw-items-center tw-text-[16px] md:tw-text-[18px] tw-font-light tw-gap-x-5"
+      v-if="!mobileView">
       <template v-for="menu of menuList">
         <li class="tw-uppercase" :key="menu.label" v-if="menu.show">
-          <router-link
-            :key="menu.label"
-            exact
-            exact-active-class="!tw-text-gray-100 tw-font-bold"
-            :to="menu.route || '/'"
-          >
+          <router-link :key="menu.label" exact exact-active-class="!tw-text-gray-100 tw-underline tw-underline-offset-4"
+            :to="menu.route || '/'">
             {{ menu.label }}
           </router-link>
         </li>

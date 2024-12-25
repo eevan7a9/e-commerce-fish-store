@@ -51,35 +51,29 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    gsap="home-categories-container"
-    class="tw-relative tw-max-w-screen-2xl tw-mx-auto tw-px-3 2xl:tw-px-5"
-  >
-    <div
-      class="tw-grid sm:tw-grid-cols-2 lg:tw-grid-cols-4 tw-justify-items-center tw-gap-5 -tw-translate-y-[60px]"
-    >
-      <template v-for="(item, i) of categories" :key="item.name">
-        <card-category
-          @click="categoryShow(item)"
-          :index="i"
-          :category="item"
-          gsap="home-category-card"
-        />
-      </template>
+  <section gsap="home-categories-container" class="tw-relative tw-max-w-screen-xl tw-mx-auto tw-px-3 2xl:tw-px-5">
+    <div class="tw-py-8 md:tw-py-16">
+      <h1 class="tw-text-[18px] lg:tw-text-[22px] tw-font-anton">
+        Explore Categories
+      </h1>
+      <p class="lg:tw-text-[18px] tw-mt-3">
+        Whether you're fishing or feasting, explore our curated categories of
+        fresh fish and premium bait.
+      </p>
+
+      <div
+        class="tw-mt-8 tw-py-8 tw-grid tw-grid-cols-2 lg:tw-grid-cols-4 tw-justify-items-center tw-gap-12 lg:tw-gap-3">
+        <template v-for="(item, i) of categories" :key="i.name">
+          <card-category gsap="home-category-card" class="tw-col-span-1" @click="categoryShow(item)" :category="item" />
+        </template>
+      </div>
     </div>
 
-    <div
-      class="tw-w-full tw-py-[200px] tw-text-center"
-      v-if="categoriesLoading"
-    >
+    <div class="tw-w-full tw-py-[200px] tw-text-center" v-if="categoriesLoading">
       <h1 class="tw-text-[28px] tw-font-anton tw-font-normal">
         Fetching Categories...
       </h1>
-      <q-spinner-hourglass
-        color="primary"
-        size="4em"
-        class="tw-mx-auto tw-mt-3"
-      />
+      <q-spinner-hourglass color="primary" size="4em" class="tw-mx-auto tw-mt-3" />
     </div>
-  </div>
+  </section>
 </template>
