@@ -51,8 +51,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <section gsap="home-categories-container" class="tw-relative tw-max-w-screen-xl tw-mx-auto tw-px-3 2xl:tw-px-5">
-    <div class="tw-py-8 md:tw-py-16">
+  <section gsap="home-categories-container" class="tw-relative tw-max-w-screen-xl tw-mx-auto">
+    <div class="tw-pt-8 md:tw-pt-16">
       <h1 class="tw-text-[18px] lg:tw-text-[22px] tw-font-anton">
         Explore Categories
       </h1>
@@ -62,7 +62,7 @@ onMounted(() => {
       </p>
 
       <div
-        class="tw-mt-8 tw-py-8 tw-grid tw-grid-cols-2 lg:tw-grid-cols-4 tw-justify-items-center tw-gap-12 lg:tw-gap-3">
+        class="tw-mt-8 tw-py-8 tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-4 tw-justify-items-center tw-gap-12 lg:tw-gap-3">
         <template v-for="(item, i) of categories" :key="i.name">
           <card-category gsap="home-category-card" class="tw-col-span-1" @click="categoryShow(item)" :category="item" />
         </template>

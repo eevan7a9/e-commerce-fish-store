@@ -98,8 +98,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section gsap="payment-support-container"
-    class="tw-z-50 tw-relative tw-pt-20 tw-max-w-screen-2xl tw-mx-auto sm:tw-pt-0 tw-pb-16 ">
+  <section gsap="payment-support-container" class="tw-z-50 tw-relative tw-max-w-screen-2xl tw-mx-auto tw-pb-16 ">
     <div class="tw-relative tw-max-w-screen-xl tw-m-auto tw-px-3 md:tw-px-28 tw-bg-white tw-border-t">
       <div
         class="tw-overflow-x-hidden tw-py-[70px] tw-font-anton tw-mb-8 tw-text-[28px] md:tw-text-[38px] xl:tw-text-[42px] 2xl:tw-text-[48px]">

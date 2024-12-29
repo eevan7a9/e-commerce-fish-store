@@ -139,9 +139,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <div
-      class="tw-flex tw-flex-wrap tw-justify-center lg:tw-justify-start tw-gap-y-6 tw-gap-x-3"
-    >
+    <div class="tw-flex tw-flex-wrap tw-justify-center lg:tw-justify-start tw-gap-y-6 tw-gap-x-3 tw-pb-[100px]">
       <div v-for="product of products" :key="product.id" gsap="products-card">
         <!-- <card-product
           class="tw-max-w-[350px]"
@@ -155,19 +153,10 @@ onMounted(() => {
       <h1 class="tw-text-[28px] tw-font-anton tw-font-normal">
         Fetching Products...
       </h1>
-      <q-spinner-hourglass
-        color="primary"
-        size="4em"
-        class="tw-mx-auto tw-mt-3"
-      />
+      <q-spinner-hourglass color="primary" size="4em" class="tw-mx-auto tw-mt-3" />
     </div>
 
-    <products-list-empty
-      :empty="!products.length"
-      :filtered="
-        !!(filter.tags?.length || filter.search || filter.categories?.length)
-      "
-      v-else
-    />
+    <products-list-empty :empty="!products.length" :filtered="!!(filter.tags?.length || filter.search || filter.categories?.length)
+      " v-else />
   </div>
 </template>

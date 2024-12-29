@@ -69,13 +69,8 @@ onMounted(() => {
 
 <template>
   <div>
-    <q-input
-      outlined
-      v-model="filter.search"
-      dense
-      clearable
-      :label="filter.search?.length ? 'Searching...' : 'Search something'"
-    >
+    <q-input outlined v-model="filter.search" dense clearable
+      :label="filter.search?.length ? 'Searching...' : 'Search something'" @clear="filter.search = ''">
       <template #prepend>
         <q-icon name="search" size="32px" />
       </template>
@@ -83,35 +78,18 @@ onMounted(() => {
 
     <q-separator class="tw-my-6" />
 
-    <products-tags-selection
-      :enable-animation="props.enableAnimation"
-      v-model="filter.tags"
-    />
+    <products-tags-selection :enable-animation="props.enableAnimation" v-model="filter.tags" />
 
     <q-separator class="tw-my-6" />
 
-    <products-category-selection
-      :enable-animation="props.enableAnimation"
-      multiple
-      v-model="filter.categories"
-    />
+    <products-category-selection :enable-animation="props.enableAnimation" multiple v-model="filter.categories" />
 
     <q-separator class="tw-my-6" />
 
     <div class="tw-text-center md:tw-text-left">
-      <q-btn
-        color="negative"
-        dense
-        unelevated
-        outline
-        :rounded="$q.screen.gt.sm"
-        icon="mdi-cancel"
-        label="Clear Filters"
-        padding="8px 12px"
-        class="tw-w-full tw-max-w-[300px]"
-        @click="resetFilterSearch"
-        v-if="showClearFilter"
-      />
+      <q-btn color="negative" dense unelevated outline :rounded="$q.screen.gt.sm" icon="mdi-cancel"
+        label="Clear Filters" padding="8px 12px" class="tw-w-full tw-max-w-[300px]" @click="resetFilterSearch"
+        v-if="showClearFilter" />
     </div>
   </div>
 </template>

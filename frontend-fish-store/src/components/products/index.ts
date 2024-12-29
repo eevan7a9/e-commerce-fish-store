@@ -6,6 +6,7 @@ import ProductsCarousel from './ProductsCarousel.vue';
 import ProductsFilter from './ProductsFilter.vue';
 import ProductsSort from './ProductsSort.vue';
 import ProductsLatestSlide from './ProductsLatestSlide.vue';
+import ProductSearchField from './ProductSearchField.vue';
 
 export {
   ProductsList,
@@ -16,4 +17,5 @@ export {
   ProductsFilter,
   ProductsSort,
   ProductsLatestSlide,
+  ProductSearchField,
 };

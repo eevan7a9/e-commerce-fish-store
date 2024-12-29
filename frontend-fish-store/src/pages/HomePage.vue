@@ -21,6 +21,7 @@ defineOptions({
 <template>
   <main class="tw-min-h-screen tw-pb-[200px]">
     <home-hero />
+    <div class="tw-h-[130px]" v-if="$q.screen.lt.md"></div>
     <home-categories />
 
     <home-payment-support />

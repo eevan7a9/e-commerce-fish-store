@@ -1,29 +1,41 @@
 <script setup lang="ts">
-import { HomeSearchField, HomeSocials } from 'src/components/home/index';
+import { HomeSocials } from 'src/components/home/index';
 import { RainStorm } from 'src/components/illustrations';
+import CardLatestProduct from '../cards/CardLatestProduct.vue';
 </script>
 
 <template>
   <section class="hero-bg-image">
-    <div class="tw-z-10 tw-relative tw-w-full tw-h-full tw-flex tw-flex-col tw-justify-center tw-items-center tw-px-3">
-      <div class="tw-font-anton tw-mb-4">
-        <h1 class="tw-text-[42px] lg:tw-text-[60px] tw-font-black 2xl:tw-text-[72px] heading-gradient-primary">
+    <div
+      class="tw-z-10 tw-relative tw-max-w-screen-xl tw-mx-auto tw-w-full tw-h-full tw-flex tw-flex-col md:tw-flex-row tw-items-center">
+      <div class="tw-w-full tw-px-3 tw-text-center md:tw-text-left tw-pt-8">
+        <home-socials class="tw-mb-4 md:tw-mb-5" />
+
+        <h1
+          class="tw-font-anton tw-mb-3 tw-text-[41px] lg:tw-text-[60px] xl:tw-text-[68px] tw-font-black heading-gradient-primary">
           Hooked on Quality!
         </h1>
+
+        <p class="tw-text-white tw-text-[16px] sm:tw-text-[20px] xl:tw-text-[24px] tw-mt-5 tw-mb-6 sm:tw-mb-10">Fresh
+          Fish and Bait,
+          Delivered Right
+          to You.
+        </p>
+
+        <div class="tw-mb-4 sm:tw-mb-[20px] xl:tw-mb-[30px]">
+          <q-btn to="/products"
+            class="tw-w-[250px] xl:tw-w-[300px] tw-h-[40px] lg:tw-h-[50px] xl:tw-h-[60px] tw-font-anton hover:tw-scale-110 tw-transition-all tw-duration-300 tw-ease-in-out"
+            padding="8px " color="white">
+            <q-icon name="mdi-shopping" color="accent" :size="$q.screen.gt.lg ? '36px' : '24px'" class="tw-mr-2" />
+            <span class="shop-now-btn tw-text-[18px] lg:tw-text-[20px] xl:tw-text-[24px]">
+              Shop Now
+            </span>
+          </q-btn>
+        </div>
       </div>
 
-      <home-socials class="tw-my-3" />
-      <home-search-field />
-
-      <div class="tw-text-center tw-py-[40px]">
-        <q-btn to="/products"
-          class="tw-w-[300px] tw-h-[40px] sm:tw-h-[60px] tw-font-anton hover:tw-scale-110 tw-transition-all tw-duration-300 tw-ease-in-out"
-          padding="8px " color="accent" push glossy unelevated square>
-          <q-icon name="mdi-shopping" :size="$q.screen.gt.sm ? '36px' : '24px'" class="tw-mr-2" />
-          <span class="shop-now-btn tw-text-[20px] sm:tw-text-[28px]">
-            Shop Now
-          </span>
-        </q-btn>
+      <div class="tw-w-full">
+        <card-latest-product />
       </div>
     </div>
 
@@ -41,7 +53,7 @@ import { RainStorm } from 'src/components/illustrations';
   background-repeat: no-repeat;
   height: 50vh;
   max-height: 800px;
-  min-height: 400px;
+  min-height: 480px;
   position: relative;
 
   &::before {
@@ -56,11 +68,11 @@ import { RainStorm } from 'src/components/illustrations';
   }
 
   .shop-now-btn {
-    color: white;
-    text-shadow: 2px 2px 0 #c00fec, -2px 2px 0 #c00fec, 2px -2px 0 #c00fec,
-      -2px -2px 0 #c00fec;
+    color: #e4e4e4;
+    text-shadow: 1px 1px 0 #c00fec, -1px 1px 0 #c00fec, 1px -1px 0 #c00fec,
+      -1px -1px 0 #c00fec;
     /* Adds a shadow to all sides */
-    letter-spacing: 2px;
+    letter-spacing: 1px;
   }
 }
 </style>

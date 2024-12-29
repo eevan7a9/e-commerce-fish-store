@@ -64,12 +64,7 @@ const menuList = computed<MenuItem[]>(() =>
         </template>
 
         <template #mobile-toggle>
-          <q-btn
-            class="tw-mr-0 tw-ml-auto"
-            flat
-            @click="sidebar = !sidebar"
-            v-if="mobileView"
-          >
+          <q-btn class="tw-mr-0 tw-ml-auto" flat @click="sidebar = !sidebar" v-if="mobileView">
             <q-icon name="menu"></q-icon>
           </q-btn>
         </template>
@@ -96,24 +91,19 @@ const menuList = computed<MenuItem[]>(() =>
           <menu-language class="tw-ml-auto tw-mr-0" flat />
         </q-toolbar-title>
       </q-toolbar>
-      <div
-        class="tw-max-w-screen-2xl tw-mx-auto tw-pb-3 sm:tw-text-[16px] tw-flex tw-flex-col tw-items-center"
-      >
+      <div class="tw-max-w-screen-2xl tw-mx-auto tw-pb-3 sm:tw-text-[16px] tw-flex tw-flex-col tw-items-center">
         <h1 class="tw-py-5">
           By using this site you accept the
           <router-link to="/" class="tw-underline">terms of use.</router-link>
         </h1>
-        <a
-          href="https://github.com/eevan7a9/e-commerce-fish-store"
-          target="_blank"
-          class="tw-text-[12px] tw-underline tw-text-primary tw-text-center"
-        >
+        <a href="https://github.com/eevan7a9/e-commerce-fish-store" target="_blank"
+          class="tw-text-[12px] tw-underline tw-text-primary tw-text-center">
           <div class="gt-xs">
             https://github.com/eevan7a9/e-commerce-fish-store
           </div>
 
-          <q-icon name="mdi-github" class="tw-mx-auto" size="34px"
-        /></a>
+          <q-icon name="mdi-github" class="tw-mx-auto" size="34px" />
+        </a>
       </div>
     </q-footer>
   </q-layout>

@@ -3,12 +3,16 @@ import { useQuasar } from 'quasar';
 import { useNavMenu } from 'src/shared/composables/useNavMenu';
 import { MenuItem } from 'src/shared/interface/menu';
 import { computed, ref } from 'vue';
+import ProductSearchField from '../products/ProductSearchField.vue';
+import { useRoute } from 'vue-router';
 
 const $q = useQuasar();
 const navMenu = useNavMenu();
+const route = useRoute();
 const appName = ref(process.env.VUE_APP_NAME);
 const mobileView = computed(() => $q.screen.lt.md);
 const menuList = computed<MenuItem[]>(() => navMenu.publicMenuList.value);
+const isHome = computed(() => route.name === 'home');
 </script>
 
 <template>
@@ -33,6 +37,10 @@ const menuList = computed<MenuItem[]>(() => navMenu.publicMenuList.value);
         </li>
       </template>
     </ul>
+
+    <div class="tw-mx-auto" v-if="$q.screen.gt.sm && isHome">
+      <product-search-field />
+    </div>
 
     <ul class="tw-flex tw-items-center tw-mr-0 tw-ml-auto">
       <li class="tw-px-3">
